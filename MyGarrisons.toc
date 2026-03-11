@@ -1,0 +1,11 @@
+## Author: Endar_Ren
+## Interface: 60000
+## Title: MyGarrisons
+## Version: 1.0
+## SavedVariables: GAR
+embeds.xml
+MyGarrisons.lua
+GarrisonBuildings.xml
+GarrisonBuildings.lua
+MyGarrisonTimers.xml
+MyGarrisonTimers.lua

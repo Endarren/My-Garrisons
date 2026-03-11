@@ -1,0 +1,339 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="MyGarrisonTimers.lua" />
+	<Frame name="CharacterHeaderTemplate" virtual="true">
+		<Size x="255" y="36" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="187" y="-503" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture name="ClassTexture" parentKey="classtexture">
+					<Size x="44" y="35" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="208" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="CharacterNameString" inherits="GameFontNormal" parentKey="charname" text="FontString1">
+					<Size x="222" y="13" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="31" y="-3" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="timerstr" setAllPoints="true" text="">
+					<Size x="85" y="13" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="31" y="-17" />
+						</Anchor>
+					</Anchors>
+					<Color r="0" g="0.753" b="0.753" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="Expander" parentKey="expander" text="+">
+				<Size x="22" y="19" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="3" y="-11" />
+					</Anchor>
+				</Anchors>
+				<NormalTexture file="Interface\BUTTONS\UI-PlusButton-Up" />
+				<PushedTexture file="Interface\BUTTONS\UI-PlusButton-Down" />
+				<HighlightTexture file="Interface\BUTTONS\UI-PlusButton-Hilight" />
+			</Button>
+			<StatusBar inherits="AchievementProgressBarTemplate" parentKey="timerprog" toplevel="true">
+				<Size x="131" y="13" />
+				<Anchors>
+					<Anchor point="BOTTOM">
+						<Offset x="60" y="6" />
+					</Anchor>
+				</Anchors>
+			</StatusBar>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Frame1_OnLoad()
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="CharacterHeaderTemplate2" virtual="true">
+		<Size x="255" y="15" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="187" y="-503" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture name="ClassTexture" parentKey="classtexture">
+					<Size x="42" y="16" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="208" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="CharacterNameString" inherits="GameFontNormal" parentKey="charname" text="FontString1">
+					<Size x="222" y="13" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="31" y="-3" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="timerstr" setAllPoints="true" text="">
+					<Size x="85" y="13" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="31" y="-3" />
+						</Anchor>
+					</Anchors>
+					<Color r="0" g="0.753" b="0.753" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="Expander" parentKey="expander" text="+">
+				<Size x="22" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="3" />
+					</Anchor>
+				</Anchors>
+				<NormalTexture file="Interface\BUTTONS\UI-PlusButton-Up" />
+				<PushedTexture file="Interface\BUTTONS\UI-PlusButton-Down" />
+				<HighlightTexture file="Interface\BUTTONS\UI-PlusButton-Hilight" />
+			</Button>
+			<StatusBar inherits="AchievementProgressBarTemplate" parentKey="timerprog" toplevel="true">
+				<Size x="131" y="13" />
+				<Anchors>
+					<Anchor point="BOTTOM">
+						<Offset x="59" />
+					</Anchor>
+				</Anchors>
+			</StatusBar>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Frame1_OnLoad()
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	<Frame name="MissionTimerTemplate" virtual="true">
+		<Size x="255" y="30" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="184" y="-520" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="TimeBarString" inherits="GameFontNormal" parentKey="timertext" text="" justifyH="LEFT">
+					<Size x="107" y="12" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="5" y="-16" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<StatusBar name="MissionTimeBar" inherits="AchievementProgressBarTemplate" parentKey="timebar" toplevel="true">
+				<Size x="135" y="12" />
+				<Anchors>
+					<Anchor point="BOTTOM">
+						<Offset x="58" y="2" />
+					</Anchor>
+				</Anchors>
+				<BarColor r="1" g="0" b="0" />
+			</StatusBar>
+			<Frame name="NameFrame" parentKey="nameframe">
+				<Size x="252" y="12" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="2" y="-2" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MissionNameString" inherits="GameFontNormal" parentKey="namestring" text="">
+							<Size x="252" y="12" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<Color r="0" g="0.753" b="0.753" />
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+	</Frame>
+	<Frame name="TimerBag" virtual="true">
+		<Size x="255" y="1" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="108" y="-448" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+	</Frame>
+	<Frame name="MyGarrisonTimers" hidden="true" alpha="0.75" parent="UIParent" toplevel="true" movable="true" resizable="true">
+		<Size>
+			<AbsDimension x="289" y="350" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="170" y="-23" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true" alphaMode="ALPHAKEY">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="MyGarrisonTimersHeader" inherits="_UI-Frame-Top" alphaMode="DISABLE" vertTile="true">
+					<Size x="285" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="2" />
+						</Anchor>
+					</Anchors>
+					<Color r="0" g="0" b="1" />
+					<Gradient>
+						<MinColor r="0" g="0" b="1" />
+						<MaxColor r="0" g="1" b="1" />
+					</Gradient>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="AddonTitleFont" inherits="GameFontNormal" text="My Garrisons">
+					<Size x="226" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="3" y="-1" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="16" />
+					<Color r="0.753" g="0.251" b="0" />
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="CloseButton" inherits="UIPanelCloseButton" alpha="0.75" movable="true" text="">
+				<Size x="20" y="20" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MyGarrisonTimers" relativePoint="TOPLEFT">
+						<Offset x="265" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<ScrollFrame name="TimerScroll" inherits="UIPanelScrollFrameTemplate" parentKey="timerscroll" movable="true" resizable="true">
+				<Size x="258" y="327" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="2" y="-20" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Scripts>
+					<OnVerticalScroll>
+						TimerScroll_OnVerticalScroll()
+					</OnVerticalScroll>
+				</Scripts>
+			</ScrollFrame>
+			<Button name="MinMaxButton" parentKey="minmax" alpha="0.75" parent="MyGarrisonTimers" movable="true" text="">
+				<Size x="20" y="20" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MyGarrisonTimers" relativePoint="TOPLEFT">
+						<Offset x="240" y="-1" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:MinizerMaxi()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\BUTTONS\UI-Panel-HideButton-Up" />
+				<PushedTexture file="Interface\BUTTONS\UI-Panel-HideButton-Down" />
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton","RightButton")
+			</OnLoad>
+			<OnDragStart>
+				if self:IsMovable() then
+				self:StartMoving()
+				else
+				self:StartSizing()
+				end
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+</Ui>

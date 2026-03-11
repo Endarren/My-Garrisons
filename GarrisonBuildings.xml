@@ -1,0 +1,881 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="GarrisonBuildings.lua" />
+	<Frame name="BuildingFrame" virtual="true">
+		<Size x="389" y="64" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="215" y="-337" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+			<BorderColor r="0.251" g="0.251" b="0.251" />
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture parentKey="buildingicon">
+					<Size x="49" y="41" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="11" y="-9" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" parentKey="buildingname" text="&lt;Building Name&gt;" justifyH="LEFT">
+					<Size x="129" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="66" y="-9" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="buildinglevel" text="Level: &lt;#&gt;" justifyH="LEFT">
+					<Size x="158" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="66" y="-30" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Assigned Followers">
+					<Size x="123" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="259" y="-5" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="followerframe">
+				<Size x="51" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="309" y="-21" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture atlas="GarrMission_PortraitRing_Empty" parentKey="followerportrait">
+							<Size x="49" y="39" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="1" y="-1" />
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+	</Frame>
+	<Frame name="RealmOptionsFrame" virtual="true">
+		<Size x="355" y="326" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="167" y="-343" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture file="Interface\GROUPFRAME\UI-Group-PVP-Alliance">
+					<Size x="15" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="123" y="-25" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\GROUPFRAME\UI-Group-PVP-Horde">
+					<Size x="15" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="170" y="-25" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" text="Show this realm on timers" justifyH="LEFT">
+					<Size x="173" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="40" y="-109" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Characters on this Realm">
+					<Size x="309" y="21" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="17" y="-134" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="RealmNameStr" inherits="GameFontNormal" parentKey="realmname" text="Realm Name">
+					<Size x="355" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-2" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="# Garrisons">
+					<Size x="76" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="14" y="-25" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="AllianceGarrisonNum" inherits="GameFontNormal" parentKey="alligarr" text="11">
+					<Size x="20" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="97" y="-25" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="HordeGarrisonNum" inherits="GameFontNormal" parentKey="hordegarr" text="11">
+					<Size x="20" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="144" y="-25" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="ShowRealmCheckBox" inherits="UICheckButtonTemplate" parentKey="showrealm" text="CheckButton1">
+				<Size x="23" y="19" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="14" y="-109" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<ScrollFrame inherits="UIPanelScrollFrameTemplate" parentKey="realmcharscroll">
+				<Size x="313" y="169" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="14" y="-156" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+			</ScrollFrame>
+		</Frames>
+	</Frame>
+	<Frame name="RealmCharacterOptionsTemplate" virtual="true">
+		<Size x="304" y="40" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="7" y="-7" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture parentKey="texture">
+					<Size x="304" y="40" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" text="Show Timer" justifyH="LEFT">
+					<Size x="87" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="146" y="-6" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Show Alerts" justifyH="LEFT">
+					<Size x="87" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="145" y="-6" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="CharName" inherits="GameFontNormal" parentKey="charname" text="Name here">
+					<Size x="123" y="39" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button inherits="UIPanelButtonTemplate" parentKey="deleterec" text="Delete">
+				<Size x="68" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="233" y="-10" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<CheckButton name="ShowTimerCheckBox" inherits="UICheckButtonTemplate" parentKey="showtimer" text="CheckButton1">
+				<Size x="18" y="21" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="123" y="-19" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="ShowAlerts" inherits="UICheckButtonTemplate" parentKey="showalerts" text="CheckButton3">
+				<Size x="18" y="21" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="123" y="-3" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+	</Frame>
+	<Frame name="BuildingsFrame" virtual="true">
+		<Size x="389" y="225" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="153" y="-343" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" parentKey="garlevel" text="Garrison Level: " justifyH="LEFT">
+					<Size x="125" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-3" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Buildings">
+					<Size x="359" y="10" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="4" y="-42" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<ScrollFrame inherits="UIPanelScrollFrameTemplate" parentKey="buildinglist">
+				<Size x="360" y="166" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="4" y="-56" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+			</ScrollFrame>
+		</Frames>
+	</Frame>
+	<Frame name="CharacterListTemplate" virtual="true" hidden="true">
+		<Size x="133" y="15" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="48" y="-352" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<Button atlas = "GarrMission_FollowerListButton" parentKey="charbut" setAllPoints="true" text="Button2">
+				<Size x="129" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="3" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString inherits="GameFontNormal" parentKey="charname" text="">
+							<Size x="128" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset y="-3" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<NormalTexture atlas = "GarrMission_FollowerListButton" />
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame virtual="true">
+		<Size x="309" y="193" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="234" y="-311" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+	</Frame>
+	<Frame name="CharacterProp" virtual="true">
+		<Size x="133" y="55" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="113" y="-374" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<Button name="CharBuildings" inherits="UIPanelButtonTemplate" parentKey="buildings" text="Buildings">
+				<Size x="129" y="17" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset y="-2" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="CharFollow" inherits="UIPanelButtonTemplate" parentKey="follow" text="Followers">
+				<Size x="129" y="17" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset y="-19" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="CharWork" inherits="UIPanelButtonTemplate" parentKey="workorder" text="Work Orders">
+				<Size x="129" y="17" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset y="-36" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="RealmBag" virtual="true">
+		<Size x="128" y="1" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="53" y="-353" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+	</Frame>
+	<Frame name="RealmListHeader" virtual="true">
+		<Size x="128" y="27" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="50" y="-320" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="RealmName" inherits="GameFontNormal" parentKey="realmname" text="">
+					<Size x="102" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="25" y="-3" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="Expander" parentKey="expander" text="">
+				<Size x="16" y="13" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="3" y="-7" />
+					</Anchor>
+				</Anchors>
+				<NormalTexture file="Interface\BUTTONS\UI-PlusButton-Up" />
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="FollowerFrame" virtual="true">
+		<Size x="389" y="138" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="100" y="-336" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture name="FollowerProt" parentKey="followerportrait">
+					<Size x="50" y="50" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="3" y="-7" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture>
+					<Size x="386" y="3" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-2" />
+						</Anchor>
+					</Anchors>
+					<Color r="0.251" g="0.251" b="0.251" />
+				</Texture>
+				<Texture>
+					<Size x="386" y="3" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-134" />
+						</Anchor>
+					</Anchors>
+					<Color r="0.251" g="0.251" b="0.251" />
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="FollowerName" inherits="GameFontNormal" parentKey="followername" text="NAME" justifyH="LEFT">
+					<Size x="214" y="12" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="59" y="-7" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="FollowerClass" inherits="GameFontNormal" parentKey="followerclass" text="Class: " justifyH="LEFT">
+					<Size x="214" y="12" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="59" y="-25" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="FollowerRace" inherits="GameFontNormal" parentKey="followerrace" text="Race:  " justifyH="LEFT">
+					<Size x="158" y="12" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="59" y="-44" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="Level" inherits="GameFontNormal" parentKey="followerlevel" text="Level:  " justifyH="LEFT">
+					<Size x="88" y="12" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="279" y="-7" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Abilities">
+					<Size x="132" y="9" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="3" y="-63" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Traits">
+					<Size x="119" y="9" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="154" y="-63" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Gear">
+					<Size x="40" y="10" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="310" y="-63" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="qual" text="Quality" justifyH="LEFT">
+					<Size x="103" y="11" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="279" y="-25" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="ability1">
+				<Size x="40" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="3" y="-78" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture parentKey="text">
+							<Size x="40" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentKey="ability2">
+				<Size x="40" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="49" y="-78" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture parentKey="text">
+							<Size x="40" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentKey="ability3">
+				<Size x="40" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="95" y="-78" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture parentKey="text">
+							<Size x="40" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentKey="trait1">
+				<Size x="40" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="154" y="-78" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture parentKey="text">
+							<Size x="40" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentKey="trait2">
+				<Size x="40" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="200" y="-78" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture parentKey="text">
+							<Size x="40" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentKey="trait3">
+				<Size x="40" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="246" y="-78" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture parentKey="text">
+							<Size x="40" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentKey="gear1">
+				<Size x="40" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="292" y="-78" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture parentKey="text">
+							<Size x="40" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame parentKey="gear2">
+				<Size x="40" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="338" y="-78" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture parentKey="text">
+							<Size x="40" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+	</Frame>
+	<Frame name="GarrisonBuildings" hidden="true" parent="UIParent" toplevel="true" movable="true">
+		<Size>
+			<AbsDimension x="651" y="288" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="27" y="-17" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<ScrollFrame name="CharacterScrolls" inherits="UIPanelScrollFrameTemplate" parentKey="charScroll">
+				<Size x="139" y="258" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="15" y="-14" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+			</ScrollFrame>
+			<Button inherits="UIPanelCloseButton" text="Button1">
+				<Size x="26" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="606" y="-19" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<ScrollFrame name="GarrBuildScroll" inherits="UIPanelScrollFrameTemplate" parentKey="garrbuildscroll">
+				<Size x="398" y="252" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="185" y="-19" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<BackgroundInsets>
+						<AbsInset left="11" right="12" top="12" bottom="11" />
+					</BackgroundInsets>
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+			</ScrollFrame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("LeftButton","RightButton")
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing()
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+</Ui>
