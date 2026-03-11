@@ -388,38 +388,374 @@
 				<AbsValue val="32" />
 			</EdgeSize>
 		</Backdrop>
+	</Frame>
+	<Frame name="MGTimerOptionsPanel" virtual="true">
+		<Size x="305" y="490" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="30" y="-240" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
 		<Layers>
 			<Layer level="OVERLAY">
-				<FontString inherits="GameFontNormal" text="Alert Options">
-					<Size x="333" y="18" />
+				<FontString name="MGShowTimersOnStart" inherits="GameFontNormal" parentKey="onstarttext" text="Show Timers on Start" justifyH="LEFT">
+					<Size x="177" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="11" y="-176" />
+							<Offset x="34" y="-3" />
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString inherits="GameFontNormal" text="Show timer when logging on.">
-					<Size x="112" y="15" />
+				<FontString name="MGHideOnCombatText" inherits="GameFontNormal" parentKey="hideontext" text="Hide Timers During Combat" justifyH="LEFT">
+					<Size x="177" y="17" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="52" y="-36" />
+							<Offset x="34" y="-24" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGCacheShowText" inherits="GameFontNormal" parentKey="cachetext" text="Show character's cache" justifyH="LEFT">
+					<Size x="275" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="27" y="-183" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGMissShowText" inherits="GameFontNormal" parentKey="misstext" text="Show Character's Mission Counter" justifyH="LEFT">
+					<Size x="275" y="16" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="27" y="-204" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGShipShowText" inherits="GameFontNormal" parentKey="shiptext" text="Show character's shipments" justifyH="LEFT">
+					<Size x="275" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="27" y="-226" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGInvasionShowText" inherits="GameFontNormal" parentKey="invasiontext" text="Show character has invasion" justifyH="LEFT">
+					<Size x="275" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="27" y="-162" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Sorting">
+					<Size x="304" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-263" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGMissionTimeLeftText" inherits="GameFontNormal" parentKey="missiontimelefttext" text="Mission Time Left" justifyH="LEFT">
+					<Size x="133" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="35" y="-287" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGCharacterNameText" inherits="GameFontNormal" parentKey="characternametext" text="Character Name" justifyH="LEFT">
+					<Size x="133" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="35" y="-308" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGTradeOffText" inherits="GameFontNormal" parentKey="tradetext" text="Leave Trade in garrison" justifyH="LEFT">
+					<Size x="191" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="34" y="-74" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGGeneralOffText" inherits="GameFontNormal" parentKey="generaltext" text="Leave General in garrison" justifyH="LEFT">
+					<Size x="191" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="34" y="-96" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Up" justifyH="LEFT">
+					<Size x="45" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="256" y="-286" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Down" justifyH="LEFT">
+					<Size x="43" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="257" y="-307" />
 						</Anchor>
 					</Anchors>
 				</FontString>
 			</Layer>
 		</Layers>
 		<Frames>
-			<CheckButton name="MGTimerDisplayStartCheck" inherits="UICheckButtonTemplate" parentKey="displaystartcheck" text="CheckButton1">
-				<Size x="15" y="17" />
+			<CheckButton name="MGOnStartCheck" inherits="UICheckButtonTemplate" parentKey="onstartcheck" text="CheckButton1">
+				<Size x="17" y="16" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="28" y="-35" />
+						<Offset x="6" y="-3" />
 					</Anchor>
 				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ChangeOnStart()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGHideOnCombatCheck" inherits="UICheckButtonTemplate" parentKey="hideoncheck" text="CheckButton1">
+				<Size x="17" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-24" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ChangeCombatHide()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<Slider name="MGAlphaSlider" parentKey="alphaslider" enableMouse="true" minValue="0" maxValue="1" valueStep="0.01" orientation="HORIZONTAL">
+				<Size>
+					<AbsDimension x="305" y="17" />
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT">
+						<Offset y="108" />
+					</Anchor>
+					<Anchor point="RIGHT">
+						<Offset y="108" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+					<BackgroundInsets>
+						<AbsInset left="3" right="3" top="6" bottom="6" />
+					</BackgroundInsets>
+					<TileSize>
+						<AbsValue val="8" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="8" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Timer Alpha">
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" />
+							</Anchors>
+							<FontHeight>
+								<AbsValue val="10" />
+							</FontHeight>
+							<Color r="1" g="0.8196079" b="0" />
+							<Shadow>
+								<Offset>
+									<AbsDimension x="1" y="-1" />
+								</Offset>
+								<Color r="0" g="0" b="0" />
+							</Shadow>
+						</FontString>
+						<FontString name="$parentLow" font="Fonts\FRIZQT__.TTF" text="0">
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
+							</Anchors>
+							<FontHeight>
+								<AbsValue val="10" />
+							</FontHeight>
+							<Color r="1" g="1" b="1" />
+							<Shadow>
+								<Offset>
+									<AbsDimension x="1" y="-1" />
+								</Offset>
+								<Color r="0" g="0" b="0" />
+							</Shadow>
+						</FontString>
+						<FontString name="$parentHigh" font="Fonts\FRIZQT__.TTF" text="1">
+							<Anchors>
+								<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
+							</Anchors>
+							<FontHeight>
+								<AbsValue val="10" />
+							</FontHeight>
+							<Color r="1" g="1" b="1" />
+							<Shadow>
+								<Offset>
+									<AbsDimension x="1" y="-1" />
+								</Offset>
+								<Color r="0" g="0" b="0" />
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnValueChanged>
+						MyGarrisons:ChangeAlpha()
+						--TextStatusBar_OnValueChanged(self, value);
+					</OnValueChanged>
+				</Scripts>
+				<ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+					<Size>
+						<AbsDimension x="32" y="32" />
+					</Size>
+				</ThumbTexture>
+			</Slider>
+			<CheckButton name="MGShowCacheCheck" inherits="UICheckButtonTemplate" parentKey="cachecheck" text="CheckButton1">
+				<Size x="17" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-183" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ChangeCacheCounter()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGShowMissCheck" inherits="UICheckButtonTemplate" parentKey="missheck" text="CheckButton1">
+				<Size x="17" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-204" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ChangeMissCounter()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGShowShipCheck" inherits="UICheckButtonTemplate" parentKey="shipcheck" text="CheckButton1">
+				<Size x="17" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-226" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ChangeShipCounter()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGShowInvasion" inherits="UICheckButtonTemplate" parentKey="invasioncheck" text="CheckButton1">
+				<Size x="17" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="7" y="-162" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ChangeInvasion()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGMissionTimeLeftCheck" inherits="UIRadioButtonTemplate" parentKey="missiontimeleftcheck" text="CheckButton1">
+				<Size x="16" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="8" y="-287" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:SetCharacterSortMissionTime()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGCharacterNameCheck" inherits="UIRadioButtonTemplate" parentKey="characternamecheck" text="CheckButton1">
+				<Size x="16" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="8" y="-308" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:SetCharacterSortName()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGTradeOff" inherits="UICheckButtonTemplate" parentKey="tradecheck" text="CheckButton1">
+				<Size x="16" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-74" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ChangeTradeChat()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGGeneralOff" inherits="UICheckButtonTemplate" parentKey="generalcheck" text="CheckButton1">
+				<Size x="16" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-96" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ChangeGeneralChat()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGCharacterSortUp" inherits="UIRadioButtonTemplate" parentKey="sortUp" text="CheckButton1">
+				<Size x="16" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="235" y="-286" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:SetCharacterSortUp()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MGCharacterSortDown" inherits="UIRadioButtonTemplate" parentKey="sortDown" text="CheckButton1">
+				<Size x="16" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="235" y="-308" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:SetCharacterSortDown()
+					</OnClick>
+				</Scripts>
 			</CheckButton>
 		</Frames>
 	</Frame>
-	<Frame name="MyGarrisonsOptionFrame" hidden="true" parent="UIParent" toplevel="true">
+	<Frame name="MyGarrisonsOptionFrame" hidden="true" parent="UIParent" toplevel="true" movable="true">
 		<Size>
 			<AbsDimension x="483" y="424" />
 		</Size>
@@ -456,7 +792,7 @@
 					</EdgeSize>
 				</Backdrop>
 			</ScrollFrame>
-			<Button name="MGFrameOptionsButton" inherits="UIPanelButtonTemplate" parentKey="frameoptionbutton" text="Frame">
+			<Button name="MGFrameOptionsButton" inherits="UIPanelButtonTemplate" parentKey="frameoptionbutton" text="General">
 				<Size x="84" y="28" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
@@ -473,7 +809,7 @@
 				<Size x="84" y="28" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="20" y="-77" />
+						<Offset x="20" y="-83" />
 					</Anchor>
 				</Anchors>
 			</Button>
@@ -502,10 +838,21 @@
 				<Size x="84" y="28" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="21" y="-123" />
+						<Offset x="20" y="-117" />
 					</Anchor>
 				</Anchors>
 			</Button>
 		</Frames>
+		<Scripts>
+			<OnLoad>
+				MyGarrisonsOptionFrame:RegisterForDrag("LeftButton")
+			</OnLoad>
+			<OnDragStart>
+				MyGarrisonsOptionFrame:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				MyGarrisonsOptionFrame:StopMovingOrSizing()
+			</OnDragStop>
+		</Scripts>
 	</Frame>
 </Ui>

@@ -846,40 +846,146 @@
 				</Texture>
 			</Layer>
 			<Layer>
-				<Texture name="GarrisonCacheTexture" parentKey="garrcacheicon">
-					<Size x="20" y="20" />
+				<Texture name="GarrisonCacheTexture" parentKey="garrcacheicon" hidden="true">
+					<Size x="16" y="16" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="2" y="-26" />
+							<Offset y="-34" />
 						</Anchor>
 					</Anchors>
 				</Texture>
 			</Layer>
 			<Layer level="OVERLAY">
-				<FontString name="MGCharacterName" inherits="GameFontNormal" parentKey="charname" text="">
+				<FontString name="MGCharacterName" inherits="GameFontNormal" parentKey="charname" text="" justifyH="LEFT">
 					<Size x="210" y="20" />
 					<Anchors>
 						<Anchor point="TOPLEFT" />
 					</Anchors>
+					<FontHeight val="12" />
 				</FontString>
 				<FontString name="MGCharacterCache" inherits="GameFontNormal" parentKey="cache" text="">
-					<Size x="45" y="20" />
+					<Size x="45" y="16" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="21" y="-26" />
+							<Offset x="18" y="-19" />
 						</Anchor>
 					</Anchors>
 				</FontString>
 				<FontString name="MGCharacterCacheAmount" inherits="GameFontNormal" parentKey="cacheAmount" text="FontString3" justifyH="LEFT">
-					<Size x="32" y="20" />
+					<Size x="32" y="16" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="66" y="-26" />
+							<Offset x="31" y="-34" />
 						</Anchor>
 					</Anchors>
 				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="ordertext" font="" text="Orders">
+					<Size x="60" y="16" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="150" y="-19" />
+						</Anchor>
+					</Anchors>
+					<FontHeight val="5" />
+				</FontString>
 			</Layer>
 		</Layers>
+		<Frames>
+			<Frame name="MGInvasion" parentKey="invasion" hidden="true">
+				<Size x="15" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="1" y="-19" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<Texture name="MG-Exclamation" virtual="true" file="Interface\QuestFrame\AutoQuest-Parts">
+							<Size x="15" y="16" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<TexCoords left="0.134765625" right="0.171875" top="0.015625" bottom="0.53125" />
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="MGCharMissions" parentKey="missionscounter">
+				<Size x="74" y="30" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="69" y="-19" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGMissionCounter" inherits="GameFontNormal" parentKey="counter" setAllPoints="true" font="" text="00/00">
+							<Size x="68" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="3" y="-15" />
+								</Anchor>
+							</Anchors>
+							<FontHeight>
+								<AbsValue val="4" />
+							</FontHeight>
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="missiontitle" font="" text="Missions">
+							<Size x="75" y="16" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<FontHeight val="5" />
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="MGCharShipments" parentKey="shipmentscounter" hidden="true">
+				<Size x="53" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="149" y="-35" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGMissionCounter" inherits="GameFontNormal" parentKey="counter" setAllPoints="true" font="" text="00/00">
+							<Size x="50" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset y="1" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="5" />
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
 		<Scripts>
 			<OnLoad>
 				MGCharacterHeader_OnLoad()

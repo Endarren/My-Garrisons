@@ -13,6 +13,15 @@ local	factionGroup, factionName = UnitFactionGroup("player")
 		Settings = {	Colors =  {}, 
 						Filters = {}, 
 						Alpha = 1,
+						ShowCache = true,
+						ShowMissionCounter = true,
+						ShowShipmentCounter = true,
+						ShowInvasion = true,
+						HideInCombat = false,
+						TradeChatDisabled = false,
+						ChatWindowsThatHadTrade = {},
+						GeneralChatDisabled = false,
+						ChatWindowsThatHadGeneral = {},
 						ShowOnLogIn = true,
 						Sorting =	{	
 										Buildings = {
@@ -22,7 +31,12 @@ local	factionGroup, factionName = UnitFactionGroup("player")
 										Missions = {
 														Direction = 1,
 														Weights = {}
-													}
+										},
+										Characters = {
+Direction = 1,
+Type = "name"
+										} --MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Type
+							--MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters
 									}
 					},
 		Garrison = {
@@ -34,8 +48,10 @@ local	factionGroup, factionName = UnitFactionGroup("player")
 						Followers = {},
 		},
 		Missions = {},
+		CompletedMissions = 0,
 		AvaliableMissions = {},
-		Faction = factionGroup
+		Faction = factionGroup,
+		Invasion = false
 	
 	
 	
@@ -393,16 +409,16 @@ BuildingSpecialDatas[62] = {UsedNodes = 0, MaxNodes = 13, ResetsAt = 0}
 BuildingSpecialDatas[63] = {UsedNodes = 0, MaxNodes = 18, ResetsAt = 0} --TODO verify max nodes
 --Herb
 --29, 136, 137
-BuildingSpecialDatas[29] = {UsedNodes = 0, MaxNodes = 10, ResetsAt = 0, NextCrop = ""}
-BuildingSpecialDatas[136] = {UsedNodes = 0, MaxNodes = 13, ResetsAt = 0, NextCrop = ""}
-BuildingSpecialDatas[137] = {UsedNodes = 0, MaxNodes = 15, ResetsAt = 0, NextCrop = ""} --TODO verify max nodes
+BuildingSpecialDatas[29] = {UsedNodes = 0, MaxNodes = 6, ResetsAt = 0, NextCrop = ""}
+BuildingSpecialDatas[136] = {UsedNodes = 0, MaxNodes = 10, ResetsAt = 0, NextCrop = ""}
+BuildingSpecialDatas[137] = {UsedNodes = 0, MaxNodes = 16, ResetsAt = 0, NextCrop = ""} --TODO verify max nodes
 --Fishing
 ----HaveDaily, ResetsAt
-
+--TODO
 --Pet
 --{42, 167, 168}
 
-	BuildingSpecialDatas[42] = {Quests ={}, ResetsAt =0, Completed = false}
+BuildingSpecialDatas[42] = {Quests ={}, ResetsAt =0, Completed = false}
 BuildingSpecialDatas[42].Quests[36662] = 1
 BuildingSpecialDatas[42].Quests[36483] = 1
 BuildingSpecialDatas[167] = {Quests= {}, ResetsAt =0, Completed = false}
@@ -1294,7 +1310,7 @@ function MyGarrisons:ShipmentScan()
 		   end
 			
             if ( name and pendings ~= nil ) then
-		--		print(StartTime)
+
 				MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration = 	Duration	
 				
 				if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration == nil then
@@ -1303,11 +1319,9 @@ function MyGarrisons:ShipmentScan()
 				end
 				MyGarrisons:UpdateShipment(characterID, realmID, buildingID)
 				MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].MaxWorkOrders = MaxShipments
-			--	print("Ready: "..ReadyShipments.."\ Pending: "..pendings.."\ duration: "..Duration)
-			--	print()
+
 				if pendings ~= #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderQueue or ReadyShipments ~= #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].FinishedWorkOrders then
-				--	print(pendings)
-				--	print(ReadyShipments)
+
 					MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderQueue = {}
 					MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].FinishedWorkOrders = {}
 					for i = 1, ReadyShipments do
@@ -1502,9 +1516,9 @@ function MyGarrisons:CANCELCONS(plotID)
 	
 	if buildingLevel > 1 then
 		MyGarrisons:UpgradeBuildingTo(nam, GetRealmName(), bid, key[buildingLevel-1])
-		print("Cancel upgrade")
+		MyGarrisons:AddonMessagePrintout("MyGarrisons","Cancel upgrade")
 	else
-		print("Cancel construction")
+		MyGarrisons:AddonMessagePrintout("MyGarrisons","Cancel construction")
 		
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[bid] = nil
 	end
@@ -1651,6 +1665,7 @@ local NeooptionTable = {
 											MyGarrisonTimers:Hide()
 										else
 											MyGarrisonTimers:Show()
+											MyGarrisonTimers:SetScript("OnUpdate", function () MyGarrisons:UpdateTimersForCharacters() end);
 										end
 									end
 							},
@@ -1663,12 +1678,12 @@ local NeooptionTable = {
 										if MyGarrisons.db.global.MGRealms[realmID] ~= nil then
 											if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID] ~= nil then
 												MyGarrisons.db.global.MGRealms[realmID].Characters[characterID] = nil
-												print("Deleting "..characterID.." "..realmID)
+												MyGarrisons:AddonMessagePrintout("MyGarrisons","Deleting "..characterID.." "..realmID)
 											else
-												print ("The character name \"" ..characterID.."\" is not in the database.  You may have mistyped it.")
+												MyGarrisons:AddonMessagePrintout("MyGarrisons","The character name \"" ..characterID.."\" is not in the database.  You may have mistyped it.")
 											end	
 										else
-											print ("The realm name \"" ..realmID.."\" is not in the database.  You may have mistyped it.")
+											MyGarrisons:AddonMessagePrintout("MyGarrisons","The realm name \"" ..realmID.."\" is not in the database.  You may have mistyped it.")
 										end
 									end
 						},
@@ -1709,7 +1724,7 @@ local NeooptionTable = {
 							type = "execute",
 							func = function () 
 									--TODO
-										print("WARNING: Options are not complete")
+										MyGarrisons:AddonMessagePrintout("MyGarrisons","WARNING: Options are not complete")
 										MyGarrisonsOptionFrame:Show() 
 									end
 						},
@@ -1760,24 +1775,120 @@ local NeooptionTable = {
 							desc = "CACHE",
 							type = "execute",
 							func =	function () 
-										local nam, realmi = UnitName("player")
-										print(MyGarrisons:ComputeCache(nam,GetRealmName()))
-											
-									end
+										local characterID, realmi = UnitName("player")
+								local realmID = GetRealmName()
+								MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowCache = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowCache == false
+										--MyGarrisons:AddonMessagePrintout("MyGarrisons",MyGarrisons:ComputeCache(nam,GetRealmName()))
+											--ShowCache
+									end--
 
-						},
-				trade = {
-							name = "Enable/Disable Trade chat in garrison",
-							desc = "Sets whether Trade chat will be on when in your garrison.  Applies to all characters.",
+				},
+				combat = {
+							name = "Enable/Disable automatically hiding timers in combat",
+							desc = "Enable/Disable automatically hidding the timers when entering combat. (It will be brought back once you leave combat).",
 							type = "execute",
 							func = function ()  
-								--MyGarrisons.db.global.Settings.GarrisonTradeOff = MyGarrisons.db.global.Settings.GarrisonTradeOff == false
-								--if MyGarrisons.db.global.Settings.GarrisonTradeOff then
-								--	print("My Garrisons: Trade chat enabled in Garrison")
-								--else
-								--	print("My Garrisons: Trade chat disabled in Garrison")
-								--end
-							--	MyGarrisons:GarrisonTradeImplement()
+								local characterID, realmi = UnitName("player")
+								local realmID = GetRealmName()
+								if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.HideInCombat then
+									MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.HideInCombat = false
+									MyGarrisons:AddonMessagePrintout("MyGarrisons", "Will not hide during combat")
+								else
+									MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.HideInCombat = true
+									MyGarrisons:AddonMessagePrintout("MyGarrisons", "Will hide during combat")
+								end
+							end
+				},
+			sortby = {name = "Sort characters by",
+							type = "input",
+							get = function () end,
+							set = function(e1,e2,e3)--
+								local splitted = {strsplit(" ",tostring(e1["input"]))}
+										if MyGarrisons:TableSize(splitted) == 3 then
+											MyGarrisons:ChangeCharacterSorting(splitted[2], splitted[3])
+										else
+											if MyGarrisons:TableSize(splitted) == 2 then
+												MyGarrisons:ChangeCharacterSorting(splitted[2])
+											else
+												MyGarrisons:AddonMessagePrintout("MyGarrisons", "Invalid")
+											end
+										end
+									end
+
+			},
+				invasion ={
+				name = "Enable/Disable showing character has invasion",
+							desc = "Sets whether an exclaimation mark is show on the character if they have an invasion.",
+							type = "execute",
+							func = function ()  
+								local characterID, realmi = UnitName("player")
+								local realmID = GetRealmName()
+								MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Invasion = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Invasion == false
+								
+							end
+				},
+			misscount ={
+				name = "Enable/Disable showing characters mission counter",
+							desc = "Sets whether the number of missions the character has active and finished.",
+							type = "execute",
+							func = function ()  
+								local characterID, realmi = UnitName("player")
+								local realmID = GetRealmName()
+								MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowMissionCounter = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowMissionCounter == false
+								
+							end
+			},
+						shipcount ={
+				name = "Enable/Disable showing characters shipment counter",
+							desc = "NOT DONE YET!! Sets whether the number of shipements the character has active and finished.",
+							type = "execute",
+							func = function ()  
+								local characterID, realmi = UnitName("player")
+								local realmID = GetRealmName()
+								MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowShipmentCounter = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowShipmentCounter == false
+								
+							end
+				},
+				trade = {
+							name = "Enable/Disable Trade chat in garrison",
+							desc = "Sets whether Trade chat will be on when in your garrison.",
+							type = "execute",
+							func = function ()  
+								local characterID, realmi = UnitName("player")
+								local realmID = GetRealmName()
+								MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].TradeChatDisabled = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].TradeChatDisabled == false
+								if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].TradeChatDisabled == false then
+									MyGarrisons:AddonMessagePrintout("MyGarrisons","Trade chat enabled in Garrison")
+									for k,v in pairs (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadTrade) do
+										AddChatWindowChannel(v,"Trade")
+									end
+									JoinPermanentChannel("Trade")
+									MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadTrade = {}
+								else
+									MyGarrisons:MuteTradeChatInGarrison()
+									MyGarrisons:AddonMessagePrintout("MyGarrisons","Trade chat muted in Garrison")
+								end
+							end
+						
+				},
+			general = {
+							name = "Enable/Disable General chat in garrison",
+							desc = "Sets whether General chat will be on when in your garrison.",
+							type = "execute",
+							func = function ()  
+								local characterID, realmi = UnitName("player")
+								local realmID = GetRealmName()
+								MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].TradeChatDisabled = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].GeneralChatDisabled == false
+								if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].GeneralChatDisabled == false then
+									MyGarrisons:AddonMessagePrintout("MyGarrisons","General chat enabled in Garrison")
+									for k,v in pairs (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral) do
+										JoinPermanentChannel("General")
+									end
+									MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral = {}
+								else
+									MyGarrisons:MuteGeneralChatInGarrison()
+									MyGarrisons:AddonMessagePrintout("MyGarrisons","General chat muted in Garrison")
+								end
 							end
 						
 							}
@@ -1789,14 +1900,68 @@ local NeooptionTable = {
 			
 
 LibStub("AceConfig-3.0"):RegisterOptionsTable("MyGarrisons", NeooptionTable, {"gar"})
-
-
+local ValidSortTypes = {}
+ValidSortTypes["mission"]	= true
+ValidSortTypes["name"]		= true
+ValidSortTypes["orders"]	= true
+ValidSortTypes["realm"]		= true
+function MyGarrisons:ChangeCharacterSorting(sortType, direction)
+	local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+	--MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Type
+	if ValidSortTypes[sortType] ~= nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Type = sortType
+	else
+		MyGarrisons:AddonMessagePrintout("MyGarrisons", "Not a valid sort type.  Please enter either \"mission\", \"name\", \"orders\".")
+	end
+	if tonumber(direction) == 1 or tonumber(direction) == -1 then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Direction = tonumber(direction)
+	end
+end
 local defaults = {
 	
 	global = {MGRealms = {}
 	}
 }
+function MyGarrisons:MuteTradeChatInGarrison()
+	local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+	if C_Garrison.IsOnGarrisonMap() then
+--/run print(strfind(GetChatWindowChannels(1),"Trade"))
+		--/run print(tContains({GetChatWindowChannels(k)},"Trade"))
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadTrade = {}
+
+		for ke = 1, NUM_CHAT_WINDOWS do
+
+			if tContains({GetChatWindowChannels(ke)},"Trade") ~= nil then
+				tinsert(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadTrade,ke)
+			end
+			--run JoinPermanentChannel("Trade")
+			--RemoveChatWindowChannel(ke, "Trade")
+			LeaveChannelByName("Trade")
+		end
+	end
+end
+function MyGarrisons:MuteGeneralChatInGarrison()
 	
+	local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral = {}
+	end
+	if C_Garrison.IsOnGarrisonMap() then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral = {}
+
+		for ke = 1, NUM_CHAT_WINDOWS do
+
+			if tContains({GetChatWindowChannels(ke)},"General") ~= nil then
+				tinsert(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral,ke)
+			end
+			
+			LeaveChannelByName( "General")
+		end
+	end
+end
 function MyGarrisons:AddRealm()
 	MyGarrisons.db.global.MGRealms[GetRealmName()] = {Characters = {}}
 end
@@ -1840,7 +2005,9 @@ function MyGarrisons:OnInitialize()
 		local	factionGroup, factionName = UnitFactionGroup("player") 
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Faction = factionGroup
 	end
-
+	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.HideInCombat == nil then
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.HideInCombat = false
+	end
 	--Register event 
 	self:RegisterEvent("CHAT_MSG_CURRENCY")
 	self:RegisterEvent("CHAT_MSG_LOOT")
@@ -1858,21 +2025,24 @@ function MyGarrisons:OnInitialize()
 	self:RegisterEvent("SHIPMENT_CRAFTER_CLOSED")
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
-
-	
+	self:RegisterEvent("GARRISON_INVASION_AVAILABLE")
+	self:RegisterEvent("CHAT_MSG_CHANNEL")
+	self:RegisterEvent("PLAYER_REGEN_DISABLED")
+	self:RegisterEvent("PLAYER_REGEN_ENABLED")
 	--GARRISON_BUILDING_PLACED
 	--SHIPMENT_CRAFTER_INFO
 	--self:RegisterEvent("SHIPMENT_UPDATE")
 	--self:RegisterEvent("SHIPMENT_CRAFTER_INFO")
 	
 	--self:RegisterEvent("CHAT_MSG_CHANNEL_NOTICE")
-	--self:RegisterEvent("ZONE_CHANGED")
+	self:RegisterEvent("ZONE_CHANGED")
 	
 
 	--self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-	
-
+	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].CompletedMissions == nil then
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].CompletedMissions = 0
+	end
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Alpha == nil then
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Alpha = 1
 	end
@@ -1885,6 +2055,77 @@ function MyGarrisons:OnInitialize()
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.ShowOnLogIn == false then
 		MyGarrisonTimers:Hide()
 	end
+	MyGarrisons:SetUpOptionsFrame()
+end
+local TimersWereUp = false
+function MyGarrisons:PLAYER_REGEN_ENABLED()
+	if TimersWereUp then
+		MyGarrisonTimers:Show()
+	end
+
+	TimersWereUp = false
+end
+function MyGarrisons:PLAYER_REGEN_DISABLED()
+	TimersWereUp = MyGarrisonTimers:IsShown()
+	local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.HideInCombat then
+		MyGarrisonTimers:Hide();
+	end
+
+end
+function MyGarrisons:GARRISON_INVASION_AVAILABLE(e, p1, p2, p3)
+		local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Invasion = true
+	--Invasion
+--invasion
+end
+function MyGarrisons:GARRISON_INVASION_UNAVAILABLE()
+local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Invasion = false
+	--Invasion
+--invasion
+end
+function MyGarrisons:ZONE_CHANGED()
+	
+	local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+
+	if  MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadTrade == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadTrade = {}
+	end
+	if  MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral = {}
+	end
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.TradeChatDisabled == true then
+		MyGarrisons:MuteTradeChatInGarrison()
+	end
+	if  C_Garrison.IsOnGarrisonMap() == false then
+		for k,v in pairs (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadTrade) do
+			AddChatWindowChannel(v,"Trade")
+			JoinPermanentChannel("Trade")
+		end
+		for k,v in pairs (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ChatWindowsThatHadGeneral) do
+			AddChatWindowChannel(v,"General")
+			JoinPermanentChannel("General")
+		end
+		
+	end
+end
+function MyGarrisons:CHAT_MSG_CHANNEL( ev, mess, sender, lang, channelstring, tar, flag, unk, channum,channame,...)
+--print(channame)
+local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+--MyGarrisons.db.global.Settings.GarrisonTradeOff
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.TradeChatDisabled == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.TradeChatDisabled = false
+	end
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.GeneralChatDisabled == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.GeneralChatDisabled = false
+	end
+	
 end
 local repeater = 0
 function MyGarrisons:DelayedUpdate()
@@ -1903,6 +2144,7 @@ function MyGarrisons:DelayedUpdate()
 		end
 		MyGarrisons:SetUpTimerFrame()
 		MyGarrisons:MakeSureTimerScrollAnchored()
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Invasion = C_Garrison.IsInvasionAvailable()
 	else
 		if repeater < 10 then
 			local timerDelayed= MyGarrisons:ScheduleTimer("DelayedUpdate", 5)
@@ -1916,6 +2158,8 @@ function MyGarrisons:DelayedUpdate()
 			MyGarrisons:SetUpTimerFrame()
 			MyGarrisons:MakeSureTimerScrollAnchored()
 			MyGarrisons:QUEST_FINISHED()
+MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Invasion = C_Garrison.IsInvasionAvailable()
+
 			if MGNewCharacter == true then
 			
 			end
@@ -2157,7 +2401,7 @@ function MyGarrisons:GARRISON_BUILDING_ACTIVATED(en, plotID, num2)
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[buildID] ~= nil then
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[buildID].UnderConstruction = false
 	else
-		print ("Error:  building ID was not found.  Please notify developer.");
+		MyGarrisons:AddonMessagePrintout("MyGarrisons","Error:  building ID was not found.  Please notify developer.");
 	end
 	
 	
@@ -2656,6 +2900,11 @@ end
 -- =================================================================================================
 -- Utilities
 -- =================================================================================================
+function MyGarrisons:AddonMessagePrintout(header, message)
+DEFAULT_CHAT_FRAME:AddMessage(("|cffffd800<|r|cffffd200%s|r|cffffd800>|r %s"):format(tostring("My Garrisons"), tostring(message..".")))
+
+end
+
 function MyGarrisons:splitAtFirst(str, pattern)
 
 	local startIndex, endIndex = strfind(str,pattern)
