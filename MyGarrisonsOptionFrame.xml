@@ -1,0 +1,511 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="MyGarrisonsOptionFrame.lua" />
+	<Frame name="BuildingOptionFrame" virtual="true">
+		<Size x="441" y="425" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="216" y="-63" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="OneForAllString" inherits="GameFontNormal" text="One for All">
+					<Size x="119" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="50" y="-19" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="OneForAllCheck" inherits="UICheckButtonTemplate" parentKey="OneForAllCheck" text="CheckButton1">
+				<Size x="20" y="20" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="26" y="-17" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+	</Frame>
+	<Frame name="MGFrameOptionsPanel" virtual="true">
+		<Size x="343" y="503" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="66" y="-555" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true" />
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="MGAlphaOnTitle" inherits="GameFontNormal" parentKey="alphaOnString" text="Alpha when mouse is on frame">
+					<Size x="236" y="24" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="12" y="-124" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGAlphaOffTitle" inherits="GameFontNormal" parentKey="alphaOffString" text="Alpha when mouse is off frame">
+					<Size x="235" y="21" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="12" y="-170" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGLockTimerName" inherits="GameFontNormal" parentKey="lockTimerName" text="Lock Timer Frame">
+					<Size x="118" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="33" y="-86" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGFilterTitle" inherits="GameFontNormal" parentKey="filterTitle" text="Filter Options">
+					<Size x="340" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="2" y="-236" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGAllianceFilterName" inherits="GameFontNormal" parentKey="allianceFilterName" text="Alliance">
+					<Size x="79" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGAllianceFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGHordeFilterName" inherits="GameFontNormal" parentKey="hordeFilterName" text="Horde">
+					<Size x="81" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGHordeFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGBlacksmithFilterName" inherits="GameFontNormal" parentKey="blacksmithFilterName" text="Blacksmith">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGBlacksmithFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGAlchemyFilterName2" inherits="GameFontNormal" parentKey="alchemyFilterName" text="Alchemy">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGAlchemyFilter" relativePoint="TOPRIGHT">
+							<Offset x="-1" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGInscriptionFilterName" inherits="GameFontNormal" parentKey="inscriptionFilterName" text="Inscription">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGInscriptionFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGHerbFilterName" inherits="GameFontNormal" parentKey="herbFilterName" text="Herb">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGHerbFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGEnchantFilterName" inherits="GameFontNormal" parentKey="enchantFilterName" text="Enchanting">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGEnchantFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGJewelFilterName" inherits="GameFontNormal" parentKey="jewelFilterName" text="Jewelcrafting">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGJewelFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGEngineerFilterName" inherits="GameFontNormal" parentKey="engineFilterName" text="Engineering">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGEngineerFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGLeatherFilterName" inherits="GameFontNormal" parentKey="leatherFilterName" text="Leatherworking">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGLeatherFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGMiningFilterName" inherits="GameFontNormal" parentKey="miningFilterName" text="Mining">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGMiningFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGSkinFilterName" inherits="GameFontNormal" parentKey="skinFilterName" text="Skinning">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGSkinFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGTailorFilterName" inherits="GameFontNormal" parentKey="tailorFilterName" text="Tailoring">
+					<Size x="86" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MGTailorFilter" relativePoint="TOPRIGHT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGProfessionFilterTitle" inherits="GameFontNormal" parentKey="profFilterTitle" text="Profession Building Filters">
+					<Size x="342" y="16" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-278" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Slider name="MGMouseOnAlphaSlider" inherits="HybridScrollBarTemplate" parentKey="mouseOnAlpha" minValue="0" maxValue="1">
+				<Size x="236" y="21" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="12" y="-148" />
+					</Anchor>
+				</Anchors>
+			</Slider>
+			<Slider name="MGMouseOffAlphaSlider" inherits="HybridScrollBarTemplate" parentKey="mouseOffAlpha" minValue="0" maxValue="0">
+				<Size x="236" y="21" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="12" y="-191" />
+					</Anchor>
+				</Anchors>
+			</Slider>
+			<Button name="MGAlphaOnPreview" inherits="UIPanelButtonTemplate" parentKey="alphaOnPreview" text="Preview">
+				<Size x="57" y="21" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="267" y="-148" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="MGAlphaOffPreview" inherits="UIPanelButtonTemplate" parentKey="alphaOffPreview" text="Preview">
+				<Size x="57" y="21" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="267" y="-191" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<CheckButton name="MGLockTimerCheck" inherits="UICheckButtonTemplate" parentKey="lockTimer" text="CheckButton1">
+				<Size x="15" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="12" y="-86" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<Button name="MGApplyFrame" inherits="UIPanelButtonTemplate" parentKey="applyframe" text="Apply">
+				<Size x="72" y="28" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="267" y="-461" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="MGDefaultFrame" inherits="UIPanelButtonTemplate" parentKey="defaultframe" text="Defaults">
+				<Size x="72" y="27" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="168" y="-461" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="MGRevertFrame" inherits="UIPanelButtonTemplate" parentKey="revertframe" text="Revert">
+				<Size x="65" y="30" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="89" y="-458" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:RevertFrameOptions()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<CheckButton name="MGAllianceFilter" inherits="UICheckButtonTemplate" parentKey="alliancefilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="13" y="-260" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGHordeFilter" inherits="UICheckButtonTemplate" parentKey="hordeFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="112" y="-260" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGBlacksmithFilter" inherits="UICheckButtonTemplate" parentKey="blacksmithFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="126" y="-300" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGAlchemyFilter" inherits="UICheckButtonTemplate" parentKey="alchemyFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="13" y="-300" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGInscriptionFilter" inherits="UICheckButtonTemplate" parentKey="inscriptionFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="240" y="-320" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGHerbFilter" inherits="UICheckButtonTemplate" parentKey="herbFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="126" y="-320" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGEnchantFilter" inherits="UICheckButtonTemplate" parentKey="enchantFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="240" y="-300" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGJewelFilter" inherits="UICheckButtonTemplate" parentKey="jewelFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="13" y="-340" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGEngineerFilter" inherits="UICheckButtonTemplate" parentKey="engineFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="13" y="-320" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGLeatherFilter" inherits="UICheckButtonTemplate" parentKey="leatherFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="126" y="-340" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGMiningFilter" inherits="UICheckButtonTemplate" parentKey="miningFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="241" y="-341" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGSkinFilter" inherits="UICheckButtonTemplate" parentKey="skinFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="13" y="-360" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGTailorFilter" inherits="UICheckButtonTemplate" parentKey="tailorFilter" text="CheckButton1">
+				<Size x="14" y="14" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="126" y="-360" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+	</Frame>
+	<Frame name="MGCharacterOptionFrame" virtual="true">
+		<Size x="367" y="270" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="132" y="-72" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" text="Alert Options">
+					<Size x="333" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="11" y="-176" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Show timer when logging on.">
+					<Size x="112" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="52" y="-36" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="MGTimerDisplayStartCheck" inherits="UICheckButtonTemplate" parentKey="displaystartcheck" text="CheckButton1">
+				<Size x="15" y="17" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="28" y="-35" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+	</Frame>
+	<Frame name="MyGarrisonsOptionFrame" hidden="true" parent="UIParent" toplevel="true">
+		<Size>
+			<AbsDimension x="483" y="424" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="80" y="-128" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<ScrollFrame name="MGOptionScroll" inherits="UIPanelScrollFrameTemplate" parentKey="optionscroll" movable="true" resizable="true">
+				<Size x="343" y="359" />
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset x="-30" y="-15" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+			</ScrollFrame>
+			<Button name="MGFrameOptionsButton" inherits="UIPanelButtonTemplate" parentKey="frameoptionbutton" text="Frame">
+				<Size x="84" y="28" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="20" y="-15" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ShowFrameOptions()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MGBuildingTimerOptions" inherits="UIPanelButtonTemplate" parentKey="buildingoption" text="Buildings">
+				<Size x="84" y="28" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="20" y="-77" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="MGMissionTimerOptions" inherits="UIPanelButtonTemplate" parentKey="missionoption" text="Mission">
+				<Size x="84" y="28" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="20" y="-49" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button name="MGOptionCloseButton" inherits="UIPanelButtonTemplate" parentKey="closeButton" text="Close" registerForClicks="LeftButtonDown">
+				<Size x="70" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="383" y="-380" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisonsOptionFrame:Hide()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MGCharacterHeaderOptionButton" inherits="UIPanelButtonTemplate" parentKey="charopbutton" text="Characters">
+				<Size x="84" y="28" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="21" y="-123" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+</Ui>

@@ -1,0 +1,174 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="MyGarrisonsTimerFrame.lua" />
+	<Button name="MGMissionTimer" virtual="true" text="Button1">
+		<Size x="276" y="21" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="13" y="-76" />
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture atlas="GarrMission_MissionParchment" useAtlasSize="true" horizTile="true" vertTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="3" />
+						<Anchor point="BOTTOMRIGHT" x="-3" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="MissionName" inherits="GameFontNormal" parentKey="MissionName" text="FontString1">
+					<Size x="169" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MissionTimer" inherits="GameFontNormal" parentKey="Timer" text="FontString1">
+					<Size x="101" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="175" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Button>
+	<Button name="CharacterTimerHeader" virtual="true" text="Button1">
+		<Size x="276" y="40" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="31" y="-73" />
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="CharacterName" inherits="GameFontNormal" parentKey="charname" text="">
+					<Size x="274" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="1" y="-1" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="CharacterInfoText" inherits="GameFontNormal" parentKey="charinfo" text="">
+					<Size x="274" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="2" y="-20" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Button>
+	<Button name="MGBuildingTimer" virtual="true" text="Button1">
+		<Size x="272" y="57" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="165" y="-443" />
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="MGBuildingNameString" inherits="GameFontNormal" text="FontString1">
+					<Size x="272" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGBuildingWorkOrderString" inherits="GameFontNormal" text="FontString1">
+					<Size x="272" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-19" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGBuildingSpecialString" inherits="GameFontNormal" text="FontString1">
+					<Size x="272" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-38" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Button>
+	<Frame name="MyGarrisonsTimerFrame" hidden="true" parent="UIParent" toplevel="true" movable="true" resizable="true">
+		<Size>
+			<AbsDimension x="259" y="200" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="100" y="-150" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<ScrollFrame name="$parentListScrollFrame" inherits="HybridScrollFrameTemplate" parentKey="listScroll">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="5" y="-6" />
+					<Anchor point="BOTTOMRIGHT" x="-3" y="8" />
+				</Anchors>
+				<Frames>
+					<Slider name="$parentScrollBar" inherits="MinimalHybridScrollBarTemplate" parentKey="scrollBar" minValue="0" maxValue="0">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-20" y="-15" />
+							<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-20" y="12" />
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+
+							</OnLoad>
+						</Scripts>
+					</Slider>
+				</Frames>
+			</ScrollFrame>
+		</Frames>
+	</Frame>
+	<Frame name="ResizingFrame" hidden="true">
+		<Size x="198" y="268" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="429" y="-127" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<Button text="Button1">
+				<Size x="10" y="247" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="3" y="-20" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
+	</Frame>
+</Ui>

@@ -147,6 +147,158 @@
 		</Scripts>
 	</Frame>
 	<Frame name="MissionTimerTemplate" virtual="true">
+		<Size x="257" y="30" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="184" y="-520" />
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture atlas="GarrMission_MissionParchment" useAtlasSize="true" hidden="true" horizTile="true" vertTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="3" />
+						<Anchor point="BOTTOMRIGHT" x="-3" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="TimeBarString" inherits="GameFontNormal" parentKey="timertext" text="" justifyH="LEFT">
+					<Size x="165" y="12" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="5" y="-16" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="NameFrame" parentKey="nameframe">
+				<Size x="252" y="12" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="2" y="-2" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MissionNameString" inherits="GameFontNormal" parentKey="namestring" text="">
+							<Size x="252" y="12" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<Color r="0" g="0.753" b="0.753" />
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+	</Frame>
+	<Frame name="ExcavationTemplate" virtual="true">
+		<Size x="255" y="30" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="184" y="-520" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="TimeBarString" inherits="GameFontNormal" parentKey="timertext" text="" justifyH="LEFT">
+					<Size x="165" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="3" y="-15" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="NameFrame" parentKey="nameframe">
+				<Size x="252" y="12" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="2" y="-2" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MissionNameString" inherits="GameFontNormal" parentKey="namestring" text="">
+							<Size x="252" y="12" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<Color r="0" g="0.753" b="0.753" />
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="NodeTextFrame" parentKey="node">
+				<Size x="78" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="173" y="-15" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="NodeText" inherits="GameFontNormal" parentKey="nodetext" setAllPoints="true" text="FontString3">
+							<Size x="75" y="12" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="2" y="-2" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+	</Frame>
+	<Frame name="TimerBag" virtual="true">
+		<Size x="255" y="1" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="108" y="-448" />
+			</Anchor>
+		</Anchors>
+		<Scripts>
+			<OnUpdate>
+				MyGarrisons:UpdateCharacterTimer(self.HeaderIndex)
+			</OnUpdate>
+		</Scripts>
+	</Frame>
+	<Frame name="MGMissionTimerTemplate" virtual="true">
 		<Size x="255" y="30" />
 		<Anchors>
 			<Anchor point="TOPLEFT">
@@ -212,31 +364,1012 @@
 			</Frame>
 		</Frames>
 	</Frame>
-	<Frame name="TimerBag" virtual="true">
-		<Size x="255" y="1" />
+	<Frame name="BuildingTimer" virtual="true">
+		<Size x="238" y="45" />
 		<Anchors>
 			<Anchor point="TOPLEFT">
-				<Offset x="108" y="-448" />
+				<Offset x="77" y="-442" />
 			</Anchor>
 		</Anchors>
 		<Backdrop bgFile="" edgeFile="" tile="true">
 			<TileSize>
 				<AbsValue val="32" />
 			</TileSize>
-			<EdgeSize>
-				<AbsValue val="32" />
-			</EdgeSize>
 		</Backdrop>
+		<Layers>
+			<Layer>
+				<Texture atlas="Garr_ListButton" parentKey="bg" setAllPoints="true">
+					<Size x="234" y="45" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" parentKey="shipmentstring" text="Done:  00  00/00  00:00:00">
+					<Size x="237" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-15" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="specialstring" text="">
+					<Size x="237" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT">
+							<Offset y="-30" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame name="BuildingNameFrame" parentKey="buildingnameframe">
+				<Size x="238" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT" />
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="buildingnamestring" inherits="GameFontNormal" parentKey="namestring" text="">
+							<Size x="237" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Frame name="MGPortal1Frame" parentKey="portal1">
+						<Size x="118" y="15" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset />
+							</Anchor>
+						</Anchors>
+						<Backdrop bgFile="" edgeFile="" tile="true">
+							<TileSize>
+								<AbsValue val="32" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="32" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer>
+								<Texture name="MGPortal1Texture" parentKey="porttext">
+									<Size x="15" y="15" />
+									<Anchors>
+										<Anchor point="TOPLEFT" />
+									</Anchors>
+								</Texture>
+							</Layer>
+							<Layer level="OVERLAY">
+								<FontString name="MGPortal1Name" inherits="GameFontNormal" parentKey="portname" text="">
+									<Size x="108" y="15" />
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset x="12" />
+										</Anchor>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+					</Frame>
+				</Frames>
+			</Frame>
+			<Frame name="MGBodyguardFrame6" parentKey="bgframe6">
+				<Size x="77" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="157" y="-27" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGBodyguard6Time" inherits="GameFontNormal" parentKey="bg6time" hidden="true" text="12/12">
+							<Size x="60" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="16" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<Texture name="MGBodyguard6Icon" parentKey="bgicon6" hidden="true">
+							<Size x="15" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="4" />
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="MGBodyguardFrame5" parentKey="bgframe5">
+				<Size x="77" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="82" y="-27" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGBodyguard5Time" inherits="GameFontNormal" parentKey="bg5time" hidden="true" text="12/12">
+							<Size x="60" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="16" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<Texture name="MGBodyguard5Icon" parentKey="bgicon5" hidden="true">
+							<Size x="15" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="2" />
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="MGBodyguardFrame4" parentKey="bgframe4">
+				<Size x="77" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-27" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGBodyguard4Time" inherits="GameFontNormal" parentKey="bg4time" hidden="true" text="12/12">
+							<Size x="60" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="16" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<Texture name="MGBodyguard4Icon" parentKey="bgicon4" hidden="true">
+							<Size x="15" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="2" />
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="MGBodyguardFrame1" parentKey="bgframe1">
+				<Size x="77" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-14" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGBodyguard1Time" inherits="GameFontNormal" parentKey="bg1time" hidden="true" text="12/12">
+							<Size x="60" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="16" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<Texture name="MGBodyguard1Icon" parentKey="bgicon1" hidden="true">
+							<Size x="15" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="2" />
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="MGBodyguardFrame2" parentKey="bgframe2">
+				<Size x="77" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="82" y="-14" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<Texture name="MGBodyguard2Icon" parentKey="bgicon2" hidden="true">
+							<Size x="15" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+						<FontString name="MGBodyguard2Time" inherits="GameFontNormal" parentKey="bg2time" hidden="true" text="12/12">
+							<Size x="60" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="14" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="MGBodyguardFrame3" parentKey="bgframe3">
+				<Size x="77" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="161" y="-14" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGBodyguard3Time" inherits="GameFontNormal" parentKey="bg3time" hidden="true" text="12/12">
+							<Size x="60" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="14" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<Texture name="MGBodyguard3Icon" parentKey="bgicon3" hidden="true">
+							<Size x="15" y="15" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+			</Frame>
+			<Frame name="PortalFrame" parentKey="portal" hidden="true">
+				<Size x="238" y="31" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset y="-14" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Frames>
+					<Frame name="MGPortal3Frame" parentKey="portal3">
+						<Size x="48" y="15" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="190" y="-16" />
+							</Anchor>
+						</Anchors>
+						<Backdrop bgFile="" edgeFile="" tile="true">
+							<TileSize>
+								<AbsValue val="32" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="32" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer>
+								<Texture name="MGPortal3Texture" parentKey="porttext">
+									<Size x="15" y="15" />
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset x="27" />
+										</Anchor>
+									</Anchors>
+								</Texture>
+							</Layer>
+							<Layer level="OVERLAY">
+								<FontString name="MGPortal3Name" inherits="GameFontNormal" parentKey="portname" text="">
+									<Size x="24" y="15" />
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset x="2" />
+										</Anchor>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+					</Frame>
+					<Frame name="MGPortal2Frame" parentKey="portal2">
+						<Size x="46" y="15" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="90" y="-16" />
+							</Anchor>
+						</Anchors>
+						<Backdrop bgFile="" edgeFile="" tile="true">
+							<TileSize>
+								<AbsValue val="32" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="32" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer>
+								<Texture name="MGPortal2Texture" parentKey="porttext">
+									<Size x="15" y="15" />
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset x="27" />
+										</Anchor>
+									</Anchors>
+								</Texture>
+							</Layer>
+							<Layer level="OVERLAY">
+								<FontString name="MGPortal2Name" inherits="GameFontNormal" parentKey="portname" text="">
+									<Size x="24" y="15" />
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset x="3" />
+										</Anchor>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+					</Frame>
+					<Frame name="MGPortal1Frame" parentKey="portal1">
+						<Size x="47" y="15" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="3" y="-16" />
+							</Anchor>
+						</Anchors>
+						<Backdrop bgFile="" edgeFile="" tile="true">
+							<TileSize>
+								<AbsValue val="32" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="32" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer>
+								<Texture name="MGPortal1Texture" parentKey="porttext">
+									<Size x="15" y="15" />
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset x="27" />
+										</Anchor>
+									</Anchors>
+								</Texture>
+							</Layer>
+							<Layer level="OVERLAY">
+								<FontString name="MGPortal1Name" inherits="GameFontNormal" parentKey="portname" text="">
+									<Size x="24" y="15" />
+									<Anchors>
+										<Anchor point="TOPLEFT">
+											<Offset x="3" />
+										</Anchor>
+									</Anchors>
+								</FontString>
+							</Layer>
+						</Layers>
+					</Frame>
+				</Frames>
+			</Frame>
+		</Frames>
 	</Frame>
+	<Button name="MGCharacterHeader" virtual="true" enableMouse="true" text="">
+		<Size x="258" y="50" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="122" y="-112" />
+			</Anchor>
+		</Anchors>
+		<Attributes>
+			<Attribute name="characterID" type="nil" />
+			<Attribute name="realmID" type="nil" />
+			<Attribute name="index" type="number" />
+		</Attributes>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture name="MGClassTexture" parentKey="classtexture" alpha="0.5">
+					<Size x="50" y="50" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="208" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture name="MGFactionTexture" parentKey="factiontexture">
+					<Size x="50" y="50" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture name="GarrisonCacheTexture" parentKey="garrcacheicon">
+					<Size x="20" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="2" y="-26" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="MGCharacterName" inherits="GameFontNormal" parentKey="charname" text="">
+					<Size x="210" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</FontString>
+				<FontString name="MGCharacterCache" inherits="GameFontNormal" parentKey="cache" text="">
+					<Size x="45" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="28" y="-26" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGCharacterCacheAmount" inherits="GameFontNormal" parentKey="cacheAmount" text="FontString3">
+					<Size x="48" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="79" y="-26" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				MGCharacterHeader_OnLoad()
+			</OnLoad>
+			<OnUpdate>
+				MyGarrisons:ComputeCache(self.characterID, self.realmID)
+				MyGarrisons:UpdateCharacterHeader(self.index)
+			</OnUpdate>
+			<OnClick>
+				MGCharacterHeader_OnClick(self.index)
+			</OnClick>
+		</Scripts>
+	</Button>
+	<Button name="MGBuildingHeader" virtual="true" parentKey="buildingheader" enableMouse="true" text="Buildings" registerForClicks="LeftButtonDown">
+		<Size x="258" y="40" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="125" y="-518" />
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="LeftDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+					<Size x="21" y="40" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+					<TexCoords left="0.47265625" right="0.5136719" top="0.76953125" bottom="1" />
+				</Texture>
+				<Texture parentKey="MiddleDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+					<Size x="217" y="40" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.LeftDisabled" relativePoint="RIGHT" />
+					</Anchors>
+					<TexCoords left="0.5136719" right="0.6855469" top="0.76953125" bottom="1" />
+				</Texture>
+				<Texture parentKey="RightDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+					<Size x="23" y="39" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.MiddleDisabled" relativePoint="RIGHT">
+							<Offset x="-1" y="1" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.6855469" right="0.7207031" top="0.76953125" bottom="1" />
+				</Texture>
+				<Texture parentKey="Left" file="Interface\AchievementFrame\UI-Achievement-Header">
+					<Size x="21" y="40" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+					<TexCoords left="0.47265625" right="0.5136719" top="0.76953125" bottom="1" />
+				</Texture>
+				<Texture parentKey="Middle" file="Interface\AchievementFrame\UI-Achievement-Header">
+					<Size x="217" y="39" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT">
+							<Offset y="1" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.5136719" right="0.6855469" top="0.76953125" bottom="1" />
+				</Texture>
+				<Texture parentKey="Right" file="Interface\AchievementFrame\UI-Achievement-Header">
+					<Size x="23" y="40" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Middle" relativePoint="RIGHT">
+							<Offset x="-1" y="-1" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.6855469" right="0.7207031" top="0.76953125" bottom="1" />
+				</Texture>
+				<Texture parentKey="LeftHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+					<Size x="32" y="39" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-3" y="-1" />
+					</Anchors>
+					<TexCoords left="0.7207031" right="0.7832031" top="0.76953125" bottom="1" />
+				</Texture>
+				<Texture parentKey="RightHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+					<Size x="18" y="39" />
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-4" y="-1" />
+					</Anchors>
+					<TexCoords left="0.9238281" right="0.9863281" top="0.76953125" bottom="1" />
+				</Texture>
+				<Texture parentKey="MiddleHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+					<Size x="258" y="37" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.LeftHighlight" relativePoint="RIGHT">
+							<Offset x="-27" />
+						</Anchor>
+						<Anchor point="RIGHT" relativeKey="$parent.RightHighlight" relativePoint="LEFT">
+							<Offset x="24" />
+						</Anchor>
+					</Anchors>
+					<TexCoords left="0.7832031" right="0.9238281" top="0.76953125" bottom="1" />
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="MGBuildingHeaderText" inherits="GameFontNormal" parentKey="buildingtext" setAllPoints="true" text="Buildings">
+					<Size x="258" y="40" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Button>
+	<Button name="MGBuildingTimer" virtual="true" text="">
+		<Size x="258" y="88" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="148" y="-562" />
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer>
+				<Texture name="MGBuildingTimerTexture" parentKey="buildingtexture">
+					<Size x="258" y="88" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset />
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="MGBuildingTimerName" inherits="GameFontNormal" parentKey="buildingname" text="">
+					<Size x="258" y="28" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MGBuildingTimerShipments" parentKey="shipments" text="">
+				<Size x="200" y="28" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset y="-29" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGBuildingTimerTime" inherits="GameFontNormal" parentKey="time" text="">
+							<Size x="87" y="27" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="113" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString name="MGBuildingTimersShipmentsNumbers" inherits="GameFontNormal" parentKey="numbers" text="">
+							<Size x="112" y="27" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Button>
+		</Frames>
+	</Button>
+	<Frame name="MGMissionTimerFrameX" virtual="true" parentKey="missiontimerframe" resizable="true">
+		<Size x="258" y="40" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="34" y="-58" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+		</Backdrop>
+		<Frames>
+			<Button name="MGMissionHeader" parentKey="missionheader" enableMouse="true" text="" registerForClicks="LeftButtonDown">
+				<Size x="258" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="3" y="-3" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="LeftDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="21" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<TexCoords left="0.47265625" right="0.5136719" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="MiddleDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="217" y="40" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.LeftDisabled" relativePoint="RIGHT" />
+							</Anchors>
+							<TexCoords left="0.5136719" right="0.6855469" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="RightDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="23" y="39" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.MiddleDisabled" relativePoint="RIGHT">
+									<Offset x="-1" y="1" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.6855469" right="0.7207031" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="Left" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="21" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<TexCoords left="0.47265625" right="0.5136719" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="Middle" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="217" y="39" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT">
+									<Offset y="1" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.5136719" right="0.6855469" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="Right" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="23" y="40" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.Middle" relativePoint="RIGHT">
+									<Offset x="-1" y="-1" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.6855469" right="0.7207031" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="LeftHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+							<Size x="32" y="39" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-3" y="-1" />
+							</Anchors>
+							<TexCoords left="0.7207031" right="0.7832031" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="RightHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+							<Size x="18" y="39" />
+							<Anchors>
+								<Anchor point="TOPRIGHT" x="-4" y="-1" />
+							</Anchors>
+							<TexCoords left="0.9238281" right="0.9863281" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="MiddleHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+							<Size x="258" y="37" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.LeftHighlight" relativePoint="RIGHT">
+									<Offset x="-27" />
+								</Anchor>
+								<Anchor point="RIGHT" relativeKey="$parent.RightHighlight" relativePoint="LEFT">
+									<Offset x="24" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.7832031" right="0.9238281" top="0.76953125" bottom="1" />
+						</Texture>
+					</Layer>
+					<Layer level="OVERLAY">
+						<FontString name="MGMissionHeaderText" inherits="GameFontNormal" parentKey="missiontext" setAllPoints="true" text="Missions">
+							<Size x="258" y="38" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="2" y="-1" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>
+						--print(self.HeaderIndex)
+						MyGarrisons:MissionHeaderClick(self.HeaderIndex)
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnUpdate>
+				MyGarrisons:UpdateMissionTimerBagX(self.HeaderIndex)
+			</OnUpdate>
+		</Scripts>
+	</Frame>
+	<Frame name="MGBuildingTimerFrameX" virtual="true" parentKey="buildingtimerframe" resizable="true">
+		<Size x="258" y="40" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="34" y="-58" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+		</Backdrop>
+		<Frames>
+			<Button name="MGBuildingHeader" parentKey="buildingheader" enableMouse="true" text="" registerForClicks="LeftButtonDown">
+				<Size x="258" y="40" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="3" y="-3" />
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="LeftDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="21" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<TexCoords left="0.47265625" right="0.5136719" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="MiddleDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="217" y="40" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.LeftDisabled" relativePoint="RIGHT" />
+							</Anchors>
+							<TexCoords left="0.5136719" right="0.6855469" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="RightDisabled" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="23" y="39" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.MiddleDisabled" relativePoint="RIGHT">
+									<Offset x="-1" y="1" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.6855469" right="0.7207031" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="Left" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="21" y="40" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+							<TexCoords left="0.47265625" right="0.5136719" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="Middle" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="217" y="39" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT">
+									<Offset y="1" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.5136719" right="0.6855469" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="Right" file="Interface\AchievementFrame\UI-Achievement-Header">
+							<Size x="23" y="40" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.Middle" relativePoint="RIGHT">
+									<Offset x="-1" y="-1" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.6855469" right="0.7207031" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="LeftHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+							<Size x="32" y="39" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-3" y="-1" />
+							</Anchors>
+							<TexCoords left="0.7207031" right="0.7832031" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="RightHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+							<Size x="18" y="39" />
+							<Anchors>
+								<Anchor point="TOPRIGHT" x="-4" y="-1" />
+							</Anchors>
+							<TexCoords left="0.9238281" right="0.9863281" top="0.76953125" bottom="1" />
+						</Texture>
+						<Texture parentKey="MiddleHighlight" hidden="true" file="Interface\AchievementFrame\UI-Achievement-Header" alphaMode="ADD">
+							<Size x="258" y="37" />
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.LeftHighlight" relativePoint="RIGHT">
+									<Offset x="-27" />
+								</Anchor>
+								<Anchor point="RIGHT" relativeKey="$parent.RightHighlight" relativePoint="LEFT">
+									<Offset x="24" />
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.7832031" right="0.9238281" top="0.76953125" bottom="1" />
+						</Texture>
+					</Layer>
+					<Layer level="OVERLAY">
+						<FontString name="MGBuildingHeaderText" inherits="GameFontNormal" parentKey="buildingtext" setAllPoints="true" text="Buildings">
+							<Size x="258" y="38" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="2" y="-1" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:BuildingHeaderClick(self.HeaderIndex)
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnUpdate>
+				MyGarrisons:UpdateBuildingTimer(self.HeaderIndex)
+			</OnUpdate>
+		</Scripts>
+	</Frame>
+	<Button name="MGProtoTimer" inherits="UIPanelButtonTemplate" virtual="true" text="Proto">
+		<Size x="243" y="52" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="56" y="-491" />
+			</Anchor>
+		</Anchors>
+	</Button>
+	<Button name="MGMissionTimer" virtual="true" text="">
+		<Size x="258" y="40" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="44" y="-395" />
+			</Anchor>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture atlas="GarrLanding-Mission-InProgress" parentKey="missiontimerbg" setAllPoints="true">
+					<Size x="257" y="39" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer>
+				<Texture atlas="GarrMission_MissionIcon-Combat" parentKey="missiontypeicon">
+					<Size x="40" y="40" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</Texture>
+				<Texture atlas="GarrLanding-ShipmentCompleteGlow" parentKey="missiondonetext" hidden="true">
+					<Size x="37" y="37" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="218" y="-2" />
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString name="MGMissionTimerName" inherits="GameFontNormal" parentKey="missionname" text="FontString3">
+					<Size x="216" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="39" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" parentKey="missiontime" text="FontString3">
+					<Size x="216" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="39" y="-20" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnEnter>
+
+			</OnEnter>
+		</Scripts>
+	</Button>
 	<Frame name="MyGarrisonTimers" hidden="true" alpha="0.75" parent="UIParent" toplevel="true" movable="true" resizable="true">
 		<Size>
-			<AbsDimension x="289" y="350" />
+			<AbsDimension x="289" y="369" />
 		</Size>
 		<Anchors>
 			<Anchor point="TOPLEFT">
 				<Offset x="170" y="-23" />
 			</Anchor>
 		</Anchors>
+		<ResizeBounds>
+			<minResize>
+				<AbsDimension x="289" y="150" />
+			</minResize>
+			<maxResize>
+				<AbsDimension x="289" y="700" />
+			</maxResize>
+		</ResizeBounds>
 		<Backdrop bgFile="" edgeFile="" tile="true" alphaMode="ALPHAKEY">
 			<TileSize>
 				<AbsValue val="32" />
@@ -262,7 +1395,7 @@
 				</Texture>
 			</Layer>
 			<Layer level="OVERLAY">
-				<FontString name="AddonTitleFont" inherits="GameFontNormal" text="My Garrisons">
+				<FontString name="AddonTitleFont" inherits="GameFontNormal" parentKey="titlebar" text="My Garrisons">
 					<Size x="226" y="19" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
@@ -284,10 +1417,12 @@
 				</Anchors>
 			</Button>
 			<ScrollFrame name="TimerScroll" inherits="UIPanelScrollFrameTemplate" parentKey="timerscroll" movable="true" resizable="true">
-				<Size x="258" y="327" />
+				<Size x="258" y="325" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="2" y="-20" />
+						<Offset x="2" y="-20">
+							<RelDimension x="0" y="-20" />
+						</Offset>
 					</Anchor>
 				</Anchors>
 				<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="" tile="true">
@@ -319,21 +1454,78 @@
 				<NormalTexture file="Interface\BUTTONS\UI-Panel-HideButton-Up" />
 				<PushedTexture file="Interface\BUTTONS\UI-Panel-HideButton-Down" />
 			</Button>
+			<Button name="MGProtoResize1" inherits="UIPanelButtonTemplate" hidden="true" enableMouse="true" text="Button2">
+				<Size x="280" y="15" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="6" y="-351" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:RegisterForDrag("RightButton")
+					</OnLoad>
+					<OnClick>
+						MGProtoResize1_OnClick()
+					</OnClick>
+					<OnDragStart>
+						MyGarrisonTimers:StartSizing()
+					</OnDragStart>
+					<OnDragStop>
+						MyGarrisonTimers:StopMovingOrSizing()
+					</OnDragStop>
+				</Scripts>
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad>
-				self:RegisterForDrag("LeftButton","RightButton")
+				self:RegisterForDrag("LeftButton")
 			</OnLoad>
 			<OnDragStart>
 				if self:IsMovable() then
 				self:StartMoving()
-				else
-				self:StartSizing()
+				MyGarrisons:MakeSureTimerScrollAnchored()
 				end
 			</OnDragStart>
 			<OnDragStop>
 				self:StopMovingOrSizing()
+				MyGarrisons:MakeSureTimerScrollAnchored()
 			</OnDragStop>
+			<OnUpdate>
+				MyGarrisons:UpdateTimersForCharacters()
+			</OnUpdate>
+			<OnHide>
+				collectgarbage("collect")
+			</OnHide>
 		</Scripts>
+	</Frame>
+	<Frame name="ProtoFrame" hidden="true">
+		<Size x="310" y="135" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="76" y="-451" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Frames>
+			<Button inherits="MGBuildingTimer">
+				<Size x="201" y="101" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="44" y="-31" />
+					</Anchor>
+				</Anchors>
+			</Button>
+		</Frames>
 	</Frame>
 </Ui>

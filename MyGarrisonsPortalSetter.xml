@@ -1,0 +1,495 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="MyGarrisonsPortalSetter.lua" />
+	<Frame name="MyGarrisonsPortalSetter" hidden="true" parent="UIParent" toplevel="true">
+		<Size>
+			<AbsDimension x="424" y="254" />
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER">
+				<Offset x="75" y="-20" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString inherits="GameFontNormal" text="Portal 1">
+					<Size x="110" y="23" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="22" y="-31" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Portal 2">
+					<Size x="110" y="23" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="157" y="-31" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Portal 3">
+					<Size x="110" y="23" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="288" y="-31" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MyGarrisonsPortalCloser" inherits="UIPanelButtonTemplate" text="Close">
+				<Size x="67" y="25" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="111" y="-219" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisonsPortalSetter:Hide()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="MGPortal1SettingFrame" parentKey="portal1">
+				<Size x="128" y="118" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="13" y="-54" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString inherits="GameFontNormal" parentKey="select1text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-3" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select2text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-19" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select4text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-51" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select3text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-35" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select6text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-83" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select5text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-67" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select7text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-99" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<CheckButton name="MGPortal1Selection1" inherits="UIRadioButtonTemplate" parentKey="select1" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-3" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal1Selection2" inherits="UIRadioButtonTemplate" parentKey="select2" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-19" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal1Selection4" inherits="UIRadioButtonTemplate" parentKey="select4" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-51" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal1Selection3" inherits="UIRadioButtonTemplate" parentKey="select3" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-35" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal1Selection6" inherits="UIRadioButtonTemplate" parentKey="select6" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-83" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal1Selection5" inherits="UIRadioButtonTemplate" parentKey="select5" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-67" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal1Selection7" inherits="UIRadioButtonTemplate" parentKey="select7" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-99" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+			<Frame name="MGPortal2SettingFrame" parentKey="portal2">
+				<Size x="128" y="118" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="147" y="-54" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString inherits="GameFontNormal" parentKey="select1text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-3" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select2text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-19" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select4text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-51" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select3text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-35" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select6text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-83" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select5text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-67" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select7text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-99" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<CheckButton name="MGPortal2Selection1" inherits="UIRadioButtonTemplate" parentKey="select1" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-3" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal2Selection2" inherits="UIRadioButtonTemplate" parentKey="select2" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-19" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal2Selection4" inherits="UIRadioButtonTemplate" parentKey="select4" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-51" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal2Selection3" inherits="UIRadioButtonTemplate" parentKey="select3" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-35" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal2Selection6" inherits="UIRadioButtonTemplate" parentKey="select6" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-83" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal2Selection5" inherits="UIRadioButtonTemplate" parentKey="select5" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-67" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal2Selection7" inherits="UIRadioButtonTemplate" parentKey="select7" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-99" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+			<Frame name="MGPortal3SettingFrame" parentKey="portal3">
+				<Size x="128" y="118" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="281" y="-54" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString inherits="GameFontNormal" parentKey="select1text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-3" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select2text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-19" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select4text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-51" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select3text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-35" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select6text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-83" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select5text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-67" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+						<FontString inherits="GameFontNormal" parentKey="select7text" text="" justifyH="LEFT">
+							<Size x="100" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="20" y="-99" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="8" />
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<CheckButton name="MGPortal3Selection1" inherits="UIRadioButtonTemplate" id ="1" parentKey="select1" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-3" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal3Selection2" inherits="UIRadioButtonTemplate" id ="2" parentKey="select2" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-19" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal3Selection4" inherits="UIRadioButtonTemplate" id ="3" parentKey="select4" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-51" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal3Selection3" inherits="UIRadioButtonTemplate" id ="4" parentKey="select3" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-35" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal3Selection6" inherits="UIRadioButtonTemplate" id ="5" parentKey="select6" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-83" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal3Selection5" inherits="UIRadioButtonTemplate" id ="6" parentKey="select5" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-67" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+					<CheckButton name="MGPortal3Selection7" inherits="UIRadioButtonTemplate" id ="7" parentKey="select7" text="CheckButton1">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="4" y="-99" />
+							</Anchor>
+						</Anchors>
+					</CheckButton>
+				</Frames>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnShow>
+				MyGarrisons:SetUpPortalDropDowns()
+			</OnShow>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -2,7 +2,7 @@
 ## Interface: 60000
 ## Title: MyGarrisons
 ## Version: 1.0
-## SavedVariables: GAR
+## SavedVariables: GAR2
 embeds.xml
 MyGarrisons.lua
 GarrisonBuildings.xml
@@ -11,3 +11,9 @@ MyGarrisonTimers.xml
 MyGarrisonTimers.lua
 MyGarrisonsConfirmFrame.xml
 MyGarrisonsConfirmFrame.lua
+MyGarrisonsTimerFrame.lua
+MyGarrisonsTimerFrame.xml
+MyGarrisonsOptionFrame.lua
+MyGarrisonsOptionFrame.xml
+MyGarrisonsPortalSetter.lua
+MyGarrisonsPortalSetter.xml
