@@ -502,6 +502,13 @@ function MyGarrisons:UpdateTimersForCharacters()
 	local Alpha = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alpha
 	MyGarrisonTimers.timerscroll:SetAlpha(Alpha)
 	for k,v in pairs (CharacterHeaders) do
+	local DEFAULT_COLOR = {r =0.776, g =0.643, b = 0.0313}
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character	= {Name = DEFAULT_COLOR, Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}, Mission = {Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, Shipment = {}
+	end
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.r == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character	= {Name = DEFAULT_COLOR, Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}, Mission = {Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, Shipment = {}
+	end
 CharacterHeaders[k].Frame.charname:SetTextColor(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.r,
 	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.g,
 	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.b)
