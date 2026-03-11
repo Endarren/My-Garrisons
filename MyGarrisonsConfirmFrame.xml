@@ -1,0 +1,66 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="MyGarrisonsConfirmFrame.lua" />
+	<Frame name="MyGarrisonsConfirmFrame" hidden="true" parent="UIParent" toplevel="true" movable="true">
+		<Size>
+			<AbsDimension x="292" y="126" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset>
+					<AbsDimension x="100" y="-150" />
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name ="MyGarrisonsConfirmText" inherits="GameFontNormal" text="Are you sure you want to remove the timer for &lt;&gt;?" parentKey = "ConfirmQuestion">
+					<Size x="264" y="64" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="13" y="-13" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button name="MyGarrisonsYesButton" inherits="UIPanelButtonTemplate" text="Yes">
+				<Size x="62" y="27" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="52" y="-83" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:RemoveTimer()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MyGarrisonsNoButton" inherits="UIPanelButtonTemplate" text="No">
+				<Size x="62" y="27" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="171" y="-83" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisonsConfirmFrame:Hide()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+</Ui>

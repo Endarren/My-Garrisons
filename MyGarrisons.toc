@@ -9,3 +9,5 @@ GarrisonBuildings.xml
 GarrisonBuildings.lua
 MyGarrisonTimers.xml
 MyGarrisonTimers.lua
+MyGarrisonsConfirmFrame.xml
+MyGarrisonsConfirmFrame.lua

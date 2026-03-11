@@ -373,15 +373,288 @@ local CharacterHeaders       = {}
 
 local GBRealmList = {}
 local garrisonBuildingScrollChild = nil
+local GBSelectedNameRealm = ""
+local GBBuildingUI = {}
+local GBFollowerUI = {}
+local GBCharacterProperties = nil
+local realmOptionsPanel = nil
+
+local realmCharaList = nil
 
 local GBBuildingUI = {}
 local GBFollowerUI = {}
 
+local GBTimerFrame = nil
+
+local GBTimerScrollChild = nil
+
+local GBTimerScrollElements = {}
+
+local MGSelecedTimerIndex = -1;
+
+local MGSelectedTimerType = -1;
+local MGSelectedTimerChar = "";
+local GBIndex = -1;
+-- ================================================================================================================
+function MyGarrisons:SetUpGBTimerFrame()
+
+	--Initialize the frame.
+	GBTimerFrame = CreateFrame("Frame", "GBCharaTimers", GarrisonBuildings.garrisonBuildingScrollChild,"MGCharacterTimersFrame")
+
+	GBTimerFrame:SetPoint("TOPLEFT", GarrisonBuildings.garrisonBuildingScrollChild,10,-60 )
+	GBTimerFrame:Hide()
+	--Initialize the scroll child.
+	
+	GBTimerScrollChild = CreateFrame("Frame", "GBTimerScrollChild", GBTimerFrame.timescroll)
+	GBTimerScrollChild:SetSize(128, 28)
+	GBTimerScrollChild:SetPoint("TOPLEFT", GBTimerFrame.timescroll,10,-6 )
+	GBTimerScrollChild:Show()
+		
+	GBTimerFrame.timescroll.GBTimerScrollChild = GBTimerScrollChild
+ 
+	GBTimerFrame.timescroll:SetScrollChild(GBTimerScrollChild)
+
+
+end
+function MyGarrisons:UpdateGBTimers()
+
+--GBSelectedNameRealm
+	for k = 1, #GBTimerScrollElements do
+		if GBTimerScrollElements[k].Used ~= false then
+			if GBTimerScrollElements[k].TimerType == "Mission" then
+				--GBTimerScrollElements[k].Frame.timername
+				GBTimerScrollElements[k].Frame.timername:SetText(C_Garrison.GetMissionName(GBTimerScrollElements[k].TimerIndex))
+			end
+			
+			if GBTimerScrollElements[k].TimerType == "Building" then
+			GBTimerScrollElements[k].Frame.timername:SetText(MyGarrisons.db.global.Garrisons[GBSelectedNameRealm].Constructions[GBTimerScrollElements[k].TimerIndex].BuildingName)
+			end
+		end
+
+	end
+end
+function MyGarrisons:FillGBForCharacter()
+	MyGarrisons:ClearGBTimers()
+
+--GBSelectedNameRealm
+--MyGarrisons:AddGBTimerElement(charRealmName, timerType, timerIndex)
+
+		for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[GBSelectedNameRealm].Missions) do
+			MyGarrisons:AddGBTimerElement(GBSelectedNameRealm, "Mission", k2)
+			
+		end
+		for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[GBSelectedNameRealm].Constructions) do
+			MyGarrisons:AddGBTimerElement(GBSelectedNameRealm, "Building", k2)
+			
+		end
+		MyGarrisons:UpdateGBTimers()
+end
+
+--
+-- Frame
+-- Used
+-- Character Name and Realm
+-- Timer Type
+-- Timer Index
+--
+function MyGarrisons:AddGBTimerElement(charRealmName, timerType, timerIndex)
+	--GBTimerScrollChild
+	local found = false
+	local firstUnused = 0
+	for k = 1, #GBTimerScrollElements do
+		if found == false then
+			if GBTimerScrollElements[k].Used == false then
+				found = true
+				firstUnused = k
+			end
+		end
+	end
+	if firstUnused == 0 then
+		local newIndex = #GBTimerScrollElements+1
+		firstUnused = newIndex
+		GBTimerScrollElements[newIndex] = {Used = true, Name = charRealmName, TimerType = timerType, TimerIndex = timerIndex,
+											Frame = CreateFrame("Frame", "GBTimer"..newIndex,GBTimerScrollChild,"MGTimerElement")
+		
+		
+		}
+		if newIndex == 1 then
+		
+			GBTimerScrollElements[newIndex].Frame:SetPoint("TOPLEFT",GBTimerScrollChild,"TOPLEFT" )
+
+		else
+			GBTimerScrollElements[newIndex].Frame:SetPoint("TOPLEFT",GBTimerScrollElements[newIndex-1].Frame,"BOTTOMLEFT" )
+		end
+	
+	
+	end
+
+GBTimerScrollElements[firstUnused].Used = true
+GBTimerScrollElements[firstUnused].Name = charRealmName
+GBTimerScrollElements[firstUnused].TimerType = timerType
+GBTimerScrollElements[firstUnused].TimerIndex = timerIndex	
+GBTimerScrollElements[firstUnused].Frame:Show()
+
+GBTimerScrollElements[firstUnused].Frame.deleter:SetScript("OnClick" , function()
+
+	MGSelecedTimerIndex =  GBTimerScrollElements[firstUnused].TimerIndex;
+
+	MGSelectedTimerType = GBTimerScrollElements[firstUnused].TimerType;
+	MGSelectedTimerChar = charRealmName;
+	GBIndex = firstUnused
+	MyGarrisonsConfirmFrame.ConfirmQuestion:SetText("Are you sure you want to remove the timer for "..GBTimerScrollElements[firstUnused].Frame.timername:GetText().."?")
+	MyGarrisonsConfirmFrame:Show()
+	
+ end)
+end
+function MyGarrisons:RemoveTimer()
+	MyGarrisons:UnuseCharacterTimer(MGSelectedTimerChar, MGSelectedTimerType, MGSelecedTimerIndex)
+	MyGarrisons:UnuseGBTimerElement(GBIndex) 
+
+	if MGSelectedTimerType == "Mission" then
+		MyGarrisons.db.global.Garrisons[MGSelectedTimerChar].Missions[MGSelecedTimerIndex] = nil
+	end
+	MGSelecedTimerIndex =  -1;
+
+	MGSelectedTimerType = -1;
+	MGSelectedTimerChar = "";
+	GBIndex = -1
+	MyGarrisonsConfirmFrame:Hide()
+	--TODO Remove from database.
+end
+function MyGarrisons:SwitchGBTimerElements(index1, index2)
+
+	--Switch Fields.
+	local temp1Name = GBTimerScrollElements[index1].Name
+	local temp1Type = GBTimerScrollElements[index1].TimerType
+	local temp1Index = GBTimerScrollElements[index1].TimerIndex
+	local temp1Used = GBTimerScrollElements[index1].Used
+	
+	local temp2Name = GBTimerScrollElements[index2].Name
+	local temp2Type = GBTimerScrollElements[index2].TimerType
+	local temp2Index = GBTimerScrollElements[index2].TimerIndex	
+	local temp2Used = GBTimerScrollElements[index2].Used
+	
+	
+	GBTimerScrollElements[index2].Name 			= temp1Name
+	GBTimerScrollElements[index2].TimerType 	= temp1Type
+	GBTimerScrollElements[index2].TimerIndex 	= temp1Index
+	GBTimerScrollElements[index2].Used 			= temp1Used
+	
+	
+	GBTimerScrollElements[index1].Name 			= temp2Name
+	GBTimerScrollElements[index1].TimerType 	= temp2Type
+	GBTimerScrollElements[index1].TimerIndex 	= temp2Index
+	GBTimerScrollElements[index1].Used 			= temp2Used
+	
+	--Switch Frame Data
+	
+	
+	
+end
+function MyGarrisons:UnuseGBTimerElement(index)
+
+	local lastIndex = index
+	for k = index+1, #GBTimerScrollElements do
+		if GBTimerScrollElements[k].Used == true then
+			MyGarrisons:SwitchGBTimerElements(k-1, k)
+			lastIndex = k
+		end
+	end
+
+	GBTimerScrollElements[lastIndex].Used = false
+	GBTimerScrollElements[lastIndex].Frame:Hide()
+	GBTimerScrollElements[lastIndex].TimerType = "Empty"
+	GBTimerScrollElements[lastIndex].TimerIndex 	= 0
+
+end
+function MyGarrisons:ClearGBTimers()
+	for k = 1, #GBTimerScrollElements do
+		GBTimerScrollElements[k].Frame:Hide()
+		GBTimerScrollElements[k].Used = false
+		GBTimerScrollElements[k].TimerType = "Empty"
+		GBTimerScrollElements[k].TimerIndex 	= 0
+	end
+
+end
+-- =========================
+function MyGarrisons:SetUpCharacterProperties()
+
+--CharacterProperties
+
+	GBCharacterProperties = CreateFrame("Frame", "GBCharaProp", GarrisonBuildings.garrisonBuildingScrollChild,"CharacterProperties")
+--	GBCharacterProperties:SetSize(278,250)
+	GBCharacterProperties:SetPoint("TOPLEFT", GarrisonBuildings.garrisonBuildingScrollChild,10,-60 )
+	GBCharacterProperties:Show()
+	GBCharacterProperties:Hide()
+	GBCharacterProperties.deletechar:SetScript("OnClick", function ()  
+	
+	--TODO character Delete
+	local splitted = {}
+splitted = 	{MyGarrisons:splitAtFirst(GBSelectedNameRealm, "-")}
+	local realmIndex = 0
+
+	
+	for k,v in pairs(GBRealmList) do
+		if GBRealmList[k].RealmName == splitted[2] then
+			realmIndex = k
+		end
+	end
+	
+	local foundIndex = 0;
+	
+	for k,v in pairs(GBRealmList[realmIndex].Characters) do
+		if GBRealmList[realmIndex].Characters[k].Name == splitted[1] then
+		foundIndex = k
+		end
+	
+	end
+	GBRealmList[realmIndex].Characters[foundIndex].CharProp:Hide()
+	MyGarrisons:DeleteCharacterInRealmList(realmIndex, foundIndex)
+	local timersIndex = 0;
+	
+	for k,v in pairs (CharacterHeaders) do
+		if CharacterHeaders[k].Name == GBSelectedNameRealm then
+		timersIndex = k
+		end
+	end
+	MyGarrisons:UnuseCharacterHeader(timersIndex)
+	MyGarrisons.db.global.Garrisons[GBSelectedNameRealm] = nil
+	end)
+
+end
+function MyGarrisons:FillCharacterPropertiesForSelected()
+	GBCharacterProperties.charaname:SetText(GBSelectedNameRealm);
+--GBSelectedNameRealm 
+
+end
+function MyGarrisons:BuildRealmOptionPanel()
+
+
+	realmOptionsPanel = CreateFrame("Frame", "re",GarrisonBuildings.garrisonBuildingScrollChild, "RealmOptionsFrame" )
+	realmOptionsPanel:SetPoint("TOPLEFT", GarrisonBuildings.garrisonBuildingScrollChild,10,-60 )
+	realmCharaList = CreateFrame("Frame", "realmCharaList", realmOptionsPanel.scroll)
+	realmCharaList:SetSize(128, 28)
+	realmCharaList:SetPoint("TOPLEFT", realmOptionsPanel.scroll,10,-6 )
+	realmCharaList:Show()
+		
+	realmOptionsPanel.scroll.realmCharaList = realmCharaList
+ 
+	realmOptionsPanel.scroll:SetScrollChild(realmCharaList)
+	
+	--realmOptionsPanel.scroll
+	realmOptionsPanel:Hide();
+
+end
+function MyGarrisons:SetUpRealmOptions(realm)
+
+	realmOptionsPanel:Show()
+
+end
 function MyGarrisons:FillFollowersEmpty()
 
 	for k = 1, 25 do
 		GBFollowerUI[k] = {Texture = nil, FollowerID = 0, 
-		Frame =CreateFrame("Frame", "Follower"..k,garrisonBuildingScrollChild,"FollowerFrame")}
+		Frame =CreateFrame("Frame", "Follower"..k,garrisonBuildingScrollChild,"FollowerFrame"), Used = false}
 		if k == 1 then
 		
 			GBFollowerUI[k].Frame:SetPoint("TOPLEFT",garrisonBuildingScrollChild,"TOPLEFT" )
@@ -393,6 +666,167 @@ function MyGarrisons:FillFollowersEmpty()
 	end
 
 end
+function MyGarrisons:AddFollowerTOUI(charname, followerIndex)
+	local firstUnusedFrame = 0;
+	local unusedFound = false;
+	if #GBFollowerUI == 0 then
+		--firstUnusedFrame = 1
+		GBFollowerUI[1] = {Texture = nil, FollowerID = 0, 
+		Frame =CreateFrame("Frame", "Follower"..k,garrisonBuildingScrollChild,"FollowerFrame"), Used = false}
+		GBFollowerUI[1].Frame:SetPoint("TOPLEFT",garrisonBuildingScrollChild,"TOPLEFT" )
+	end
+	
+	for k,v in pairs(GBFollowerUI) do
+		if GBFollowerUI[k].Used == false and unusedFound == false then
+			unusedFound = true;
+			firstUnusedFrame = k
+		end
+	end
+	if unusedFound == false then
+		firstUnusedFrame = #GBFollowerUI + 1
+		GBFollowerUI[firstUnusedFrame] = {Texture = nil, FollowerID = 0, 
+		Frame =CreateFrame("Frame", "Follower"..k,garrisonBuildingScrollChild,"FollowerFrame"), Used = false}
+		GBFollowerUI[firstUnusedFrame].Frame:SetPoint("TOPLEFT",GBFollowerUI[firstUnusedFrame-1].Frame,"BOTTOMLEFT" )
+	end
+	
+	
+	
+	
+	
+	
+	-------------------------------------------------------
+	
+	--MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex]
+		GBFollowerUI[firstUnusedFrame].Frame:Show()
+		GBFollowerUI[firstUnusedFrame].Frame.followername:SetText(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Name)
+GBFollowerUI[firstUnusedFrame].FollowerID =followerIndex
+		GBFollowerUI[firstUnusedFrame].Frame.followerclass:SetText("Class: "..MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Class)
+		SetPortraitTexture(GBFollowerUI[firstUnusedFrame].Frame.followerportrait.Portrait,MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].DisplayID)
+		local color = ITEM_QUALITY_COLORS[MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Quality]
+		
+		GBFollowerUI[firstUnusedFrame].Used = true;
+		GBFollowerUI[firstUnusedFrame].Frame.followerportrait.PortraitRingQuality:SetVertexColor(color.r, color.g, color.b);
+        GBFollowerUI[firstUnusedFrame].Frame.followerportrait.Level:SetText(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Level);
+    
+		GBFollowerUI[firstUnusedFrame].Frame.followerportrait.LevelBorder:SetVertexColor(color.r, color.g, color.b);
+		
+		local counter = 0;
+		if C_Garrison.GetFollowerModelItems(followerIndex) ~= nil then
+		for v,h in pairs (C_Garrison.GetFollowerModelItems(followerIndex)) do
+	
+			local itemName, _, itemQuality, _, _, _, _, _, _, itemTexture = GetItemInfo(h);
+			if counter == 1 then
+				GBFollowerUI[firstUnusedFrame].Frame.gear2.text:SetTexture(itemTexture)
+				counter = 0
+			end
+			if counter == 0 then
+				GBFollowerUI[firstUnusedFrame].Frame.gear1.text:SetTexture(itemTexture)
+				counter = 1;
+			end
+			
+		end
+		end
+		GBFollowerUI[firstUnusedFrame].Frame.expbar:SetMinMaxValues(1, MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].LevelXP)
+		GBFollowerUI[firstUnusedFrame].Frame.expbar:SetValue(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].XP)
+		GBFollowerUI[firstUnusedFrame].Frame.expbar.expstr:SetText(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].XP.."/"..MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].LevelXP);
+		
+		GBFollowerUI[firstUnusedFrame].Frame.expbar:Show()
+		GBFollowerUI[firstUnusedFrame].Frame.ability1.text:SetTexture(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[1].Icon)
+		GBFollowerUI[firstUnusedFrame].Frame.ability1:SetScript("OnEnter", function() 
+				GarrisonFollowerAbilityTooltip:ClearAllPoints();
+				GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", GBFollowerUI[firstUnusedFrame].Frame.ability1, "BOTTOMRIGHT");
+		
+				GarrisonFollowerAbilityTooltip_Show(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[1].ID) 
+				end)
+		GBFollowerUI[firstUnusedFrame].Frame.ability1:SetScript("OnLeave", function() GarrisonFollowerAbilityTooltip:Hide(); end)
+		if MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[2] ~= nil then
+		GBFollowerUI[firstUnusedFrame].Frame.ability2.text:SetTexture(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[2].Icon)
+		
+		GBFollowerUI[firstUnusedFrame].Frame.ability2:SetScript("OnEnter", function() GarrisonFollowerAbilityTooltip:ClearAllPoints();
+				GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", GBFollowerUI[firstUnusedFrame].Frame.ability2, "BOTTOMRIGHT");
+		
+				GarrisonFollowerAbilityTooltip_Show(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[2].ID) 
+		
+		
+		end)
+		GBFollowerUI[firstUnusedFrame].Frame.ability2:SetScript("OnLeave", function() GarrisonFollowerAbilityTooltip:Hide(); end)
+		end
+		if MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[3] ~= nil then
+			GBFollowerUI[firstUnusedFrame].Frame.ability3.text:SetTexture(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[3].Icon)
+			GBFollowerUI[firstUnusedFrame].Frame.ability3:SetScript("OnEnter", function() 
+													GarrisonFollowerAbilityTooltip:ClearAllPoints();
+													GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", GBFollowerUI[firstUnusedFrame].Frame.ability3, "BOTTOMRIGHT");
+													GarrisonFollowerAbilityTooltip_Show(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[3].ID) 
+
+
+													end)
+			GBFollowerUI[firstUnusedFrame].Frame.ability3:SetScript("OnLeave", function() GarrisonFollowerAbilityTooltip:Hide(); end)
+		end
+		if MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[4]~= nil then
+			GBFollowerUI[firstUnusedFrame].Frame.ability4.text:SetTexture(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[4].Icon)
+			GBFollowerUI[firstUnusedFrame].Frame.ability4:SetScript("OnEnter", function() 
+				GarrisonFollowerAbilityTooltip:ClearAllPoints();
+				GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", GBFollowerUI[firstUnusedFrame].Frame.ability4, "BOTTOMRIGHT");
+		
+				GarrisonFollowerAbilityTooltip_Show(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Abilities[4].ID) 
+
+			end)
+			GBFollowerUI[firstUnusedFrame].Frame.ability4:SetScript("OnLeave", function() GarrisonFollowerAbilityTooltip:Hide(); end)
+		end
+		
+		-------------------------------------------------
+		
+		if MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[1] ~= nil then
+			GBFollowerUI[firstUnusedFrame].Frame.trait1.text:SetTexture(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[1].Icon)
+			GBFollowerUI[firstUnusedFrame].Frame.trait1:SetScript("OnEnter", function()  
+		
+				GarrisonFollowerAbilityTooltip:ClearAllPoints();
+				GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", GBFollowerUI[firstUnusedFrame].Frame.trait1, "BOTTOMRIGHT");
+		
+				GarrisonFollowerAbilityTooltip_Show(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[1].ID) 
+			end)
+			GBFollowerUI[firstUnusedFrame].Frame.trait1:SetScript("OnLeave", function() GarrisonFollowerAbilityTooltip:Hide(); end)
+		end
+		if MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[2] ~= nil then
+			GBFollowerUI[firstUnusedFrame].Frame.trait2.text:SetTexture(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[2].Icon)
+			GBFollowerUI[firstUnusedFrame].Frame.trait2:SetScript("OnEnter", function() 
+				GarrisonFollowerAbilityTooltip:ClearAllPoints();
+				GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", GBFollowerUI[firstUnusedFrame].Frame.trait2, "BOTTOMRIGHT");
+		
+				GarrisonFollowerAbilityTooltip_Show(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[2].ID)
+				
+		-- print(C_Garrison.GetFollowerModelItems(k));
+		
+			end)
+			GBFollowerUI[firstUnusedFrame].Frame.trait2:SetScript("OnLeave", function() GarrisonFollowerAbilityTooltip:Hide(); end)
+		end
+		if MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[3] ~= nil then
+			GBFollowerUI[firstUnusedFrame].Frame.trait3.text:SetTexture(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[3].Icon)
+			GBFollowerUI[firstUnusedFrame].Frame.trait3:SetScript("OnEnter", function() 
+
+			GarrisonFollowerAbilityTooltip:ClearAllPoints();
+				GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", GBFollowerUI[firstUnusedFrame].Frame.trait3, "BOTTOMRIGHT");
+		
+				GarrisonFollowerAbilityTooltip_Show(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[3].ID) 
+		end)
+		GBFollowerUI[firstUnusedFrame].Frame.trait3:SetScript("OnLeave", function() GarrisonFollowerAbilityTooltip:Hide(); end)
+		end
+		if MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[4] ~= nil then
+			GBFollowerUI[firstUnusedFrame].Frame.trait4.text:SetTexture(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[4].Icon)
+			GBFollowerUI[firstUnusedFrame].Frame.trait4:SetScript("OnLeave", function() GarrisonFollowerAbilityTooltip:Hide(); end)
+			GBFollowerUI[firstUnusedFrame].Frame.trait4:SetScript("OnEnter", function()
+				GarrisonFollowerAbilityTooltip:ClearAllPoints();
+				GarrisonFollowerAbilityTooltip:SetPoint("TOPLEFT", GBFollowerUI[firstUnusedFrame].Frame.trait4, "BOTTOMRIGHT");
+				GarrisonFollowerAbilityTooltip_Show(MyGarrisons.db.global.Garrisons[charname].Followers[followerIndex].Traits[4].ID) 
+			end)
+		end
+		
+		--Portrait
+		--GBFollowerUI[firstUnusedFrame].Frame.followerportrait.PortraitRingQuality:SetVertexColor(color.r, color.g, color.b);
+		--GBFollowerUI[firstUnusedFrame].Frame.followerportrait
+
+	
+end
 function MyGarrisons:HideAllFollowers()
 	for k,v in pairs (GBFollowerUI) do
 		GBFollowerUI[k].Used = false
@@ -400,21 +834,27 @@ function MyGarrisons:HideAllFollowers()
 		GBFollowerUI[k].Frame:Hide()
 	end
 end
-function MyGarrisons:SetUpFollowersForChar(charname)
-	local currentFrame = 1
-	for k,v in pairs (MyGarrisons.db.global.Garrisons[charname].Followers) do
-	
-		GBFollowerUI[currentFrame].Frame:Show()
-		GBFollowerUI[currentFrame].Frame.followername:SetText(v.Name)
-		GBFollowerUI[currentFrame].Frame.followerlevel:SetText("Level: "..v.Level)
-		GBFollowerUI[currentFrame].Frame.followerclass:SetText("Class: "..v.Class)
-		SetPortraitTexture(GBFollowerUI[currentFrame].Frame.followerportrait,v.DisplayID)
-		--GBFollowerUI[currentFrame].Frame.followerportrait
-		currentFrame = currentFrame + 1
+local currentSelectedLogFrame = 0;
+local currentSelectedCharacter = "";
+function MyGarrisons:ClearFollowers()
+	for k,v in pairs(GBFollowerUI) do
+		GBFollowerUI[k].Used = false
+		GBFollowerUI[k].Frame:Hide()
 	end
 
 
-
+end
+function MyGarrisons:SetUpFollowersForChar(charname)
+	local currentFrame = 1
+	currentSelectedLogFrame = 2;
+	currentSelectedCharacter = charname
+	for k,v in pairs (MyGarrisons.db.global.Garrisons[charname].Followers) do
+	
+		MyGarrisons:AddFollowerTOUI(charname, k)
+	
+	
+		
+	end
 end
 
 --function MyGarrisons
@@ -422,14 +862,19 @@ function MyGarrisons:FillGarrisonBuildings()
 --GarrisonBuildings.charScroll.characterScrollContent
 --GarrisonBuildings.charScroll.characterScrollContent
 	local realmList = {}
+	local charPerRealm = {}
 	--MyGarrisons.db.global.Garrisons[name.."-"..realm]
 	for k,v in pairs (MyGarrisons.db.global.Garrisons) do
 		--MyGarrisons:splitAtFirst(str, pattern)
 		local parts = {MyGarrisons:splitAtFirst(k, "-")}
-
+	
 		if realmList[parts[2]] == nil then
+			charPerRealm[parts[2]] = 1
 			realmList[parts[2]] = 1
+		else
+		charPerRealm[parts[2]] = charPerRealm[parts[2]] +1
 		end
+		
 		
 	end
 	for k,v in pairs (realmList) do
@@ -445,11 +890,16 @@ function MyGarrisons:FillGarrisonBuildings()
 		else
 			GBRealmList[#GBRealmList].Frame:SetPoint("TOPLEFT",GBRealmList[#GBRealmList-1].CharBag,"BOTTOMLEFT" )
 		end
+		local temprealm = k
 		GBRealmList[#GBRealmList].CharBag:SetPoint("TOPLEFT",GBRealmList[#GBRealmList].Frame,"BOTTOMLEFT" )
-			local ind = #GBRealmList
+		GBRealmList[#GBRealmList].Frame.realmProp:SetScript("OnClick", function ()
+		GBTimerFrame:Hide()
+		MyGarrisons:HideAllFollowers() MyGarrisons:HideAllBuildings()  MyGarrisons:SetUpRealmOptions(temprealm) end)
+		local ind = #GBRealmList
 			
-		for k2 = 1,11 do
+		for k2 = 1,charPerRealm[k] do
 		local tempK = k2
+
 			GBRealmList[#GBRealmList].Characters[k2] = {Used = false, Name = "", Expanded = false,
 			Frame = CreateFrame("Frame", "CharacterListTemplate"..(#GBRealmList)..k2,GBRealmList[#GBRealmList].CharBag,"CharacterListTemplate"),
 			CharProp = CreateFrame("Frame", "CharacterProp"..(#GBRealmList)..k2,GBRealmList[#GBRealmList].CharBag,"CharacterProp")
@@ -461,27 +911,55 @@ function MyGarrisons:FillGarrisonBuildings()
 			
 			--MyGarrisons:SetBuildingListForCharacter(charname)
 			--MyGarrisons:HideAllBuildings()
-			GBRealmList[#GBRealmList].Characters[k2].CharProp.follow:SetScript("OnClick",  function() MyGarrisons:HideAllFollowers() ()MyGarrisons:HideAllBuildings()  end)
+--GBRealmList[#GBRealmList].Characters[k2].CharProp.follow:SetScript("OnClick",  function() realmOptionsPanel:Hide() MyGarrisons:HideAllFollowers() ()MyGarrisons:HideAllBuildings()  end)
 			
 			--MyGarrisons:SetUpFollowersForChar(charname)
 			
-			GBRealmList[#GBRealmList].Characters[k2].CharProp.follow:SetScript("OnClick", function () MyGarrisons:HideAllFollowers() MyGarrisons:HideAllBuildings()MyGarrisons:SetUpFollowersForChar(GBRealmList[ind].Characters[k2].Name.."-"..GBRealmList[ind].RealmName) end)
+			GBRealmList[#GBRealmList].Characters[k2].CharProp.follow:SetScript("OnClick", function ()
+GBTimerFrame:Hide()
+	GBCharacterProperties:Hide()
+			realmOptionsPanel:Hide() MyGarrisons:HideAllFollowers() MyGarrisons:HideAllBuildings()MyGarrisons:SetUpFollowersForChar(GBRealmList[ind].Characters[k2].Name.."-"..GBRealmList[ind].RealmName) end)
 			GBRealmList[#GBRealmList].Characters[k2].CharProp.buildings:SetScript("OnClick", function () 
-
+GBTimerFrame:Hide()
+	GBCharacterProperties:Hide()
 MyGarrisons:HideAllFollowers()
 MyGarrisons:SetBuildingListForCharacter(GBRealmList[ind].Characters[k2].Name.."-"..GBRealmList[ind].RealmName)
 			end)
+			GBRealmList[#GBRealmList].Characters[k2].CharProp.timersbut:SetScript("OnClick", function () 
+--TODO
+			GBSelectedNameRealm = GBRealmList[ind].Characters[k2].Name.."-"..GBRealmList[ind].RealmName
+			GBTimerFrame:Show()
+			GBCharacterProperties:Hide()
+			MyGarrisons:HideAllFollowers()
+			MyGarrisons:HideAllBuildings()
+			MyGarrisons:FillGBForCharacter()
+			end)
+			--MyGarrisons:DeleteCharacterInRealmList(realmIndex, cindex)
 			
+		--	GBCharacterProperties:Show()
+	--GBCharacterProperties:Hide()
+	
 			GBRealmList[#GBRealmList].Characters[k2].Frame.charbut:SetScript("OnClick",function ()
+			GBTimerFrame:Hide()
 					if GBRealmList[ind].Characters[tempK].Expanded == false  then
+			realmOptionsPanel:Hide() MyGarrisons:HideAllFollowers() MyGarrisons:HideAllBuildings()
 
+			GBSelectedNameRealm = GBRealmList[ind].Characters[k2].Name.."-"..GBRealmList[ind].RealmName
+			
+			GBCharacterProperties:Show()
+			MyGarrisons:FillCharacterPropertiesForSelected()
 						GBRealmList[ind].Characters[tempK].CharProp:Show()
 						GBRealmList[ind].Characters[tempK].Expanded = true
-						GBRealmList[ind].Characters[tempK].CharProp:SetHeight(55)
+						GBRealmList[ind].Characters[tempK].CharProp:SetHeight(74)
 						MyGarrisons:ExpandCollapseRealm(ind, true)
 		
 			
 					else
+								realmOptionsPanel:Hide() MyGarrisons:HideAllFollowers() MyGarrisons:HideAllBuildings()
+
+			GBSelectedNameRealm = GBRealmList[ind].Characters[k2].Name.."-"..GBRealmList[ind].RealmName
+			GBCharacterProperties:Show()
+			MyGarrisons:FillCharacterPropertiesForSelected()
 						GBRealmList[ind].Characters[tempK].CharProp:Hide()
 						GBRealmList[ind].Characters[tempK].Expanded = false
 						MyGarrisons:ExpandCollapseRealm(ind, true)
@@ -614,6 +1092,36 @@ function MyGarrisons:HideShowCharacters(index, shown)
 	end
 	MyGarrisons:UpdateColors ()
 end
+function MyGarrisons:DeleteCharacterInRealmList(realmIndex, cindex)
+
+	for index = cindex+1, MyGarrisons:TableSize(GBRealmList[realmIndex].Characters) do
+		if GBRealmList[realmIndex].Characters[index].Used == false then
+			GBRealmList[realmIndex].Characters[index-1].Used = false
+			GBRealmList[realmIndex].Characters[index-1].Frame:Hide();
+
+			return true
+		else
+		
+			MyGarrisons:SwitchCharactersInRealm(realmIndex, index-1, index)
+		end
+	
+	end
+	GBRealmList[realmIndex].Characters[MyGarrisons:TableSize(GBRealmList[realmIndex].Characters)].Used = false
+			GBRealmList[realmIndex].Characters[MyGarrisons:TableSize(GBRealmList[realmIndex].Characters)].Frame:Hide();
+
+end
+function MyGarrisons:SwitchCharactersInRealm(realmIndex, cIndex1, cIndex2)
+
+	local tempName1 = GBRealmList[realmIndex].Characters[cIndex1].Name
+	local tempName2 = GBRealmList[realmIndex].Characters[cIndex2].Name
+	
+	GBRealmList[realmIndex].Characters[cIndex1].Name = tempName2
+	GBRealmList[realmIndex].Characters[cIndex1].Frame.charbut.charname:SetText(tempName2)
+	
+	GBRealmList[realmIndex].Characters[cIndex2].Name = tempName1
+	GBRealmList[realmIndex].Characters[cIndex2].Frame.charbut.charname:SetText(tempName1)
+
+end
 function MyGarrisons:ExpandCollapseRealm(index, boo)
 	if boo == false then
 		GBRealmList[index].CharBag:SetHeight(1);
@@ -623,8 +1131,8 @@ function MyGarrisons:ExpandCollapseRealm(index, boo)
 		--CharacterHeaders[index].TimerBag:Hide()
 
 	else
-	--55
-		local bagHeight = ( 16)*MyGarrisons:CountUsedChars( index) + (55 * MyGarrisons:CountExpandedCharactersInRealm(index))
+	--74
+		local bagHeight = ( 16)*MyGarrisons:CountUsedChars( index) + (74 * MyGarrisons:CountExpandedCharactersInRealm(index))
 		if bagHeight ~= 0 then
 			GBRealmList[index].CharBag:SetHeight(bagHeight);
 			GBRealmList[index].Expanded = true
@@ -731,22 +1239,31 @@ function MyGarrisons:FillCharacters()
 end
 
 function MyGarrisons:UnuseCharacterHeader(index)
-	CharacterHeaders[index].Name     = ""
-	CharacterHeaders[index].Used     = false
-	CharacterHeaders[index].Expanded = false
+--checkTimer = MyGarrisons:ScheduleRepeatingTimer("TimerCheckFunc", 1 )
+	MyGarrisons:CancelTimer(checkTimer)
+	
 	
 	--TODO:  Uses the timers for this index.
 
 	--TODO:  Reposition the active Character Headers
+	local lastUsed = index
 	for k = index+1, #CharacterHeaders do
-		MyGarrisons:SwapCharacterHeaders(k-1, k)
+		if CharacterHeaders[k].Used ~= false then
+			MyGarrisons:SwapCharacterHeaders(k-1, k)
+			lastUsed = k
+		end
 	end
 
-	CharacterHeaders[#CharacterHeaders].Frame:Hide();
-	CharacterHeaders[#CharacterHeaders].TimerBag:Hide();
+	CharacterHeaders[lastUsed].Frame:Hide();
+	CharacterHeaders[lastUsed].TimerBag:Hide();
+	CharacterHeaders[lastUsed].Name     = ""
+	CharacterHeaders[lastUsed].Used     = false
+	CharacterHeaders[lastUsed].Expanded = false
+	checkTimer = MyGarrisons:ScheduleRepeatingTimer("TimerCheckFunc", 1 )
+	GBCharacterProperties:Hide()
 end
 function MyGarrisons:SwapCharacterHeaders(index1, index2)
-
+	
 	local tempName1                   = CharacterHeaders[index1].Name 
 	local tempUsed1                   = CharacterHeaders[index1].Used 
 	local tempExp1                    = CharacterHeaders[index1].Expanded 
@@ -756,45 +1273,65 @@ function MyGarrisons:SwapCharacterHeaders(index1, index2)
 	local tempUsed2                   = CharacterHeaders[index2].Used 
 	local tempExp2                    = CharacterHeaders[index2].Expanded 
 
-	CharacterHeaders[index2].Name     = tempName1
-	CharacterHeaders[index2].Used     = tempUsed1
-	CharacterHeaders[index2].Expanded = tempExp1
-
-	CharacterHeaders[index1].Name     = tempName2
-	CharacterHeaders[index1].Used     = tempUsed2
-	CharacterHeaders[index1].Expanded = tempExp2
+	
 	--TODO:  Update the GUI
 	--Swap timers
 	local temp1Timers = {};
 	local temp2Timers = {};
 
-	for k,v in pairs (CharacterHeaders[index1].Timers) do
-		tinsert(temp1Timers,{
-		
-			Name      = CharacterHeaders[index1].Timers[k].Name,
-			TimerType = CharacterHeaders[index1].Timers[k].TimerType, 
-			ID        = CharacterHeaders[index1].Timers[k].ID,
-			Used      = CharacterHeaders[index1].Timers[k].Used
-		})
-		MyGarrisons:UnuseCharacterTimer(CharacterHeaders[index1].Timers[k].Name, CharacterHeaders[index1].Timers[k].TimerType, CharacterHeaders[index1].Timers[k].ID)
-	end
+	MyGarrisons:ClearTimersForCharacter(index1)
+	MyGarrisons:ClearTimersForCharacter(index2)
 
-	for k,v in pairs (CharacterHeaders[index2].Timers) do
-		tinsert(temp2Timers,{
-			Name      = CharacterHeaders[index2].Timers[k].Name,
-			TimerType = CharacterHeaders[index2].Timers[k].TimerType, 
-			ID        = CharacterHeaders[index2].Timers[k].ID,
-			Used      = CharacterHeaders[index2].Timers[k].Used})
-		MyGarrisons:UnuseCharacterTimer(CharacterHeaders[index2].Timers[k].Name, CharacterHeaders[index2].Timers[k].TimerType, CharacterHeaders[index2].Timers[k].ID)
-	end
-	for k,v in pairs(temp1Timers)do
-		MyGarrisons:AddCharacterTimer(temp1Timers[k].Name, temp1Timers[k].TimerType, temp1Timers[k].ID)
-	end
-	for k,v in pairs(temp2Timers)do
-		MyGarrisons:AddCharacterTimer(temp2Timers[k].Name, temp2Timers[k].TimerType, temp2Timers[k].ID)
-	end
+	CharacterHeaders[index1].Frame.charname:SetText(tempName2)
+	
+	CharacterHeaders[index1].Frame.classtexture:SetAtlas(classTextureNames[MyGarrisons.db.global.Garrisons[tempName2].Class])
+
+	CharacterHeaders[index2].Frame.charname:SetText(tempName1)
+
+	CharacterHeaders[index2].Frame.classtexture:SetAtlas(classTextureNames[MyGarrisons.db.global.Garrisons[tempName1].Class])
+
+
+	CharacterHeaders[index1].Name = tempName2
+
+	CharacterHeaders[index2].Name = tempName1
+
+	for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[tempName2 ].Missions) do
+			MyGarrisons:AddCharacterTimer(tempName2 , "Mission", k2)
+			
+		end
+		for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[tempName2 ].Constructions) do
+			MyGarrisons:AddCharacterTimer(tempName2 , "Building", k2)
+			
+		end
+		for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[CharacterHeaders[index2].Name ].Missions) do
+			MyGarrisons:AddCharacterTimer(CharacterHeaders[index2].Name , "Mission", k2)
+			
+		end
+		for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[CharacterHeaders[index2].Name ].Constructions) do
+			MyGarrisons:AddCharacterTimer(CharacterHeaders[index2].Name , "Building", k2)
+			
+			
+		end
+		if GBSelectedNameRealm ==tempName2 then
+		MyGarrisons:ClearGBTimers()
+			MyGarrisons:FillGBForCharacter()
+			
+		end
+		if GBSelectedNameRealm ==CharacterHeaders[index2].Name  then
+			MyGarrisons:ClearGBTimers()
+			MyGarrisons:FillGBForCharacter()
+			
+		end
 	MyGarrisons:UpdateColors ()
 end
+function MyGarrisons:ClearTimersForCharacter(index)
+	for k,v in pairs (CharacterHeaders[index].Timers) do
+		CharacterHeaders[index].Timers[k].Used = false
+	
+	end
+end
+
+
 function MyGarrisons:CountUsedTimers(index)
 	local count = 0;
 	for k,v in pairs (CharacterHeaders[index].Timers) do
@@ -907,6 +1444,9 @@ function MyGarrisons:UnuseCharacterTimer2(charname, typeID, missID)
 
 end
 function MyGarrisons:UnuseCharacterTimer(charname, typeID, missID)
+
+
+
 	local charactersH = 0;
 	for k,v in pairs (CharacterHeaders) do
 		if CharacterHeaders[k].Name == charname then
@@ -1044,6 +1584,14 @@ local NeooptionTable = {
 									func = function ()
 									GarrisonBuildings:Show()
 										 end
+						},
+						scan 	=	{
+									name = "SCAN",
+									desc = "Shows the timer frame",
+									type = "execute",
+									func = function ()
+									MyGarrisons:ScanShipments()
+										 end
 						}
 
 				}
@@ -1052,10 +1600,58 @@ local NeooptionTable = {
 LibStub("AceConfig-3.0"):RegisterOptionsTable("MyGarrisons", NeooptionTable, {"gar"})
 
 
+---------------------------------------------------------------------------------------------------------------------------------------------------
+--Shipments
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+function MyGarrisons:ScanShipments()
+
+	local nam, realmi = UnitName("player")
+	
+	if MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments == nil then
+		MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments = {}
+	end
+	local MyBuildings = C_Garrison.GetBuildings();
+	
+	for i = 1, #MyBuildings do 
+		local buildingID = MyBuildings[i].buildingID;
+        if ( buildingID ) then
+			local shipie = {C_Garrison.GetLandingPageShipmentInfo(buildingID)};
+			if shipie[1] ~= nil then
+				if shipie[9] ~= nil then
+					if MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments [shipie[9]] == nil then
+				MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments [shipie[9]] = {	TotalMax = shipie[3],
+																									TotalOrdered = shipie[5],
+																									TotalDone = shipie[4],
+																									StartTime = 0,
+																									EndTime = 0}
+				--print(" N "..shipie[1])
+				end
+				
+				end
+			end
+			
+			
+			--1		Building Name
+			--2		WorkOrder Icon
+			--3		Max Orders
+			--4		Orders Done
+			--5		Total number of orders placed
+			--6		Time order placed in seconds?
+			--7		Total time for one order in seconds
+			--8		Remaining Time for current Order in string
+			--9		Type of place(Mine, Garden)
+			
+			
+		end
+	
+	end
+
+end
 
 
+---------------------------------------------------------------------------------------------------------------------------------------------------
 ---Buildings
 
 
@@ -1073,7 +1669,12 @@ function MyGarrisons:ProgressCheck()
 
 			end
 			if k2 == "duration" then
-
+--local currentMissions = C_Garrison.GetInProgressMissions()
+--for k,v in pairs (currentMissions) do
+	--local tempMissionID = v.missionID
+	--local tempTimeLeftString = v.timeLeft
+	
+	
 				local timeTab = MyGarrisons:DetermineDuration(v2)
 				--("%m_%d_%y/%H:%M:%S")
 				local startTime = caldate:parse(date("%m_%d_%y/%H:%M:%S"))
@@ -1154,20 +1755,14 @@ function MyGarrisons:SaveMission(missionID, followers)
 				for k2,v2 in pairs ( C_Garrison.GetFollowerAbilities(tostring(k))) do 
 
 					if v2.id == 221 then
-						print("EPIC MOUNT")
+						--print("EPIC MOUNT")
 						epicmountcount = epicmountcount + 1
 					end
 
 				end
 			end
 		end
-	
-	
-	
-	
-	
-	
-	
+
 	--	print("creating entry for mission")
 		local d2 = caldate:parse( date("%m_%d_%y/%H:%M:%S"))
 		--local missionTimeString = C_Garrison.GetMissionTimes(missionID)
@@ -1191,6 +1786,11 @@ function MyGarrisons:SaveMission(missionID, followers)
 																							EndTimer  = Meta.__tostring(d2), 
 																							Followers = followers}
 		MyGarrisons:AddCharacterTimer(nam.."-"..GetRealmName(), "Mission", missionID)
+		if GBSelectedNameRealm ==nam.."-"..GetRealmName() then
+			
+			MyGarrisons:ClearGBTimers()
+			MyGarrisons:FillGBForCharacter()
+		end
 	end
 	
 end
@@ -1472,7 +2072,7 @@ function MyGarrisons:AddConstruction(name, realm, plotInstanceID, buildingID)
 	local d2 = caldate:parse( date("%m_%d_%y/%H:%M:%S"))
 	
 	local buildingInfo = {C_Garrison.GetBuildingInfo(buildingID)};
-	local timeStr = buildingInfo[9];
+	local timeStr = buildingInfo[10];
 	d2.second = d2.second +(MyGarrisons:buildingTimeToSeconds(timeStr))
 		--local missionTimeString = C_Garrison.GetMissionTimes(missionID)
 		--print(strfind(C_Garrison.GetMissionTimes(missionID),missionTimeStringPattern))
@@ -1501,7 +2101,8 @@ MyGarrisons.db.global.Garrisons[name.."-"..realm] = {
 														Buildings = {}, 
 														Followers = {}, 
 														Missions  = {},
-														Constructions = {}
+														Constructions = {},
+														Shipments = {}
 														}
 														
 														
@@ -1538,8 +2139,10 @@ function MyGarrisons:ConvertSecondsToTime(secs)
 	return nHours..":"..nMins..":"..nSecs
 end
 function MyGarrisons:TimerCheckFunc()
+	MyGarrisons:UpdateGBTimers()
 	local d2 = caldate:parse( date("%m_%d_%y/%H:%M:%S"))
 	for k,v in pairs (CharacterHeaders) do
+		if CharacterHeaders[k].Used then
 		for k2, v2 in pairs (CharacterHeaders[k].Timers) do
 			if CharacterHeaders[k].Timers[k2].Used then
 				if CharacterHeaders[k].Timers[k2].TimerType == "Mission" then
@@ -1565,10 +2168,10 @@ function MyGarrisons:TimerCheckFunc()
 					
 				end
 				if CharacterHeaders[k].Timers[k2].TimerType == "Building" then
-				local charname = CharacterHeaders[k].Name
+					local charname = CharacterHeaders[k].Name
 					--local buildingInfo = {C_Garrison.GetBuildingInfo(CharacterHeaders[k].Timers[k2].ID)}
 					if MyGarrisons.db.global.Garrisons[charname].Constructions[CharacterHeaders[k].Timers[k2].ID].BuildingName ~= nil then
-					CharacterHeaders[k].Timers[k2].Frame.nameframe.namestring:SetText(MyGarrisons.db.global.Garrisons[charname].Constructions[CharacterHeaders[k].Timers[k2].ID].BuildingName)
+						CharacterHeaders[k].Timers[k2].Frame.nameframe.namestring:SetText(MyGarrisons.db.global.Garrisons[charname].Constructions[CharacterHeaders[k].Timers[k2].ID].BuildingName)
 					else
 					CharacterHeaders[k].Timers[k2].Frame.nameframe.namestring:SetText("UNKNOWN BUILDING")
 					--Garr_WoodFrame-BackgroundTile
@@ -1584,12 +2187,41 @@ function MyGarrisons:TimerCheckFunc()
 						CharacterHeaders[k].Timers[k2].Frame.timertext:SetText("Done")
 					end
 				end
+				if CharacterHeaders[k].Timers[k2].TimerType == "Shipment" then
+					local charname = CharacterHeaders[k].Name
+					--CharacterHeaders[k].Timers[k2].ID
+				--	MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments [shipie[9]] = {	TotalMax = shipie[3],
+					--																				TotalOrdered = shipie[5],
+					--																				TotalDone = shipie[4],
+					--																				StartTime = 0,
+					--																				EndTime = 0}
+					local endTim = MyGarrisons.db.global.Garrisons[charname].Shipments[CharacterHeaders[k].Timers[k2].ID].EndTime
+					CharacterHeaders[k].Timers[k2].Frame.timertext:SetTexture("Interface\\BlackMarket\\_WoodFrame-TileHorizontal")
+					local remaining = Meta.__sub(caldate:parse(endTim),d2)
+					
+					if remaining > 0 then
+					MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalDone = MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalDone + 1
+						local SDone = MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalDone
+						if MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalOrdered == SDone then
+							CharacterHeaders[k].Timers[k2].Frame.timertext:SetText("Done")
+						else
+							--TODO Reset end time
+							CharacterHeaders[k].Timers[k2].Frame.timertext:SetText(MyGarrisons:ConvertSecondsToTime(remaining))
+						end
+					else
+						CharacterHeaders[k].Timers[k2].Frame.timertext:SetText("Done")
+					end
+					local NeoMessage = "Work Order "..CharacterHeaders[k].Timers[k2].ID.." "..MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalDone.."/"..MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalOrdered.."("..MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalMax..")"
+					CharacterHeaders[k].Timers[k2].Frame.nameframe.namestring:SetText(NeoMessage)
+					
+					
+				end
 			end
+		end
 		end
 	end
 	
 end
-
 
 function MyGarrisons:OnInitialize()
 		-- Called when the addon is loaded
@@ -1606,13 +2238,22 @@ function MyGarrisons:OnInitialize()
 	self:SecureHook(C_Garrison,"PlaceBuilding","PLACEBUILD")
 	self:SecureHook(C_Garrison,"RemoveFollowerFromMission","RemoveFollowerMission")
 	self:SecureHook(C_Garrison,"StartMission","StartGMission")
+	self:SecureHook(C_Garrison,"MarkMissionComplete","MarkMissionCompleteHandler")
+	
+	
+	--self:SecureHook(GarrisonMissionComplete,"OnMissionComplete", "NeoMissionComplete")
 	--C_Garrison.CancelConstruction
 --C_Garrison.PlaceBuilding
 	--Register event  GARRISON_MISSION_COMPLETED
+	
 	self:RegisterEvent("GARRISON_MISSION_COMPLETED")
 	self:RegisterEvent("GARRISON_MISSION_NPC_OPENED")
 	self:RegisterEvent("GARRISON_BUILDING_REMOVED")
 	self:RegisterEvent("GARRISON_BUILDING_ACTIVATED")
+	self:RegisterEvent("SHIPMENT_CRAFTER_CLOSED")
+	--SHIPMENT_CRAFTER_INFO
+	self:RegisterEvent("SHIPMENT_UPDATE")
+	self:RegisterEvent("SHIPMENT_CRAFTER_INFO")
 	
 	local registry = LibStub("AceConfigRegistry-3.0")
 	registry:RegisterOptionsTable("MyGarrisonsMain", main)
@@ -1664,8 +2305,8 @@ function MyGarrisons:OnInitialize()
 	
 	checkTimer = MyGarrisons:ScheduleRepeatingTimer("TimerCheckFunc", 1 )
 
-	
-		MyGarrisons:ScanGarrison()
+	MyGarrisons:BuildRealmOptionPanel()
+	MyGarrisons:ScanGarrison()
 	
 	MyGarrisons:FillCharacters()
 	if MyGarrisons.db.global.Settings.HideTimerFrameOnStart then
@@ -1680,20 +2321,25 @@ function MyGarrisons:OnInitialize()
 	
 	MyGarrisons:AddCharacterToGBRealmList (k)
 	end
+	MyGarrisons:SetUpCharacterProperties()
 	MyGarrisons:FillGBBuildingUI()
+	MyGarrisons:HideAllBuildings()
+	MyGarrisons:SetUpGBTimerFrame()
 	--MyGarrisons:SetBuildingListForCharacter(nam.."-"..GetRealmName())
 end
 
 function MyGarrisons:FollowerToBuilding(plotInstanceID,followerID)
-	print(plotInstanceID)
-	print(followerID)
+	--print(plotInstanceID)
+	--print(followerID)
 	local nam, realmi = UnitName("player")
+	--print(C_Garrison.GetFollowerInfo(followerID))
+	--print(MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Followers[followerID])
 	MyGarrisons:AddFollowerToBuilding(nam, GetRealmName(), plotInstanceID, followerID)
 end
 --FollowerFromBuilding
 function MyGarrisons:FollowerFromBuilding(plotInstanceID,followerID)
-	print(plotInstanceID)
-	print(followerID) -- nil
+	--print(plotInstanceID)
+	--print(followerID) -- nil
 	local nam, realmi = UnitName("player")
 	
 	MyGarrisons:RemoveFollowerToBuilding(nam, GetRealmName(), plotInstanceID)
@@ -1722,6 +2368,10 @@ function MyGarrisons:FillGBBuildingUI()
 	end
 
 end
+function MyGarrisons:POrotoSnyc()
+	--print("D")
+
+end
 function MyGarrisons:HideAllBuildings()
 	for k,v in pairs (GBBuildingUI) do
 		GBBuildingUI[k].Used = false
@@ -1742,13 +2392,43 @@ function MyGarrisons:SetBuildingListForCharacter(charname)
 		--local buildTab = {C_Garrison.GetBuildingInfo(GBBuildingUI[k].ID)}
 		GBBuildingUI[k].Frame.buildingname:SetText(MyGarrisons.db.global.Garrisons[charname].Buildings[k].BuildingName)
 		GBBuildingUI[k].Frame.buildinglevel:SetText("Level "..MyGarrisons.db.global.Garrisons[charname].Buildings[k].Level)
-		GBBuildingUI[k].Frame.buildingicon:SetTexture(MyGarrisons.db.global.Garrisons[charname].Buildings[k].Icon)
+		--local valos = {C_Garrison.GetBuildingInfo(MyGarrisons.db.global.Garrisons[charname].Buildings[k].buildingID)}
+		--MyGarrisons.db.global.Garrisons[charname].Buildings[k].BuildingID
+		--GBBuildingUI[k].Frame.buildingicon:SetAtlas(valos[3])
 		
-		if MyGarrisons.db.global.Garrisons[charname].Buildings[k].Follower~= 0 then
-	--SetPortraitTexture	(GBBuildingUI[k].Frame.followerframe.followertexture,C_Garrison.GetFollowerInfo(MyGarrisons.db.global.Garrisons[charname].Buildings[k].Follower).displayID)
-	else
-	GBBuildingUI[k].Frame.followerframe.followertexture:SetTexture("")
-	end
+		GBBuildingUI[k].Frame.buildingicon:SetTexture(MyGarrisons.db.global.Garrisons[charname].Buildings[k].Icon)
+
+		--SetPortraitTexture(GBFollowerUI[currentFrame].Frame.followerportrait.Portrait,v.DisplayID)
+		if MyGarrisons.db.global.Garrisons[charname].Buildings[k].Follower~= nil then
+			
+			local follIndex = MyGarrisons.db.global.Garrisons[charname].Buildings[k].Follower
+				
+			if MyGarrisons.db.global.Garrisons[charname].Followers[follIndex] ~= nil then
+				SetPortraitTexture(GBBuildingUI[k].Frame.followerframe.Portrait,MyGarrisons.db.global.Garrisons[charname].Followers[follIndex].DisplayID)
+				local color = ITEM_QUALITY_COLORS[MyGarrisons.db.global.Garrisons[charname].Followers[follIndex].Quality]
+				
+				GBBuildingUI[k].Frame.followerframe.PortraitRingQuality:SetVertexColor(color.r, color.g, color.b);
+				GBBuildingUI[k].Frame.followerframe.Level:SetText(MyGarrisons.db.global.Garrisons[charname].Followers[follIndex].Level);
+			
+				GBBuildingUI[k].Frame.followerframe.LevelBorder:SetVertexColor(color.r, color.g, color.b);
+			else
+		
+				local color = ITEM_QUALITY_COLORS[1]
+				GBBuildingUI[k].Frame.followerframe.PortraitRingQuality:SetVertexColor(color.r, color.g, color.b);
+				GBBuildingUI[k].Frame.followerframe.Level:SetText("95");
+				GBBuildingUI[k].Frame.followerframe.LevelBorder:SetVertexColor(color.r, color.g, color.b);
+				SetPortraitTexture(GBBuildingUI[k].Frame.followerframe.Portrait,"GarrMission_PortraitRing_Empty")
+			end
+		else
+		
+			local color = ITEM_QUALITY_COLORS[1]
+			
+			GBBuildingUI[k].Frame.followerframe.PortraitRingQuality:SetVertexColor(color.r, color.g, color.b);
+			GBBuildingUI[k].Frame.followerframe.Level:SetText("95");
+			GBBuildingUI[k].Frame.followerframe.LevelBorder:SetVertexColor(color.r, color.g, color.b);
+			SetPortraitTexture(GBBuildingUI[k].Frame.followerframe.Portrait,"GarrMission_PortraitRing_Empty")
+
+		end
 		GBBuildingUI[k].Frame:Show()
 	end
 
@@ -1827,7 +2507,11 @@ MyGarrisons:ScanGarrison()
 	local nam, realmi = UnitName("player")
 	MyGarrisons:AddConstruction(nam, GetRealmName(), plotID, buildingID)
 	MyGarrisons:AddCharacterTimer(nam.."-"..GetRealmName(), "Building", buildingID)
-	
+	if GBSelectedNameRealm ==nam.."-"..GetRealmName() then
+			
+			MyGarrisons:ClearGBTimers()
+			MyGarrisons:FillGBForCharacter()
+		end
 end
 
 function MyGarrisons:CANCELCONS(plotID)
@@ -1847,12 +2531,20 @@ function MyGarrisons:PLACEBUILD(plotInstanceID, buildingID)
 	--upgradesDetected[plotInstanceID] = true
 	--TO GET TIME STRING
 	local buildingInfo = {C_Garrison.GetBuildingInfo(buildingID)};
-	local timeStr = buildingInfo[9];
+	for i =1, MyGarrisons:TableSize(buildingInfo) do
+	--	print(i.."  "..buildingInfo[i])
+	end
+	local timeStr = buildingInfo[10];
 	--print(MyGarrisons:buildingTimeToSeconds(timeStr))
 	--TODO:  Add building to list
 	local nam, realmi = UnitName("player")
 	MyGarrisons:AddConstruction(nam, GetRealmName(), plotInstanceID, buildingID)
 	MyGarrisons:AddCharacterTimer(nam.."-"..GetRealmName(), "Building", buildingID)
+	if GBSelectedNameRealm ==nam.."-"..GetRealmName() then
+			
+			MyGarrisons:ClearGBTimers()
+			MyGarrisons:FillGBForCharacter()
+		end
 	
 	--TODO:  Add building timer
 end
@@ -1867,6 +2559,11 @@ local buildID = MyGarrisons:GetPlotsBuilding(plotID)
 		MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Constructions[buildID] = nil
 		--TODO remove mission UI
 		MyGarrisons:UnuseCharacterTimer(nam.."-"..GetRealmName(), "Building", buildID)
+		if GBSelectedNameRealm ==nam.."-"..GetRealmName() then
+			
+			MyGarrisons:ClearGBTimers()
+			MyGarrisons:FillGBForCharacter()
+		end
 
 	end
 end
@@ -1876,26 +2573,108 @@ MyGarrisons:ScanGarrison()
 
 		local nam, realmi = UnitName("player")
 		MyGarrisons:UnuseCharacterTimer(nam.."-"..GetRealmName(), "Building", num2)
+		if GBSelectedNameRealm ==nam.."-"..GetRealmName() then
+
+			MyGarrisons:ClearGBTimers()
+			MyGarrisons:FillGBForCharacter()
+		end
 		MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Constructions[ num2] = nil
 	end
 	upgradesDetected[plotID] = false
 end	
-function MyGarrisons:GARRISON_MISSION_COMPLETED(eventName, missionID, bonus)
+function MyGarrisons:SHIPMENT_CRAFTER_INFO(eventName, par1, par2, par3, par4)
+if par1 ~= nil then
+	--print(par1)
+	--print(par2)
+	--print(par3)
+	--print(par4)
+	end
 
-local nam, realmi = UnitName("player")
+end
+function MyGarrisons:SHIPMENT_CRAFTER_CLOSED()
+
+	
+	--print("Update")
+	--print(par1)
+	--print(par2)
+	--print(par3)
+	
+		local buildings = C_Garrison.GetBuildings();
+		for i = 1, #buildings do
+			local buildingID = buildings[i].buildingID;
+			if ( buildingID ) then
+--				local name, texture, shipmentsReady, shipmentsTotal, creationTime, duration, timeleftString, itemName, itemIcon, itemQuality, itemID = C_Garrison.GetLandingPageShipmentInfo(buildingID);
+				--if shipmentsTotal ~= nil and name ~= nil then
+					for k,v in pairs ({C_Garrison.GetLandingPageShipmentInfo(buildingID)}) do
+						--print(k.." "..tostring(v))
+					end
+					--print(name.."  "..shipmentsReady.." "..shipmentsTotal.." "..creationTime.." "..duration.." "..timeleftString)
+					--     Index        Max                READY					TOTAL ORDERS
+				--end
+			end
+		end
+	
+
+end
+function MyGarrisons:SHIPMENT_UPDATE(eventName, par1, par2, par3)
+
+	if par1 ~= nil then
+	--print("Update")
+	--print(par1)
+	--print(par2)
+	--print(par3)
+	
+		local buildings = C_Garrison.GetBuildings();
+		for i = 1, #buildings do
+			local buildingID = buildings[i].buildingID;
+			if ( buildingID ) then
+				local name, texture, shipmentsReady, shipmentsTotal, creationTime, duration, timeleftString, itemName, itemIcon, itemQuality, itemID = C_Garrison.GetLandingPageShipmentInfo(buildingID);
+				if shipmentsTotal ~= nil and name ~= nil then
+				--	print(name.."  "..shipmentsReady.." "..shipmentsTotal.." "..creationTime.." "..duration.." "..timeleftString)
+				end
+			end
+		end
+	end
+
+end
+function MyGarrisons:NeoMissionComplete(par1, par2, par3,par4)
+print(par1)
+	print(par2)
+	print(par3)
+	print(par4)
+
+end
+function MyGarrisons:MarkMissionCompleteHandler(par1, par2, par3, par4, par5)
+	MyGarrisons:GARRISON_MISSION_COMPLETED("GARRISON_MISSION_COMPLETED", par1, "")
+
+end
+function MyGarrisons:GARRISON_MISSION_COMPLETED(eventName, missionID, bonus)
+	
+	local nam, realmi = UnitName("player")
 	if MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Missions[missionID] ~= nil then
 
 		MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Missions[missionID] = nil
 		--TODO remove mission UI
 		MyGarrisons:UnuseCharacterTimer(nam.."-"..GetRealmName(), "Mission", missionID)
+		if GBSelectedNameRealm ==nam.."-"..GetRealmName() then
+			--print("REFILL")
+			MyGarrisons:ClearGBTimers()
+			MyGarrisons:FillGBForCharacter()
+		end
+	end
+	MyGarrisons:ScanFollowers()
+	if currentSelectedLogFrame == 2 and nam.."-"..GetRealmName() == charname then
+		MyGarrisons:SetUpFollowersForChar(charname)
+
 	end
 
 end
 function MyGarrisons:GetFollowersAbilities(followerID)
 local nam, realmi = UnitName("player")
 local counter = 1
+local tcounter = 1
 	for x2,y2 in pairs (C_Garrison.GetFollowerAbilities(followerID)) do
-		for x3, y3 in pairs(y2) do
+		
 			--print(x3.." "..tostring(y3))
 			--description
 			--counter table
@@ -1904,6 +2683,7 @@ local counter = 1
 			--isTrait
 			--icon
 			---------
+			if y2.isTrait == false then
 			 MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Followers[followerID].Abilities[counter] ={
 																									Icon = y2.icon,
 																									Name = y2.name,
@@ -1913,6 +2693,18 @@ local counter = 1
 			 }
 			 
 			 counter = counter + 1
+			 else
+			  MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Followers[followerID].Traits[tcounter] ={
+																									Icon = y2.icon,
+																									Name = y2.name,
+																									Desc = y2.description,
+																									ID = y2.id,
+																									IsTrait = y2.isTrait
+			 }
+			 
+			 tcounter = tcounter + 1
+			 
+			 
 		end
 	 end
 
@@ -1931,7 +2723,8 @@ function MyGarrisons:ScanFollowers()
 				XP = v.xp,
 				LevelXP = v.levelXP,
 				Quality = v.quality,
-				Abilities = {}
+				Abilities = {},
+				Traits = {}
 			 }
 			MyGarrisons:GetFollowersAbilities(v.followerID)
 			 for x2,y2 in pairs (C_Garrison.GetFollowerAbilities(v.followerID)) do
@@ -1949,8 +2742,14 @@ function MyGarrisons:ScanFollowers()
 
 end
 function MyGarrisons:GARRISON_MISSION_NPC_OPENED(event, ele1)
+	local nam, realmi = UnitName("player")
 	MyGarrisons:ScanFollowers()
-
+	if currentSelectedLogFrame == 2 and nam.."-"..GetRealmName() == charname then
+		MyGarrisons:SetUpFollowersForChar(charname)
+	end
+	
+	--currentSelectedLogFrame = 2;
+	--currentSelectedCharacter = charname
 
 end
 
@@ -1962,7 +2761,13 @@ function MyGarrisons:splitAtFirst(str, pattern)
 	end
 	return str
 end
-
+function MyGarrisons:TableSize(tab)
+	count = 0
+	for key, val in pairs (tab) do
+		count = count +1
+	end
+	return count
+end
 
 
 --local d3 = date:parse( "01.10.1582 11:11:11" )
