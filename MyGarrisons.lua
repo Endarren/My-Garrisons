@@ -5,18 +5,21 @@ local SortItems = {}--TODO
 -- =================================================================================================
 -- Characters
 -- =================================================================================================
-
+local DEFAULT_COLOR = {r =0.776, g =0.643, b = 0.0313}
 function MyGarrisons:AddCharacter(characterID, realmID)
 local classDisplayName, class, classID = UnitClass("player");
 local	factionGroup, factionName = UnitFactionGroup("player") 
 	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID] = {
-		Settings = {	Colors						= {	Character	= {Name = {}, Cache = {}, Mission = {}, Shipment = {}},
+		Settings = {	
+			Alert = {Enabled = false, InCombat = false, Alpha = 1, Missions = true, Shipments = true, FinalShipment = true},
+			Colors						= {	Character	= {Name = {}, Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}, Mission = {Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, Shipment = {}},
 														Mission		= {Name = {}, Timers = {}},
 														Building	= {Name = {}, WorkOrder = {}, Special = {}}}, 
 						Filters						= {}, 
 						Alpha						= 1,
 						ShowCache					= true,
 						ShowMissionCounter			= true,
+						ShowMissionFollowerExp		= true, 
 						ShowShipmentCounter			= true,
 						ShowInvasion				= true,
 						HideInCombat				= false,
@@ -53,7 +56,8 @@ local	factionGroup, factionName = UnitFactionGroup("player")
 		CompletedMissions = 0,
 		AvaliableMissions = {},
 		Faction = factionGroup,
-		Invasion = false
+		Invasion = false,
+		HasAlerted ={Missions ={}, Shipments = {}, Constructions = {}}
 	
 	
 	
@@ -409,6 +413,10 @@ BuildingSpecialDatas[28][173649] = {TimeStarted = 0, IsDefeated = false, icon = 
 BuildingSpecialDatas[61] = {UsedNodes = 0, MaxNodes = 8, ResetsAt = 0}
 BuildingSpecialDatas[62] = {UsedNodes = 0, MaxNodes = 13, ResetsAt = 0}
 BuildingSpecialDatas[63] = {UsedNodes = 0, MaxNodes = 18, ResetsAt = 0} --TODO verify max nodes
+
+--BuildingIDSets["war"] = 			{8, 9, 10}
+--War
+BuildingSpecialDatas[10] = {Quests = {ResetsAt = 0, Completed = false}, WarSeal = {Used = false, ResetsAt = 0}}
 --Herb
 --29, 136, 137
 BuildingSpecialDatas[29] = {UsedNodes = 0, MaxNodes = 6, ResetsAt = 0, NextCrop = ""}
@@ -2024,6 +2032,9 @@ function MyGarrisons:OnInitialize()
 	self:RegisterEvent("GOSSIP_SHOW")
 	self:RegisterEvent("PLAYER_LOGIN")
 	self:RegisterEvent("QUEST_FINISHED")
+	self:RegisterEvent("QUEST_COMPLETE")
+	self:RegisterEvent("QUEST_TURNED_IN")
+	--MyGarrisons:QUEST_COMPLETE()
 	self:RegisterEvent("SHIPMENT_CRAFTER_CLOSED")
 	self:RegisterEvent("UNIT_AURA")
 	self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
@@ -2316,6 +2327,151 @@ function MyGarrisons:GARRISON_BUILDING_UPDATE(en, p1, p2, p3, p4)
 	--print(p3)
 	--print(p4)
 end
+function MyGarrisons:QUEST_TURNED_IN(eve, qid, exp, mon)
+	local nam, realmi = UnitName("player")
+	--TODO Fix Jewelcrafting quest detection
+if qid == 35075 or qid == 35074 or qid == 35073 or qid == 35072 or qid == 35071 or qid == 35066 or qid == 36517 or qid ==36511
+	or qid == 36515 or qid == 36514 or qid == 36513 or qid == 36510   then
+	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[64] ~= nil then
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[64].SpecialData == nil then
+				MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[64].SpecialData  = {Quests ={IDs = {}, Daily = 1, ResetsAt = 0, Completed = false}}
+		end
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[64].SpecialData.Quests.Completed = true
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[64].SpecialData.Quests.ResetsAt = time()+GetQuestResetTime()
+	end
+
+	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[134] ~= nil then
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[134].SpecialData == nil then
+				MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[134].SpecialData  = {Quests ={IDs = {}, Daily = 1, ResetsAt = 0, Completed = false}}
+		end
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[134].SpecialData.Quests.Completed = true
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[134].SpecialData.Quests.ResetsAt = time()+GetQuestResetTime()
+	end
+
+	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[135] ~= nil then
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[135].SpecialData == nil then
+				MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[135].SpecialData  = {Quests ={IDs = {}, Daily = 1, ResetsAt = 0, Completed = false}}
+		end
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[135].SpecialData.Quests.Completed = true
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[135].SpecialData.Quests.ResetsAt = time()+GetQuestResetTime()
+	end
+end
+--[[
+
+BuildingSpecialDatas[64] = {Quests = {IDs = {}, Daily = 1, ResetsAt = 0, Completed = false}}
+BuildingSpecialDatas[134] = {Quests = {IDs = {}, Daily = 1, ResetsAt = 0, Completed = false}}
+BuildingSpecialDatas[135] = {Quests = {IDs = {}, Daily = 1, ResetsAt = 0, Completed = false}}
+
+BuildingSpecialDatas[64].Quests.IDs = {	35075,
+										35074,
+										35073, 
+										35072, 
+										35071, 
+										35066, 
+										36517, 
+										36511,
+										36515,
+										36514,
+										36513,
+										36510}
+BuildingSpecialDatas[134].Quests.IDs = {35075,
+										35074,
+										35073, 
+										35072, 
+										35071, 
+										35066, 
+										36517, 
+										36511,
+										36515,
+										36514,
+										36513,
+										36510}
+BuildingSpecialDatas[135].Quests.IDs = {35075,
+										35074,
+										35073, 
+										35072, 
+										35071, 
+										35066, 
+										36517, 
+										36511,
+										36515,
+										36514,
+										36513,
+										36510}
+
+QuestsToWatchFor[37320] = {BuildingType = "jewelcrafting"}
+--QuestsToWatchFor[37321] = {BuildingType = "jewelcrafting"}
+--QuestsToWatchFor[37324] = {BuildingType = "jewelcrafting"}
+--QuestsToWatchFor[37323] = {BuildingType = "jewelcrafting"}
+
+
+
+BuildingSpecialDatas[96] = {}
+BuildingSpecialDatas[131] = {Quests ={}, ResetsAt =0, Completed = false}
+BuildingSpecialDatas[131].Quests[37320] = 1
+BuildingSpecialDatas[131].Quests[37321] = 1
+BuildingSpecialDatas[131].Quests[37323] = 1
+BuildingSpecialDatas[131].Quests[37324] = 1
+BuildingSpecialDatas[132] = {Quests= {}, ResetsAt =0, Completed = false}
+BuildingSpecialDatas[132].Quests[37320] = 1
+BuildingSpecialDatas[132].Quests[37321] = 1
+BuildingSpecialDatas[132].Quests[37323] = 1
+BuildingSpecialDatas[132].Quests[37324] = 1 ]]--
+
+	if qid == 37320 or qid == 37321 or qid == 37323 or qid == 37324 then
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[131] ~= nil then
+			if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[131].SpecialData == nil then
+				MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[131].SpecialData  = {Quests ={}, ResetsAt =0, Completed = false}
+			end
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[131].SpecialData.Completed = true
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[131].SpecialData.ResetsAt = time()+GetQuestResetTime()
+		end
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[132] ~= nil then
+			if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[132].SpecialData == nil then
+				MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[132].SpecialData  = {Quests ={}, ResetsAt =0, Completed = false}
+
+			end
+						MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[132].SpecialData.Completed = true
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[132].SpecialData.ResetsAt = time()+GetQuestResetTime()
+		end
+	end
+	if qid ==(34586) or qid ==(34378) then
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.HasGarrison == false then
+			--MyGarrisons:AddCharacterTimer(nam, GetRealmName())
+		end
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.HasGarrison = true
+	end	
+
+	if qid == (36662) or qid ==(36483) then
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[42] ~= nil   then
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[42].SpecialData.Completed = true
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[42].SpecialData.ResetsAt = time()+GetQuestResetTime()
+		end
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[167] ~= nil then
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[167].SpecialData.Completed = true
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[167].SpecialData.ResetsAt = time()+GetQuestResetTime()
+		end
+		
+	end
+
+	if qid == (37645) or qid == (37644) then
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[168] ~= nil   then
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[168].SpecialData.Completed = true
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[168].SpecialData.ResetsAt = time()+GetQuestResetTime()
+		end
+	end
+
+	if qid == 38188 or qid == 38175 then
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData.Quest.Completed = true
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData.Quest.ResetsAt = time()+GetQuestResetTime()
+		--ResetsAt = time()+GetQuestResetTime()
+		--{Quest = {ResetsAt = 0, Completed = false}, WarSeal = {Used = false, ResetsAt = 0}}
+
+	end
+end
+function MyGarrisons:QUEST_COMPLETE()
+	MyGarrisons:QUEST_FINISHED()
+end
 function MyGarrisons:QUEST_FINISHED()
 	local nam, realmi = UnitName("player")
 	if IsQuestFlaggedCompleted(34586) or IsQuestFlaggedCompleted(34378) then
@@ -2335,8 +2491,10 @@ function MyGarrisons:QUEST_FINISHED()
 	end
 
 	if IsQuestFlaggedCompleted(37645) or IsQuestFlaggedCompleted(37644) then
+
 		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[168] ~= nil   then
 			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[168].SpecialData.Completed = true
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[168].SpecialData.ResetsAt = time()+GetQuestResetTime()
 		end
 	end
 end

@@ -1,7 +1,7 @@
 ## Author: Endar_Ren
 ## Interface: 60000
 ## Title: MyGarrisons
-## Version: 0.8.1.3
+## Version: 0.9
 ## SavedVariables: GAR2
 embeds.xml
 MyGarrisons.lua
@@ -17,3 +17,5 @@ MyGarrisonsOptionFrame.lua
 MyGarrisonsOptionFrame.xml
 MyGarrisonsPortalSetter.lua
 MyGarrisonsPortalSetter.xml
+MyGarrisonsAlert.lua
+MyGarrisonsAlert.xml

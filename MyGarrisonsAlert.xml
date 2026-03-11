@@ -1,0 +1,110 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="MyGarrisonsAlert.lua" />
+	<Frame name="MyGarrisonsAlert" hidden="true" parent="UIParent" toplevel="true" movable="true">
+		<Size>
+			<AbsDimension x="351" y="123" />
+		</Size>
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="94" y="-190" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="11" right="12" top="12" bottom="11" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="MGAlertChar" inherits="GameFontNormal" parentKey="character" text="FontString1">
+					<Size x="154" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="7" y="-28" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="My Garrisons Alert">
+					<Size x="306" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="7" y="-6" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button inherits="UIPanelCloseButton" text="Button1">
+				<Size x="20" y="20" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="319" y="-6" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Frame name="MGAlertOthers" parentKey="otheralert">
+				<Size x="341" y="20" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="7" y="-72" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="" tile="true">
+					<TileSize>
+						<AbsValue val="32" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="32" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGAlertOtherMissions" inherits="GameFontNormal" parentKey="missions" text="Missions: " justifyH="LEFT">
+							<Size x="107" y="20" />
+							<Anchors>
+								<Anchor point="TOPLEFT" />
+							</Anchors>
+						</FontString>
+						<FontString name="MGAlertOtherShipments" inherits="GameFontNormal" parentKey="shipments" text="Shipments: " justifyH="LEFT">
+							<Size x="107" y="20" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="113" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString name="MGAlertOtherBuildings" inherits="GameFontNormal" parentKey="buildings" text="Buildings: " justifyH="LEFT">
+							<Size x="107" y="20" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="226" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForDrag("RightButton")
+			</OnLoad>
+			<OnClick>
+				--MGProtoResize1_OnClick()
+			</OnClick>
+			<OnDragStart>
+				MyGarrisonsAlert:StartMoving()
+			</OnDragStart>
+			<OnDragStop>
+				MyGarrisonsAlert:StopMovingOrSizing()
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+</Ui>

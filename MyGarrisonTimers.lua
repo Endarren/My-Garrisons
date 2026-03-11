@@ -502,6 +502,22 @@ function MyGarrisons:UpdateTimersForCharacters()
 	local Alpha = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alpha
 	MyGarrisonTimers.timerscroll:SetAlpha(Alpha)
 	for k,v in pairs (CharacterHeaders) do
+CharacterHeaders[k].Frame.charname:SetTextColor(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.r,
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.g,
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.b)
+		--Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}
+if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount == nil then
+MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache = {Name = {r =0.776, g =0.643, b = 0.0313}, Amount = {r =0.776, g =0.643, b = 0.0313}}
+		end
+		CharacterHeaders[k].Frame.cache:SetTextColor(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.r,
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.g,
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.b)
+		
+		CharacterHeaders[k].Frame.cacheAmount:SetTextColor(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.r,
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.g,
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.b)
+		
+		
 		if v.Expanded then
 			for k2, v2 in pairs (v.TimerBag.MissionHeader.MissionTimers) do
 				if MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Missions[v2.missionID] ~= nil then
@@ -540,6 +556,13 @@ function MyGarrisons:UpdateTimersForCharacters()
 			for k2, v2 in pairs(v.TimerBag.BuildingHeader.BuildingTimers) do
 				local buildingID, buildingName, texturePrefix, icon, description, rank, currencyID, currencyAmount, goldAmount, timeRequirement, needsPlan, isPreBuilt, possSpecs, upgrades, canUpgrade, isMaxLevel, hasFollowerSlot = C_Garrison.GetBuildingInfo(v2.buildingID)
 				v2.buildingnameframe.namestring:SetText(buildingName.." lvl "..rank)
+				--BuildingSpecialDatas[10] = {Quest = {ResetsAt = 0, Completed = false}, WarSeal = {Used = false, ResetsAt = 0}}
+				if v2.buildingID == 10 then
+					if MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Garrison.Buildings[v2.buildingID].SpecialData == nil then
+						MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Garrison.Buildings[v2.buildingID].SpecialData = MyGarrisons:GetBuildingSpecialData(v2.buildingID)
+						--{Quest = {ResetsAt = 0, Completed = false}, WarSeal = {Used = false, ResetsAt = 0}}
+					end
+				end
 				if MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Garrison.Buildings[v2.buildingID] ~= nil then
 					if (MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Garrison.Buildings[v2.buildingID].UnderConstruction) then
 						if (MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Garrison.Buildings[v2.buildingID].ConstructionDoneTime ~= nil ) then
@@ -1439,6 +1462,36 @@ function MyGarrisons:UpdateBuildingTimerForWar(headerIndex, timerIndex)
 	CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].specialstring:SetText("")
 
 	MyGarrisons:UpdateShipment(characterID, realmID, buildingID)
+	if buildingID == 10 then
+		--CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe4:Show()
+		
+		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe5:Show()
+		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe5.bgicon5:Show()
+		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe5.bg5time:Show()
+
+		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe5.bg5time:SetText("Scrap")
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData =MyGarrisons:GetBuildingSpecialData(10)
+		end
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests == nil then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData =MyGarrisons:GetBuildingSpecialData(10)
+		end
+--MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData.Quests.Completed = true
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests.ResetsAt < time() then
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests.Completed = false
+			--MyGarrisons.db.global.MGRealms[realmID].Characters[nam].Garrison.Buildings[10].SpecialData.Quests.Completed = true
+		end
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests.ResetsAt = time()+GetQuestResetTime()
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests.Completed == false then
+		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe5.bgicon5:SetTexture("Interface/RAIDFRAME/ReadyCheck-NotReady.png")
+	else
+		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe5.bgicon5:SetTexture("Interface/RAIDFRAME/ReadyCheck-Ready.png")
+	end
+	end
+	--MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Garrison.Buildings[v2.buildingID].SpecialData = MyGarrisons:GetBuildingSpecialData(v2.buildingID)
+	--{Quest = {ResetsAt = 0, Completed = false}, WarSeal = {Used = false, ResetsAt = 0}}
+
+
 	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration ~= nil then
 		local FinishedShipments =  #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].FinishedWorkOrders
 		local PendingShipments =  #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderQueue
@@ -2163,7 +2216,7 @@ function MyGarrisons:UpdateBuildingTimerForMenagerie(headerIndex, timerIndex)
 	else
 		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].specialstring:SetText("Mastering the Menagerie")
 	end
-	
+	--print(tostring(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].SpecialData.Completed).."  "..characterID)
 	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].SpecialData.Completed == false then
 		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe4.bgicon4:SetTexture("Interface/RAIDFRAME/ReadyCheck-NotReady.png")
 	else
@@ -2378,12 +2431,37 @@ local headerUpdateTimer =  MyGarrisons:ScheduleTimer("HeaderUpdateAction", 1)
 function MyGarrisons:CountDoneMissions(characterID, realmID)
 	local counter = 0
 	local soonest = 0
-
+	local expmiss = 0
 	for k,v in pairs (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Missions) do
 		
 		local timeleftA = difftime(v.EndTime, time())
 		if  v.EndTime< time() then
 			counter = counter + 1
+			local foundexpearned = false;
+			for kX,vX in pairs (v.Followers) do
+				 if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Level ~= 100 and (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Quality ~= 6 and MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Quality ~= 5 ) then
+				foundexpearned = true
+				end
+			
+			end
+			if foundexpearned then
+expmiss = expmiss + 1
+				end
+			--Followers
+		--[[	 MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Garrison.Followers[v.followerID] = {
+				Class = v.className,
+				iLevel = v.iLevel,
+				Name = v.name,
+				DisplayID = v.displayID,
+				Level = v.level,
+				XP = v.xp,
+				LevelXP = v.levelXP,
+				Quality = v.quality,
+				Abilities = {},
+				Traits = {}, 
+				Activated = true --TODO
+			 }
+			]]--
 		else
 			if soonest > v.EndTime  or soonest == 0 then
 				soonest = v.EndTime
@@ -2391,8 +2469,9 @@ function MyGarrisons:CountDoneMissions(characterID, realmID)
 			end
 		end
 	end
-	return counter, soonest
+	return counter, soonest, expmiss
 end
+
 function MyGarrisons:UpdateMissionCounter(characterID, realmID, ind)
 local thischar = UnitName("player")
 	local thisrealm = GetRealmName();
@@ -2416,12 +2495,23 @@ local thischar = UnitName("player")
 		MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionCounter = true
 	end
 
-
+if MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionFollowerExp == nil then
+MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionFollowerExp = true
+end
 	if MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionCounter == true then
 		CharacterHeaders[ind].Frame.missionscounter:Show()
 		CharacterHeaders[ind].Frame.missionscounter.missiontitle:Show()
-		local counter, soonest = MyGarrisons:CountDoneMissions(characterID, realmID)
-		CharacterHeaders[ind].Frame.missionscounter.counter:SetText(counter.."/".. MyGarrisons:TableSize(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Missions))
+		local counter, soonest, expers = MyGarrisons:CountDoneMissions(characterID, realmID)
+		local newstring = counter.."/".. MyGarrisons:TableSize(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Missions)
+		CharacterHeaders[ind].Frame.missionscounter.counter:SetText(newstring)
+		if MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionFollowerExp == true then
+			CharacterHeaders[ind].Frame.missionscounter.followerexp:Show()
+			CharacterHeaders[ind].Frame.missionscounter.expcount:Show()
+			CharacterHeaders[ind].Frame.missionscounter.expcount:SetText(expers)
+		else
+			CharacterHeaders[ind].Frame.missionscounter.followerexp:Hide()
+			CharacterHeaders[ind].Frame.missionscounter.expcount:Hide()
+		end
 	else
 		CharacterHeaders[ind].Frame.missionscounter:Hide()
 		CharacterHeaders[ind].Frame.missionscounter.missiontitle:Hide()

@@ -390,7 +390,7 @@
 		</Backdrop>
 	</Frame>
 	<Frame name="MGTimerOptionsPanel" virtual="true">
-		<Size x="305" y="490" />
+		<Size x="305" y="656" />
 		<Anchors>
 			<Anchor point="TOPLEFT">
 				<Offset x="30" y="-240" />
@@ -434,7 +434,7 @@
 					<Size x="275" y="16" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="26" y="-307" />
+							<Offset x="26" y="-378" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -442,7 +442,7 @@
 					<Size x="275" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="26" y="-329" />
+							<Offset x="26" y="-459" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -458,7 +458,7 @@
 					<Size x="304" y="18" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset y="-350" />
+							<Offset y="-570" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -466,7 +466,7 @@
 					<Size x="133" y="14" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="35" y="-375" />
+							<Offset x="35" y="-595" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -474,7 +474,7 @@
 					<Size x="133" y="14" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="35" y="-396" />
+							<Offset x="35" y="-616" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -498,7 +498,7 @@
 					<Size x="45" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="256" y="-374" />
+							<Offset x="256" y="-594" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -506,7 +506,15 @@
 					<Size x="43" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="257" y="-395" />
+							<Offset x="257" y="-615" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGMissExpShowText" inherits="GameFontNormal" parentKey="missexptext" text="Show Character's Missions that give Exp" justifyH="LEFT">
+					<Size x="275" y="16" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="26" y="-400" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -640,7 +648,7 @@
 				<Size x="17" y="16" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="5" y="-307" />
+						<Offset x="5" y="-378" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -653,7 +661,7 @@
 				<Size x="17" y="16" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="5" y="-329" />
+						<Offset x="5" y="-459" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -679,7 +687,7 @@
 				<Size x="16" y="15" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="8" y="-375" />
+						<Offset x="8" y="-595" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -692,7 +700,7 @@
 				<Size x="16" y="15" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="8" y="-396" />
+						<Offset x="8" y="-616" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -731,7 +739,7 @@
 				<Size x="16" y="15" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="235" y="-374" />
+						<Offset x="235" y="-594" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -744,7 +752,7 @@
 				<Size x="16" y="15" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="235" y="-396" />
+						<Offset x="235" y="-616" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -769,6 +777,239 @@
 					</OnClick>
 				</Scripts>
 			</Button>
+			<CheckButton name="MGShowMissExpCheck" inherits="UICheckButtonTemplate" parentKey="missexpheck" text="CheckButton1">
+				<Size x="17" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="5" y="-400" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<Button name="MGCacheAmountColor" inherits="UIPanelButtonTemplate" text="Cache Amount Color">
+				<Size x="137" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="8" y="-325" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:StartColorPickCacheAmount()
+						--TODO cancelFunc
+						ColorPickerFrame.func = function () MyGarrisons:ChangeCacheAmountColor() end
+						ColorPickerFrame:Show()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MGCacheNameColor" inherits="UIPanelButtonTemplate" text="Cache Name Color">
+				<Size x="132" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="168" y="-325" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:StartColorPickCacheName()
+						--TODO cancelFunc
+						ColorPickerFrame.func = function () MyGarrisons:ChangeCacheNameColor() end
+						ColorPickerFrame:Show()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+	<Frame name="MGAlertOptionFrame" virtual="true" parentKey="alertopframe">
+		<Size x="337" y="319" />
+		<Anchors>
+			<Anchor point="TOPLEFT">
+				<Offset x="5" y="-6" />
+			</Anchor>
+		</Anchors>
+		<Backdrop bgFile="" edgeFile="" tile="true">
+			<TileSize>
+				<AbsValue val="32" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="32" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="MGAlertEnabledText" inherits="GameFontNormal" parentKey="alerttext" text="Alerts Enabled" justifyH="LEFT">
+					<Size x="138" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="46" y="-23" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGAlertCombatEnabledText2" inherits="GameFontNormal" parentKey="combatalerttext" text="Enable alert in combat" justifyH="LEFT">
+					<Size x="138" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="46" y="-56" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGAlertMissText" inherits="GameFontNormal" parentKey="misalerttext" text="Enable alert for missions" justifyH="LEFT">
+					<Size x="188" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="46" y="-97" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGAlertShipText" inherits="GameFontNormal" parentKey="shipalerttext" text="Enable alert for shipments" justifyH="LEFT">
+					<Size x="188" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="46" y="-121" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MGAlertFinalShipText" inherits="GameFontNormal" parentKey="finalshipalerttext" text="Enable alert for last shipment" justifyH="LEFT">
+					<Size x="188" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="46" y="-145" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="MGAlertEnabledCheck" inherits="UICheckButtonTemplate" parentKey="alertcheck" text="CheckButton1">
+				<Size x="17" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="18" y="-23" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<Button name="MGPositionAlert" inherits="UIPanelButtonTemplate" text="Position Alert">
+				<Size x="110" y="23" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="31" y="-269" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisonsAlert:Show()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<CheckButton name="MGAlertCombatEnabledCheck2" inherits="UICheckButtonTemplate" parentKey="combatalert" text="CheckButton1">
+				<Size x="17" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="18" y="-56" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<Slider name="MGAlertAlphaSlider1" parentKey="alertalphaslider" enableMouse="true" minValue="0" maxValue="1" valueStep="0.01" orientation="HORIZONTAL">
+				<Size>
+					<AbsDimension x="337" y="17" />
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT">
+						<Offset y="-95" />
+					</Anchor>
+					<Anchor point="RIGHT">
+						<Offset y="-95" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="Interface\Buttons\UI-SliderBar-Background" edgeFile="Interface\Buttons\UI-SliderBar-Border" tile="true">
+					<BackgroundInsets>
+						<AbsInset left="3" right="3" top="6" bottom="6" />
+					</BackgroundInsets>
+					<TileSize>
+						<AbsValue val="8" />
+					</TileSize>
+					<EdgeSize>
+						<AbsValue val="8" />
+					</EdgeSize>
+				</Backdrop>
+				<Layers>
+					<Layer>
+						<FontString name="$parentTitle" font="Fonts\FRIZQT__.TTF" text="Alert Alpha">
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" />
+							</Anchors>
+							<FontHeight>
+								<AbsValue val="10" />
+							</FontHeight>
+							<Color r="1" g="0.8196079" b="0" />
+							<Shadow>
+								<Offset>
+									<AbsDimension x="1" y="-1" />
+								</Offset>
+								<Color r="0" g="0" b="0" />
+							</Shadow>
+						</FontString>
+						<FontString name="$parentLow" font="Fonts\FRIZQT__.TTF" text="0">
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" />
+							</Anchors>
+							<FontHeight>
+								<AbsValue val="10" />
+							</FontHeight>
+							<Color r="1" g="1" b="1" />
+							<Shadow>
+								<Offset>
+									<AbsDimension x="1" y="-1" />
+								</Offset>
+								<Color r="0" g="0" b="0" />
+							</Shadow>
+						</FontString>
+						<FontString name="$parentHigh" font="Fonts\FRIZQT__.TTF" text="1">
+							<Anchors>
+								<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" />
+							</Anchors>
+							<FontHeight>
+								<AbsValue val="10" />
+							</FontHeight>
+							<Color r="1" g="1" b="1" />
+							<Shadow>
+								<Offset>
+									<AbsDimension x="1" y="-1" />
+								</Offset>
+								<Color r="0" g="0" b="0" />
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<ThumbTexture name="$parentThumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+					<Size>
+						<AbsDimension x="32" y="32" />
+					</Size>
+				</ThumbTexture>
+			</Slider>
+			<CheckButton name="MGAlertMiss" inherits="UICheckButtonTemplate" parentKey="missalert" text="CheckButton1">
+				<Size x="17" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="18" y="-97" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGAlertShip" inherits="UICheckButtonTemplate" parentKey="shipalert" text="CheckButton1">
+				<Size x="17" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="18" y="-121" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MGAlertFinalShip" inherits="UICheckButtonTemplate" parentKey="finalshipalert" text="CheckButton1">
+				<Size x="17" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="18" y="-145" />
+					</Anchor>
+				</Anchors>
+			</CheckButton>
 		</Frames>
 	</Frame>
 	<Frame name="MyGarrisonsOptionFrame" hidden="true" parent="UIParent" toplevel="true" movable="true">
@@ -850,11 +1091,24 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="MGCharacterHeaderOptionButton" inherits="UIPanelButtonTemplate" parentKey="charopbutton" text="Characters">
+			<Button name="MGAlertOptionButton" inherits="UIPanelButtonTemplate" parentKey="alertbutton" text="Alert">
 				<Size x="84" y="28" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
 						<Offset x="20" y="-117" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:ShowFrameAlert()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="MGCharacterHeaderOptionButton" inherits="UIPanelButtonTemplate" parentKey="charopbutton" text="Characters">
+				<Size x="84" y="28" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="20" y="-151" />
 					</Anchor>
 				</Anchors>
 			</Button>

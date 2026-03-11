@@ -19,8 +19,50 @@ function MyGarrisons:SetUpOptionsFrame()
 
 	OptionFrames["options"].Frame:SetPoint("TOPLEFT", MyGarrisonsOptionFrame.optionscroll.OptionsScrollFrame,0,0 )
 	OptionFrames["options"].Frame:Hide()
+
+
+	OptionFrames["alert"] = {Created = true, 
+								Frame = CreateFrame("Frame", "MGTimerOptionsFrame", MyGarrisonsOptionFrame.optionscroll.OptionsScrollFrame,"MGAlertOptionFrame")}
+
+	OptionFrames["alert"].Frame:SetPoint("TOPLEFT", MyGarrisonsOptionFrame.optionscroll.OptionsScrollFrame,0,0 )
+	OptionFrames["alert"].Frame:Hide()
 --Frame = CreateFrame("Button", "MGCharacterHeader"..(#CharacterHeaders+1),MyGarrisonTimers.timerscroll.GarrisonScrollContent,"MGCharacterHeader"),
 end
+----------------------------------------------------------------
+-- Frame Alert
+function MyGarrisons:ShowFrameAlert()
+	--MyGarrisonsOptionFrame.optionscroll
+	--optionscroll
+	for k,v in pairs (OptionFrames) do
+		if k == "alert" then
+			v.Frame:Show()
+		else
+			v.Frame:Hide()
+		end
+	end
+	MyGarrisons:UpdateAlertOptions()
+end
+
+function MyGarrisons:UpdateAlertOptions()
+	local characterID, rea = UnitName("player")
+	local realmID =  GetRealmName()
+
+	--Alert = {Enabled = false, InCombat = false}
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alert == nil then
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alert = {Enabled = false, InCombat = false, Alpha = 1, Missions = true, Shipments = true, FinalShipment = true}
+	end
+	OptionFrames["alert"].Frame.alertcheck:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alert.Enabled)
+	OptionFrames["alert"].Frame.combatalert:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alert.InCombat)
+	OptionFrames["alert"].Frame.alertalphaslider:SetValue(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alert.Alpha)
+
+
+	OptionFrames["alert"].Frame.missalert:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alert.Missions)
+	OptionFrames["alert"].Frame.shipalert:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alert.Shipments)
+	OptionFrames["alert"].Frame.finalshipalert:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alert.FinalShipment)
+	
+
+end
+
 ----------------------------------------------------------------
 -- Frame Options
 local tempAlphaMouseOn =1
@@ -39,35 +81,94 @@ function MyGarrisons:ShowFrameOptions()
 	end
 	MyGarrisons:UpdateTimerOptions()
 end
-
+--alertbutton
 function MyGarrisons:RevertFrameOptions()
 	local characterID, rea = UnitName("player")
 	local realmID =  GetRealmName()
 end
 local IsColorPicking = {}
 IsColorPicking["char-name"] = false
-
+IsColorPicking["cache-name"] = false
+IsColorPicking["cache-amount"] = false
 function MyGarrisons:StartColorPickCharName()
 	IsColorPicking["char-name"] = true
-
 end
 function MyGarrisons:ChangeCharacterNameColor()
 	if IsColorPicking["char-name"] == true then
 		local characterID, rea = UnitName("player")
 		local realmID =  GetRealmName()
-		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character == null then
-		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character = {Name = {r = 0, g = 0, b = 0}, 
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character == nil then
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character = {Name = {r = 0, g = 0, b = 0}, 
 			Cache = {r = 0, g = 0, b = 0}, Mission = {r = 0, g = 0, b = 0}, Shipment = {r = 0, g = 0, b = 0}}
 		end
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Mission.Exp == nil then
+		
+				MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Mission = 
+					{Exp = {r = 198, g = 164, b = 8}, Title = {	r = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Mission.r, 
+																g = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Mission.g, 
+																b = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Mission.b }}
+		end
 		local r,g,b = ColorPickerFrame:GetColorRGB();
-		if ColorPickerFrame:shown() == false then
+		if ColorPickerFrame:IsShown() == false then
+
 			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.r = r
 			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.b = b
 			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.g = g
+			IsColorPicking["char-name"]  = false
 		end
-		IsColorPicking["char-name"]  = false
+		
 	end
 end
+
+
+
+function MyGarrisons:StartColorPickCacheName()
+	IsColorPicking["cache-name"] = true
+end
+function MyGarrisons:ChangeCacheNameColor()
+	if IsColorPicking["cache-name"] == true then
+		local characterID, rea = UnitName("player")
+		local realmID =  GetRealmName()
+
+		local r,g,b = ColorPickerFrame:GetColorRGB();
+		if ColorPickerFrame:IsShown() == false then
+
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.r = r
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.b = b
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.g = g
+			IsColorPicking["cache-name"]  = false
+		end
+		
+	end
+end
+
+
+function MyGarrisons:StartColorPickCacheAmount()
+	IsColorPicking["cache-amount"] = true
+end
+function MyGarrisons:ChangeCacheAmountColor()
+	if IsColorPicking["cache-amount"] == true then
+		local characterID, rea = UnitName("player")
+		local realmID =  GetRealmName()
+
+		local r,g,b = ColorPickerFrame:GetColorRGB();
+		if ColorPickerFrame:IsShown() == false then
+
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.r = r
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.b = b
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.g = g
+			IsColorPicking["cache-name"]  = false
+		end
+		
+	end
+end
+
+
+
+
+
+
+
 function MyGarrisons:UpdateTimerOptions()
 	local characterID, rea = UnitName("player")
 	local realmID =  GetRealmName()
@@ -79,7 +180,9 @@ function MyGarrisons:UpdateTimerOptions()
 	OptionFrames["options"].Frame.cachecheck:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowCache)
 
 	OptionFrames["options"].Frame.missheck:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowMissionCounter)
-
+	
+	OptionFrames["options"].Frame.missexpheck:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowMissionFollowerExp)
+	
 	OptionFrames["options"].Frame.shipcheck:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowShipmentCounter)
 
 	OptionFrames["options"].Frame.invasioncheck:SetChecked(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowInvasion)
@@ -165,6 +268,12 @@ function MyGarrisons:ChangeMissCounter()
 	local characterID, rea = UnitName("player")
 	local realmID =  GetRealmName()
 	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowMissionCounter =OptionFrames["options"].Frame.missheck:GetChecked()
+end
+
+function MyGarrisons:ChangeMissExp()
+	local characterID, rea = UnitName("player")
+	local realmID =  GetRealmName()
+	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.ShowMissionFollowerExp =OptionFrames["options"].Frame.missexpheck:GetChecked()
 end
 
 function MyGarrisons:ChangeShipCounter()
