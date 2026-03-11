@@ -2232,17 +2232,19 @@ function MyGarrisons:TimerCheckFunc()
 					local NoneLeft = false
 					
 					local shipsLeft =  floor(remaining/MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ShipmentDuration)
-		
-					if shipsLeft +1 < MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments then
-					MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments = (MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments) +
-					MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments - (shipsLeft +1)
-					MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments = shipsLeft +1
+					if MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments ~= nil then
+						if shipsLeft +1 < MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments then
+							MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments = (MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments) +
+							MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments - (shipsLeft +1)
+							MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments = shipsLeft +1
+						end
 					end
-					
-					if remaining < 0 then
-						CharacterHeaders[k].Timers[k2].Frame.timertext:SetText("Done  "..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments.."/"..(MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments + MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments).."("..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalShipments..")" )
-					else
-						CharacterHeaders[k].Timers[k2].Frame.timertext:SetText(MyGarrisons:ConvertSecondsToTime(remaining).."  "..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments.."/"..(MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments + MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments).."("..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalShipments..")" )
+					if MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments ~= nil then
+						if remaining < 0 then
+							CharacterHeaders[k].Timers[k2].Frame.timertext:SetText("Done  "..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments.."/"..(MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments + MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments).."("..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalShipments..")" )
+						else
+							CharacterHeaders[k].Timers[k2].Frame.timertext:SetText(MyGarrisons:ConvertSecondsToTime(remaining).."  "..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments.."/"..(MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments + MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments).."("..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalShipments..")" )
+						end
 					end
 		
 		--			MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments[buildingName] = {
