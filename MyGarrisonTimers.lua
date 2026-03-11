@@ -104,7 +104,7 @@ function MyGarrisons:SetUpTimerFrame()
 	for k,v in pairs (MyGarrisons.db.global.MGRealms) do
 		for k2, v2 in pairs (v.Characters) do
 			if v2.Garrison.HasGarrison then
-				print("Adding "..k2)
+				--print("Adding "..k2)
 				MyGarrisons:AddCharacterTimer(k2, k)
 			else
 				print(k2.." not added because it does not have a garrison")
@@ -142,18 +142,16 @@ function MyGarrisons:UpdateCharacterHeader(ind)
 			CharacterHeaders[ind].Used = false
 			CharacterHeaders[ind].Frame:Hide()
 			return false
-		end
-		if MyGarrisons.db.global.MGRealms[CharacterHeaders[ind].RealmID] ~= nil then
+		else
 			if MyGarrisons.db.global.MGRealms[CharacterHeaders[ind].RealmID].Characters[charName] ~= nil then
 				if MyGarrisons.db.global.MGRealms[CharacterHeaders[ind].RealmID].Characters[charName].Garrison ~= nil then
 					CharacterHeaders[ind].Frame.cache:SetText("Cache: ")
 					CharacterHeaders[ind].Frame.cacheAmount:SetText(MyGarrisons.db.global.MGRealms[CharacterHeaders[ind].RealmID].Characters[CharacterHeaders[ind].CharacterID].Garrison.Cache.Amount)
 				end
-			end
+			
 			CharacterHeaders[ind].Frame.factiontexture:SetAtlas(factionTextureNames[MyGarrisons.db.global.MGRealms[CharacterHeaders[ind].RealmID].Characters[CharacterHeaders[ind].CharacterID].Faction])
 			CharacterHeaders[ind].Frame.classtexture:SetAtlas(classTextureNames[MyGarrisons.db.global.MGRealms[CharacterHeaders[ind].RealmID].Characters[CharacterHeaders[ind].CharacterID].Class])
-		else
-			--TODO remove
+			end
 		end
 	end
 end
@@ -265,7 +263,7 @@ function MyGarrisons:AddCharacterTimer(characterID, realmID)
 					HeaderToUse = k
 					break
 				else
-					print("Already in")
+					
 					return false
 				end
 				
@@ -802,6 +800,15 @@ function MyGarrisons:ArrangeCharacterMissions(headerIndex)
 		v.headerIndex = headerIndex
 		v.missionindex  = k
 	end
+end
+function MyGarrisons:BuildingTooltip(characterID, realmID, buildingID)
+	GameTooltip:SetOwner(MyGarrisonTimers, "ANCHOR_CURSOR_RIGHT");
+	--Building Name & Level
+
+	--Assigned Follower or Lack there of.
+
+	--Work Order Details.
+
 end
 function MyGarrisons:MissionTooltip(characterID, realmID, missionID)
 	GameTooltip:SetOwner(MyGarrisonTimers, "ANCHOR_CURSOR_RIGHT");
@@ -2298,4 +2305,20 @@ function MyGarrisons:ConvertSecondsToTimeStart(startTime, duration)
 --string.format("%.2d:%.2d:%.2d", s/(60*60), s/60%60, s%60)
 	--format ("%.2d:%.2d:%.2d",rHour,rMin,rSec)
 	return format ("%.2d:%.2d:%.2d",rHour,rMin,rSec)
+end
+local Maximized = true
+local OldHeight = 0
+function MyGarrisons:MinizerMaxi()
+	if Maximized then
+		
+		OldHeight = MyGarrisonTimers:GetHeight()
+		MyGarrisonTimers.timerscroll:Hide()
+		MyGarrisonTimers:SetHeight(19)
+		Maximized = false
+	else
+		Maximized = true;
+		MyGarrisonTimers:SetHeight(OldHeight)
+		MyGarrisonTimers.timerscroll:Show()
+
+	end
 end

@@ -866,15 +866,15 @@
 					<Size x="45" y="20" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="28" y="-26" />
+							<Offset x="21" y="-26" />
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="MGCharacterCacheAmount" inherits="GameFontNormal" parentKey="cacheAmount" text="FontString3">
-					<Size x="48" y="20" />
+				<FontString name="MGCharacterCacheAmount" inherits="GameFontNormal" parentKey="cacheAmount" text="FontString3" justifyH="LEFT">
+					<Size x="32" y="20" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="79" y="-26" />
+							<Offset x="66" y="-26" />
 						</Anchor>
 					</Anchors>
 				</FontString>

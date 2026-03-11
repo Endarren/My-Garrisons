@@ -1070,7 +1070,7 @@ function MyGarrisons:UpgradeBuilding(plotID)
 	local realmID				= GetRealmName()
 	local oldBuildingID, neoBuildingID	= MyGarrisons:FindLowerLevelOfBuilding(buildingID, characterID, realmID)
 
-	print("Upgrading "..oldBuildingID.." to "..neoBuildingID)
+	--print("Upgrading "..oldBuildingID.." to "..neoBuildingID)
 
 	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[neoBuildingID] = {
 
@@ -1524,7 +1524,7 @@ function MyGarrisons:PLACEBUILD(plotInstanceID, buildingID)
 	--	print(i.."  "..buildingInfo[i])
 	end
 	local timeStr = buildingInfo[10];
-	print(MyGarrisons:buildingTimeToSeconds(timeStr))
+	--print(MyGarrisons:buildingTimeToSeconds(timeStr))
 	local endTime = MyGarrisons:buildingTimeToSeconds(timeStr)
 	
 	local nam, realmi = UnitName("player")
@@ -1532,7 +1532,7 @@ function MyGarrisons:PLACEBUILD(plotInstanceID, buildingID)
 	MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[buildingID].UnderConstruction = true
 	MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[buildingID].ConstructionStartTime = time()
 	MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[buildingID].ConstructionDoneTime = endTime
-	print("Building...")
+	--print("Building...")
 	--MyGarrisons:AddConstruction(nam, GetRealmName(), plotInstanceID, buildingID)
 	--MyGarrisons:AddCharacterTimer(nam.."-"..GetRealmName(), "Building", buildingID)
 	--MyGarrisons:ScanGarrison()
@@ -1825,8 +1825,12 @@ function MyGarrisons:OnInitialize()
 	end
 	local characterID, realmi = UnitName("player")
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID] == nil then
+		C_Garrison.RequestLandingPageShipmentInfo();
+
+
 		MyGarrisons:AddCharacter(characterID, GetRealmName())
-		MGNewCharacter = true
+
+		--MGNewCharacter = true
 	end
 	local classDisplayName, class, classID = UnitClass("player");
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Class ~= classID then
@@ -1867,7 +1871,7 @@ function MyGarrisons:OnInitialize()
 
 	--self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-	MyGarrisons:QUEST_FINISHED()
+	
 
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Alpha == nil then
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Alpha = 1
@@ -1877,8 +1881,7 @@ function MyGarrisons:OnInitialize()
 	end
 	local timerDelayed= MyGarrisons:ScheduleTimer("DelayedUpdate", 5)	
 
-	MyGarrisons:SetUpTimerFrame()
-	MyGarrisons:MakeSureTimerScrollAnchored()
+	
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.ShowOnLogIn == false then
 		MyGarrisonTimers:Hide()
 	end
@@ -1894,24 +1897,27 @@ function MyGarrisons:DelayedUpdate()
 		MyGarrisons:ShipmentScan()
 		MyGarrisons:ScanQuests()
 		
-		
+		MyGarrisons:QUEST_FINISHED()
 		if MGNewCharacter == true then
-			--	MyGarrisons:AddCharacterTimer(characterID, GetRealmName())
+				--MyGarrisons:AddCharacterTimer(characterID, GetRealmName())
 		end
+		MyGarrisons:SetUpTimerFrame()
+		MyGarrisons:MakeSureTimerScrollAnchored()
 	else
 		if repeater < 10 then
-		local timerDelayed= MyGarrisons:ScheduleTimer("DelayedUpdate", 5)
-		repeater = repeater+1
+			local timerDelayed= MyGarrisons:ScheduleTimer("DelayedUpdate", 5)
+			repeater = repeater+1
 		else
 			MyGarrisons:ScanGarrison()
 			MyGarrisons:ScanFollowers()
 			MyGarrisons:CheckMissionRecords()
 			MyGarrisons:ShipmentScan()
 			MyGarrisons:ScanQuests()
-			
-			
+			MyGarrisons:SetUpTimerFrame()
+			MyGarrisons:MakeSureTimerScrollAnchored()
+			MyGarrisons:QUEST_FINISHED()
 			if MGNewCharacter == true then
-		--		MyGarrisons:AddCharacterTimer(characterID, GetRealmName())
+			
 			end
 
 		end
@@ -2057,16 +2063,16 @@ function MyGarrisons:GARRISON_MISSION_COMPLETED(eventName, missionID, bonus)
 
 end
 function MyGarrisons:GARRISON_BUILDING_UPDATE(en, p1, p2, p3, p4)
-	print(p1)
-	print(p2)
-	print(p3)
-	print(p4)
+	--print(p1)
+	--print(p2)
+	--print(p3)
+	--print(p4)
 end
 function MyGarrisons:QUEST_FINISHED()
 	local nam, realmi = UnitName("player")
 	if IsQuestFlaggedCompleted(34586) or IsQuestFlaggedCompleted(34378) then
 		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.HasGarrison == false then
-			MyGarrisons:AddCharacterTimer(nam, GetRealmName())
+			--MyGarrisons:AddCharacterTimer(nam, GetRealmName())
 		end
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.HasGarrison = true
 	end	
@@ -2127,7 +2133,7 @@ function MyGarrisons:CheckForPlotSwitch()
 		
 		end
 		if itWasMoved then
-			print("MOVED")
+			--print("MOVED")
 			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[buildID].PlotID = neoPlotID
 		else
 			if MyGarrisons.db.global.MGRealms[GetRealmName()] ~= nil then
@@ -2159,22 +2165,22 @@ end
 function MyGarrisons:GARRISON_BUILDINGS_SWAPPED(eventname, p1, p2, p3, p4, p5, p6, p7)
 --TODO what triggers this event?
 	if p1 ~= nil then
-		print("P1 "..p1)
+	--	print("P1 "..p1)
 	end
 	if p2 ~= nil then
-		print("p2 "..p2)
+	--	print("p2 "..p2)
 	end
 	if p3 ~= nil then
-		print("p3 "..p3)
+	--	print("p3 "..p3)
 	end
 	if p4 ~= nil then
-		print("p4 "..p4)
+		--print("p4 "..p4)
 	end
 	if p5 ~= nil then
-		print("p5 "..p5)
+	--	print("p5 "..p5)
 	end
 	if p6 ~= nil then
-		print("p6 "..p6)
+	--	print("p6 "..p6)
 	end
 end
 function MyGarrisons:SHIPMENT_UPDATE(eventName, par1, par2, par3)
