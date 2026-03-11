@@ -1,7 +1,7 @@
 ## Author: Endar_Ren
 ## Interface: 60000
 ## Title: MyGarrisons
-## Version: 0.9
+## Version: 0.9.5
 ## SavedVariables: GAR2
 embeds.xml
 MyGarrisons.lua

@@ -442,7 +442,7 @@
 					<Size x="275" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="26" y="-459" />
+							<Offset x="25" y="-538" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -515,6 +515,30 @@
 					<Anchors>
 						<Anchor point="TOPLEFT">
 							<Offset x="26" y="-400" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Completed Mission Counter Colors">
+					<Size x="305" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-479" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Cache Color Settings">
+					<Size x="304" y="17" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset x="1" y="-307" />
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString inherits="GameFontNormal" text="Mission Colors">
+					<Size x="305" y="15" />
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset y="-422" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -661,7 +685,7 @@
 				<Size x="17" y="16" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="5" y="-459" />
+						<Offset x="4" y="-538" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -770,10 +794,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						MyGarrisons:StartColorPickCharName()
-						--TODO cancelFunc
-						ColorPickerFrame.func = function () MyGarrisons:ChangeCharacterNameColor() end
-						ColorPickerFrame:Show()
+						MyGarrisons:MGColorSelection ("Char-Name")
 					</OnClick>
 				</Scripts>
 			</Button>
@@ -810,12 +831,49 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						MyGarrisons:StartColorPickCacheName()
-						--TODO cancelFunc
-						ColorPickerFrame.func = function () MyGarrisons:ChangeCacheNameColor() end
-						ColorPickerFrame:Show()
+						MyGarrisons:MGColorSelection ("Char-Cache-Name")
 					</OnClick>
 				</Scripts>
+			</Button>
+			<Button inherits="UIPanelButtonTemplate" text="Mission Title Color">
+				<Size x="130" y="30" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="8" y="-443" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="UIPanelButtonTemplate" text="All Done">
+				<Size x="84" y="22" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="196" y="-503" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="UIPanelButtonTemplate" text="Half">
+				<Size x="74" y="22" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="116" y="-503" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="UIPanelButtonTemplate" text="Empty">
+				<Size x="78" y="22" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="23" y="-503" />
+					</Anchor>
+				</Anchors>
+			</Button>
+			<Button inherits="UIPanelButtonTemplate" text="Exp Mission Color">
+				<Size x="126" y="29" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="153" y="-443" />
+					</Anchor>
+				</Anchors>
 			</Button>
 		</Frames>
 	</Frame>

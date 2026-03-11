@@ -925,19 +925,19 @@
 			</Layer>
 			<Layer level="OVERLAY">
 				<FontString name="MGCharacterName" inherits="GameFontNormal" parentKey="charname" text="" justifyH="LEFT">
-					<Size x="207" y="20" />
+					<Size x="176" y="20" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="9" />
+							<Offset x="4" />
 						</Anchor>
 					</Anchors>
 					<FontHeight val="12" />
 				</FontString>
 				<FontString name="MGCharacterCache" inherits="GameFontNormal" parentKey="cache" text="">
-					<Size x="45" y="16" />
+					<Size x="39" y="16" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="18" y="-19" />
+							<Offset x="11" y="-19" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -945,18 +945,17 @@
 					<Size x="32" y="16" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="31" y="-34" />
+							<Offset x="11" y="-34" />
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString inherits="GameFontNormal" parentKey="ordertext" font="" text="Orders">
-					<Size x="60" y="16" />
+				<FontString inherits="GameFontNormal" parentKey="shipndlabel" text="Orders" justifyV="BOTTOM">
+					<Size x="49" y="16" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="150" y="-19" />
+							<Offset x="182" y="-4" />
 						</Anchor>
 					</Anchors>
-					<FontHeight val="5" />
 				</FontString>
 			</Layer>
 		</Layers>
@@ -992,16 +991,13 @@
 				<Size x="74" y="30" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="69" y="-19" />
+						<Offset x="49" y="-20" />
 					</Anchor>
 				</Anchors>
-				<Backdrop bgFile="" edgeFile="" tile="true">
-					<TileSize>
-						<AbsValue val="32" />
-					</TileSize>
-					<EdgeSize>
-						<AbsValue val="32" />
-					</EdgeSize>
+				<Backdrop bgFile="" edgeFile="Interface\UI\Tooltips\UI-Tooltip-Border" tile="true">
+					<TileSize val="15" />
+					<EdgeSize val="18" />
+					<BorderColor r="1" g="1" b="0" />
 				</Backdrop>
 				<Layers>
 					<Layer>
@@ -1029,7 +1025,9 @@
 						<FontString inherits="GameFontNormal" parentKey="missiontitle" font="" text="Missions">
 							<Size x="75" y="16" />
 							<Anchors>
-								<Anchor point="TOPLEFT" />
+								<Anchor point="TOPLEFT">
+									<Offset x="-1" y="-2" />
+								</Anchor>
 							</Anchors>
 							<FontHeight val="5" />
 						</FontString>
@@ -1072,6 +1070,111 @@
 						</FontString>
 					</Layer>
 				</Layers>
+			</Frame>
+			<Frame name="MGNDShip" parentKey="ndship">
+				<Size x="132" y="29" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="123" y="-20" />
+					</Anchor>
+				</Anchors>
+				<Backdrop bgFile="" edgeFile="Interface\UI\Tooltips\UI-Tooltip-Border" tile="true">
+					<TileSize val="15" />
+					<EdgeSize val="18" />
+					<BorderColor r="1" g="1" b="0" />
+				</Backdrop>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString name="MGDoneString" inherits="GameFontNormal" text="Done" justifyH="LEFT">
+							<Size x="39" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="4" y="-15" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="5" />
+						</FontString>
+						<FontString name="MGNextString" inherits="GameFontNormal" text="Next" justifyH="LEFT">
+							<Size x="39" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="4" y="-3" />
+								</Anchor>
+							</Anchors>
+							<FontHeight val="5" />
+						</FontString>
+						<FontString name="MGShipDoneTime" inherits="GameFontNormal" parentKey="donetime" text="##:##:##">
+							<Size x="72" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="37" y="-15" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+						<FontString name="MGShipNextTime" inherits="GameFontNormal" parentKey="nexttime" text="##:##:##">
+							<Size x="72" y="13" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="37" y="-3" />
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Frame name="MGNextFrame" parentKey="nexticon">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="111" y="-3" />
+							</Anchor>
+						</Anchors>
+						<Backdrop bgFile="" edgeFile="" tile="true">
+							<TileSize>
+								<AbsValue val="32" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="32" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer>
+								<Texture parentKey="nexttext" setAllPoints="true">
+									<Size x="12" y="12" />
+									<Anchors>
+										<Anchor point="TOPLEFT" />
+									</Anchors>
+								</Texture>
+							</Layer>
+						</Layers>
+					</Frame>
+					<Frame name="MGDoneFrame" parentKey="doneicon">
+						<Size x="13" y="13" />
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset x="111" y="-15" />
+							</Anchor>
+						</Anchors>
+						<Backdrop bgFile="" edgeFile="" tile="true">
+							<TileSize>
+								<AbsValue val="32" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="32" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer>
+								<Texture parentKey="donetext" setAllPoints="true">
+									<Size x="12" y="12" />
+									<Anchors>
+										<Anchor point="TOPLEFT" />
+									</Anchors>
+								</Texture>
+							</Layer>
+						</Layers>
+					</Frame>
+				</Frames>
 			</Frame>
 		</Frames>
 		<Scripts>
@@ -1727,12 +1830,14 @@
 				self:StopMovingOrSizing()
 				MyGarrisons:MakeSureTimerScrollAnchored()
 			</OnDragStop>
-			<OnUpdate>
-				MyGarrisons:UpdateTimersForCharacters()
-			</OnUpdate>
 			<OnHide>
 				collectgarbage("collect")
+				MyGarrisons:CancelInfoTimers()
 			</OnHide>
+			<OnShow>
+				MyGarrisons:StartTimers()
+				--MyGarrisons:ScheduleTimer("UpdateTimersForCharacters", 1)
+			</OnShow>
 		</Scripts>
 	</Frame>
 	<Frame name="ProtoFrame" hidden="true">

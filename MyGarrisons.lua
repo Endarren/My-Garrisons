@@ -12,9 +12,185 @@ local	factionGroup, factionName = UnitFactionGroup("player")
 	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID] = {
 		Settings = {	
 			Alert = {Enabled = false, InCombat = false, Alpha = 1, Missions = true, Shipments = true, FinalShipment = true},
-			Colors						= {	Character	= {Name = {}, Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}, Mission = {Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, Shipment = {}},
-														Mission		= {Name = {}, Timers = {}},
-														Building	= {Name = {}, WorkOrder = {}, Special = {}}}, 
+			Colors						= {	Character	= {Name = {},	Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR, Range = {None = DEFAULT_COLOR, Half = DEFAULT_COLOR, Full = DEFAULT_COLOR}}, 
+																		Mission = {CompletedRange = {None =DEFAULT_COLOR, Half = DEFAULT_COLOR, All = DEFAULT_COLOR },Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, 
+																		Shipment = {Name = DEFAULT_COLOR}},
+														Mission		= {Name = DEFAULT_COLOR, Timers = {}},
+														Buildings = {
+																		Mine = {Name = DEFAULT_COLOR,
+																				Node = DEFAULT_COLOR,
+																				NodeNone = DEFAULT_COLOR,
+																				NodeHalf = DEFAULT_COLOR,
+																				NodeAll = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Herb = {Name = DEFAULT_COLOR,
+																				Node = DEFAULT_COLOR,
+																				NodeNone = DEFAULT_COLOR,
+																				NodeHalf = DEFAULT_COLOR,
+																				NodeAll = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR,
+																				Crop = DEFAULT_COLOR},
+																		Fish = {Name = DEFAULT_COLOR,
+																				Quest = DEFAULT_COLOR},
+																		Store = {Name = DEFAULT_COLOR},
+																		Salvage = {Name = DEFAULT_COLOR},
+																		Pet = {Name = DEFAULT_COLOR,
+																				Quest = DEFAULT_COLOR},
+																		Tailor = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Black = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Engineer = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Inscript = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Enchant = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Gem = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR,
+																				Quest = DEFAULT_COLOR},
+																		Leather = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Alchemy = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR,
+																				Quest = DEFAULT_COLOR},
+																		Barn = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Arena = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Lumber = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Trade = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Inn = {Name = DEFAULT_COLOR},
+																		
+																		Dwarf = {Name = DEFAULT_COLOR,
+																			ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR,
+																				Scraps = DEFAULT_COLOR},
+																		Gnome = {Name = DEFAULT_COLOR,
+																				ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Portal = {Name = DEFAULT_COLOR,
+																					ShipNone = DEFAULT_COLOR,
+																					ShipHalf = DEFAULT_COLOR,
+																					ShipAll = DEFAULT_COLOR,
+																				Timer = DEFAULT_COLOR,
+																				TimerStart = DEFAULT_COLOR,
+																				TimerHalf = DEFAULT_COLOR,
+																				TimerDone = DEFAULT_COLOR},
+																		Barrack = {Name = DEFAULT_COLOR,
+																					BGNone = DEFAULT_COLOR,
+																					BGHalf = DEFAULT_COLOR,
+																					BGALL = DEFAULT_COLOR},
+																		Stable = {Name = DEFAULT_COLOR,
+																					QuestNone = DEFAULT_COLOR,
+																					QuestHalf = DEFAULT_COLOR,
+																					QuestAll = DEFAULT_COLOR}
+														
+														
+														
+														
+														
+														
+														
+														
+														},
+														Building	= {Name = DEFAULT_COLOR, WorkOrder = {}, Special = {}}}, 
 						Filters						= {}, 
 						Alpha						= 1,
 						ShowCache					= true,
@@ -529,6 +705,7 @@ BuildingSpecialDatas[135].Quests.IDs = {35075,
 										36514,
 										36513,
 										36510}
+BuildingSpecialDatas[10] = {Quest = {ResetsAt = 0, Completed = false}, WarSeal = {Used = false, ResetsAt = 0}}										
 function MyGarrisons:GetBuildingSpecialData(buildingID)
 	return BuildingSpecialDatas[buildingID]
 
@@ -779,6 +956,10 @@ QuestsToWatchFor[36514] = {BuildingType = "fishing"}
 QuestsToWatchFor[36513] = {BuildingType = "fishing"}
 QuestsToWatchFor[36510] = {BuildingType = "fishing"}
 
+--38188 or qid == 38175
+QuestsToWatchFor[38188] = {BuildingType = "war"}
+QuestsToWatchFor[38175] = {BuildingType = "war"}
+
 local BuildingShipmentSpells = {}
 
 
@@ -870,11 +1051,23 @@ local BuildingDetectedTable = {}
 function MyGarrisons:ScanQuests()
 	local characterID, realmi = UnitName("player")
 	local realmID = GetRealmName ()
-
+--TODO
 	for k,v in pairs (QuestsToWatchFor) do
 		if IsQuestFlaggedCompleted(k) then
 			--{64, 134, 135}
 			--Fishing
+			if v.BuildingType == "war" then
+				if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData == nil then
+					MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData = MyGarrisons:GetBuildingSpecialData(10)
+				end 
+				if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quest == nil then
+					MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData = {Quest = {ResetsAt = 0, Completed = false}, WarSeal = {Used = false, ResetsAt = 0}}
+				end
+				
+				MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quest.Completed = true
+				
+				MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quest.ResetsAt = time()+GetQuestResetTime()
+			end
 			if v.BuildingType == "fishing" then
 				if	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[64] ~= nil then
 						MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[64].SpecialData.Quests.Completed = true
@@ -901,7 +1094,7 @@ function MyGarrisons:ScanQuests()
 					end
 				end
 				if	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[66] ~= nil then
-local mountspell = v.Mount
+					local mountspell = v.Mount
 					if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[66].SpecialData == nil then
 					MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[66].SpecialData =BuildingSpecialDatas[66]
 					end
@@ -912,7 +1105,7 @@ local mountspell = v.Mount
 					end
 				end
 				if	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[67] ~= nil then
-	local mountspell = v.Mount
+					local mountspell = v.Mount
 					if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[67].SpecialData == nil then
 					MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[67].SpecialData =BuildingSpecialDatas[67]
 					end
@@ -1675,7 +1868,8 @@ local NeooptionTable = {
 											MyGarrisonTimers:Hide()
 										else
 											MyGarrisonTimers:Show()
-											MyGarrisonTimers:SetScript("OnUpdate", function () MyGarrisons:UpdateTimersForCharacters() end);
+											--MyGarrisons:ScheduleTimer("UpdateTimersForCharacters", 1)
+										--	MyGarrisonTimers:SetScript("OnUpdate", function () MyGarrisons:UpdateTimersForCharacters() end);
 										end
 									end
 							},
@@ -1764,7 +1958,57 @@ local NeooptionTable = {
 									end
 						},
 						
+						TESTX = {
+						name = "text",
+							type = "execute",
+							func = function ()  
+						local characterID, realmi = UnitName("player")
+										local realmID = GetRealmName()
+							local counter = 0
+	local soonest = 0
+	local expmiss = 0
+	for k,v in pairs (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Missions) do
+		
+		
+			counter = counter + 1
+			local foundexpearned = false;
+			for kX,vX in pairs (v.Followers) do
+				print(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].XP)
+				if   MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX] ~= nil then
+					if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Level ~= 100 and MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Quality ~= 6 and MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Quality ~= 5  then
+						foundexpearned = true
+						print(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].XP)
+					end
+				end
+			end
+			if foundexpearned then
+				expmiss = expmiss + 1
+			end
+			--Followers
+		--[[	 MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Garrison.Followers[v.followerID] = {
+				Class = v.className,
+				iLevel = v.iLevel,
+				Name = v.name,
+				DisplayID = v.displayID,
+				Level = v.level,
+				XP = v.xp,
+				LevelXP = v.levelXP,
+				Quality = v.quality,
+				Abilities = {},
+				Traits = {}, 
+				Activated = true --TODO
+			 }
+			]]--
+
+	end
+
+							
+							
+							
+							end
+
 						
+						},
 			clear = {
 							name = "Clear Database",
 							type = "execute",
@@ -2051,6 +2295,20 @@ function MyGarrisons:OnInitialize()
 	self:RegisterEvent("ZONE_CHANGED")
 	
 
+
+	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Colors.Character == nil then
+
+
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Colors.Character = {Name = DEFAULT_COLOR,	Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR,  Range = {None = DEFAULT_COLOR, Half = DEFAULT_COLOR, Full = DEFAULT_COLOR}}, 
+																		Mission = {CompletedRange = {None =DEFAULT_COLOR, Half = DEFAULT_COLOR, All = DEFAULT_COLOR },Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, 
+																		Shipment = {Name = DEFAULT_COLOR}}
+	end
+	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Colors.Character.Cache.Range == nil then
+		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Colors.Character.Cache.Range = {None = DEFAULT_COLOR, Half = DEFAULT_COLOR, Full = DEFAULT_COLOR}
+	end
+if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Colors.Character.Name.r == nil then
+MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.Colors.Character.Name= DEFAULT_COLOR
+end
 	--self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].CompletedMissions == nil then
@@ -2069,6 +2327,7 @@ function MyGarrisons:OnInitialize()
 		MyGarrisonTimers:Hide()
 	end
 	MyGarrisons:SetUpOptionsFrame()
+
 end
 local TimersWereUp = false
 function MyGarrisons:PLAYER_REGEN_ENABLED()
@@ -2142,6 +2401,7 @@ local characterID, realmi = UnitName("player")
 	end
 	
 end
+
 local repeater = 0
 function MyGarrisons:DelayedUpdate()
 	local characterID, realmi = UnitName("player")
@@ -2160,11 +2420,16 @@ function MyGarrisons:DelayedUpdate()
 		MyGarrisons:SetUpTimerFrame()
 		MyGarrisons:MakeSureTimerScrollAnchored()
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Invasion = C_Garrison.IsInvasionAvailable()
+	
 	else
 		if repeater < 10 then
+			if repeater == 0 then
+				MyGarrisons:AddonMessagePrintout("MyGarrisons", "Trying to find character's data...")
+			end
 			local timerDelayed= MyGarrisons:ScheduleTimer("DelayedUpdate", 5)
 			repeater = repeater+1
 		else
+			MyGarrisons:AddonMessagePrintout("MyGarrisons", "Failed to find character's data.")
 			MyGarrisons:ScanGarrison()
 			MyGarrisons:ScanFollowers()
 			MyGarrisons:CheckMissionRecords()
@@ -2223,7 +2488,7 @@ function MyGarrisons:PLAYER_LOGIN()
 
 end
 function MyGarrisons:GARRISON_MISSION_STARTED(ev, missionID, p2, p3)
-
+	MyGarrisons:CharUpdated()
 	local Atlas = ""
 	local followes = {}
 	local isRar = false;
@@ -2317,7 +2582,7 @@ function MyGarrisons:GARRISON_MISSION_COMPLETED(eventName, missionID, bonus)
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Missions[missionID] = nil
 		
 	end
-	--MyGarrisons:ScanFollowers()
+	MyGarrisons:ScanFollowers()
 	
 
 end
@@ -2462,6 +2727,14 @@ BuildingSpecialDatas[132].Quests[37324] = 1 ]]--
 	end
 
 	if qid == 38188 or qid == 38175 then
+		--TODO
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData == nil then
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData = MyGarrisons:GetBuildingSpecialData(10)
+		end 
+		-- MyGarrisons:GetBuildingSpecialData(buildingID)
+		if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData.Quest == nil then
+			MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData = {Quest = {ResetsAt = 0, Completed = false}, WarSeal = {Used = false, ResetsAt = 0}}
+		end
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData.Quest.Completed = true
 		MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData.Quest.ResetsAt = time()+GetQuestResetTime()
 		--ResetsAt = time()+GetQuestResetTime()

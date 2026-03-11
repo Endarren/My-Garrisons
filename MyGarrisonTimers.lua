@@ -5,16 +5,16 @@ local MGBodyguards = {Alliance = {}, Horde = {}}
 MGBodyguards.Alliance[1] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\193N.tga", 
 	SpellID =173649,
 	Name = ""}
-MGBodyguards.Alliance[2] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\218N.tga", SpellID =173659 }
-MGBodyguards.Alliance[3] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\219N.tga", SpellID =173976 }
-MGBodyguards.Alliance[4] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\216A.tga", SpellID =173658 }
-MGBodyguards.Alliance[5] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\207A.tga", SpellID =173657 }
+MGBodyguards.Alliance[2] =	{Image = "Interface\\AddOns\\MyGarrisons\\Images\\218N.tga", SpellID =173659 }
+MGBodyguards.Alliance[3] =	{Image = "Interface\\AddOns\\MyGarrisons\\Images\\219N.tga", SpellID =173976 }
+MGBodyguards.Alliance[4] =	{Image = "Interface\\AddOns\\MyGarrisons\\Images\\216A.tga", SpellID =173658 }
+MGBodyguards.Alliance[5] =	{Image = "Interface\\AddOns\\MyGarrisons\\Images\\207A.tga", SpellID =173657 }
 
-MGBodyguards.Horde[1] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\193N.tga", SpellID =173649 }
-MGBodyguards.Horde[2] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\218N.tga", SpellID =173659 }
-MGBodyguards.Horde[3] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\219N.tga", SpellID =173976 }
-MGBodyguards.Horde[4] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\216H.tga", SpellID =173661 }
-MGBodyguards.Horde[5] = {Image = "Interface\\AddOns\\MyGarrisons\\Images\\207H.tga", SpellID =173660 }
+MGBodyguards.Horde[1] =		{Image = "Interface\\AddOns\\MyGarrisons\\Images\\193N.tga", SpellID =173649 }
+MGBodyguards.Horde[2] =		{Image = "Interface\\AddOns\\MyGarrisons\\Images\\218N.tga", SpellID =173659 }
+MGBodyguards.Horde[3] =		{Image = "Interface\\AddOns\\MyGarrisons\\Images\\219N.tga", SpellID =173976 }
+MGBodyguards.Horde[4] =		{Image = "Interface\\AddOns\\MyGarrisons\\Images\\216H.tga", SpellID =173661 }
+MGBodyguards.Horde[5] =		{Image = "Interface\\AddOns\\MyGarrisons\\Images\\207H.tga", SpellID =173660 }
 --Interface\\AddOns\\MyGarrisons\\Images\\193N.png
 
 local HerbIcons = {}
@@ -31,20 +31,20 @@ HerbIcons["Let's go with a random planting."]	= "Interface\\ICONS\\INV_Misc_Ques
 
 local classTextureNames = {}
 
-classTextureNames[1] = "GarrMission_ClassIcon-Warrior"
-classTextureNames[2] = "GarrMission_ClassIcon-Paladin"
-classTextureNames[3] = "GarrMission_ClassIcon-Hunter"
-classTextureNames[4] = "GarrMission_ClassIcon-Rogue"
-classTextureNames[5] = "GarrMission_ClassIcon-Priest"
-classTextureNames[6] = "GarrMission_ClassIcon-DeathKnight"
-classTextureNames[7] = "GarrMission_ClassIcon-Shaman"
-classTextureNames[8] = "GarrMission_ClassIcon-Mage"
-classTextureNames[9] = "GarrMission_ClassIcon-Warlock"
-classTextureNames[10] = "GarrMission_ClassIcon-Monk"
-classTextureNames[11] = "GarrMission_ClassIcon-Druid"
+classTextureNames[1]	= "GarrMission_ClassIcon-Warrior"
+classTextureNames[2]	= "GarrMission_ClassIcon-Paladin"
+classTextureNames[3]	= "GarrMission_ClassIcon-Hunter"
+classTextureNames[4]	= "GarrMission_ClassIcon-Rogue"
+classTextureNames[5]	= "GarrMission_ClassIcon-Priest"
+classTextureNames[6]	= "GarrMission_ClassIcon-DeathKnight"
+classTextureNames[7]	= "GarrMission_ClassIcon-Shaman"
+classTextureNames[8]	= "GarrMission_ClassIcon-Mage"
+classTextureNames[9]	= "GarrMission_ClassIcon-Warlock"
+classTextureNames[10]	= "GarrMission_ClassIcon-Monk"
+classTextureNames[11]	= "GarrMission_ClassIcon-Druid"
 local factionTextureNames = {}
 factionTextureNames["Alliance"] = "MountJournalIcons-Alliance"
-factionTextureNames["Horde"] = "MountJournalIcons-Horde"
+factionTextureNames["Horde"]	= "MountJournalIcons-Horde"
 
 
 local MGPortalIcons = {}
@@ -102,7 +102,7 @@ function MyGarrisons:SetUpTimerFrame()
 	if MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.ShowOnLogIn == false then
 		MyGarrisonTimers:Hide()
 	else
-	MyGarrisonTimers:Show()
+		MyGarrisonTimers:Show()
 	end
 	--MyGarrisons.db.global.MGRealms[GetRealmName()] = {Characters = {}}
 	for k,v in pairs (MyGarrisons.db.global.MGRealms) do
@@ -156,19 +156,21 @@ function MyGarrisons:UpdateCharacterHeader(ind)
 	end
 end
 
+function MyGarrisons:CharUpdated()
+
+end
 function MyGarrisons:CharacterHeaderSorter()
 	
 	local characterID, realmi = UnitName("player")
 	local realmID = GetRealmName()
 	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters == nil then
-		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters = {Direction = 1,
-Type = "mission"}
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters = {Direction = 1, Type = "mission"}
 	end
 	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Type == "name" then
 		MyGarrisons:SortCharactersByName()
 	else
 		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Type == "mission" then
-			MyGarrisons:SortCharactersByMissionTime()
+				MyGarrisons:SortCharactersByMissionTime()
 		else
 	
 	
@@ -181,44 +183,42 @@ function MyGarrisons:SortCharactersByName()
 	local realmID = GetRealmName()
 	sort(CharacterHeaders, function(a,b)
 		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Direction == 1 then
-if a.Used == b.Used then
-			if a.CharacterID < b.CharacterID then
+			if a.Used == b.Used then
+				if a.CharacterID < b.CharacterID then
 
-				return true
-			else
-				if a.CharacterID == b.CharacterID then
-					return a.RealmID < b.RealmID
+					return true
 				else
-					return false;
+					if a.CharacterID == b.CharacterID then
+						return a.RealmID < b.RealmID
+					else
+						return false;
+					end
+				end
+			else
+				if a.Used == true then
+					return true
+				else
+					return false
 				end
 			end
-		else
-			if a.Used == true then
-				return true
-			else
-				return false
-			end
-		end
 		else--
-		if a.Used == b.Used then
-			if a.CharacterID < b.CharacterID then
-
-				return false
-			else
-				if a.CharacterID == b.CharacterID then
-					return a.RealmID > b.RealmID
+			if a.Used == b.Used then
+				if a.CharacterID < b.CharacterID then
+					return false
 				else
-					return true;
+					if a.CharacterID == b.CharacterID then
+						return a.RealmID > b.RealmID
+					else
+						return true;
+					end
+				end
+			else
+				if a.Used == true then
+					return true
+				else
+					return false
 				end
 			end
-		else
-			if a.Used == true then
-				return true
-			else
-				return false
-			end
-		end
-		
 		end
 	end)
 	for k = 1, #CharacterHeaders do
@@ -299,15 +299,12 @@ function MyGarrisons:SortCharactersByMissionTime()
 
 					end
 				else
-
-
 					if a.CharacterID < b.CharacterID then
 						if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Direction == 1 then
 							return true
 						else
 							return false
 						end
-
 					else
 						if a.CharacterID == b.CharacterID then
 							if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Direction == 1 then
@@ -494,57 +491,58 @@ function MGCharacterHeader_OnClick(ind)
 		MyGarrisons:ArrangeCharacterMissions(ind)
 	end
 end
+local DEFAULT_COLOR = {r =0.776, g =0.643, b = 0.0313}
 function MyGarrisons:UpdateTimersForCharacters()
-	MyGarrisonTimers:SetScript("OnUpdate", nil);
+	--MyGarrisonTimers:SetScript("OnUpdate", nil);
 	--TODO frame rate affected
 	local characterID, realmi = UnitName("player")
 	local realmID = GetRealmName()
 	local Alpha = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Alpha
 	MyGarrisonTimers.timerscroll:SetAlpha(Alpha)
 	for k,v in pairs (CharacterHeaders) do
-	local DEFAULT_COLOR = {r =0.776, g =0.643, b = 0.0313}
-	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name == nil then
-		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character	= {Name = DEFAULT_COLOR, Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}, Mission = {Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, Shipment = {}}
-	end
-	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.r == nil then
-		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character	= {Name = DEFAULT_COLOR, Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}, Mission = {Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, Shipment = {}}
-	end
-CharacterHeaders[k].Frame.charname:SetTextColor(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.r,
-	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.g,
-	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.b)
-		--Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}
-if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount == nil then
-MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache = {Name = {r =0.776, g =0.643, b = 0.0313}, Amount = {r =0.776, g =0.643, b = 0.0313}}
+
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character == nil then
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character	= {Name = {},	Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR, Range = {None = DEFAULT_COLOR, Half = DEFAULT_COLOR, Full = DEFAULT_COLOR}}, 
+																		Mission = {CompletedRange = {None =DEFAULT_COLOR, Half = DEFAULT_COLOR, All = DEFAULT_COLOR },Exp = DEFAULT_COLOR, Title = DEFAULT_COLOR}, 
+																		Shipment = {Name = DEFAULT_COLOR} }
 		end
-		CharacterHeaders[k].Frame.cache:SetTextColor(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.r,
-	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.g,
-	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.b)
+
 		
-		CharacterHeaders[k].Frame.cacheAmount:SetTextColor(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.r,
-	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.g,
-	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.b)
+
+		CharacterHeaders[k].Frame.charname:SetTextColor(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.r,
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.g,
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.b)
+		--Cache = {Name = DEFAULT_COLOR, Amount = DEFAULT_COLOR}
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount == nil then
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache = {Name = {r =0.776, g =0.643, b = 0.0313}, Amount = {r =0.776, g =0.643, b = 0.0313}}
+		end
+		CharacterHeaders[k].Frame.cache:SetTextColor(	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.r,
+														MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.g,
+														MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Name.b)
+		
+		CharacterHeaders[k].Frame.cacheAmount:SetTextColor(	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.r,
+															MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.g,
+															MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Cache.Amount.b)
 		
 		
 		if v.Expanded then
 			for k2, v2 in pairs (v.TimerBag.MissionHeader.MissionTimers) do
 				if MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Missions[v2.missionID] ~= nil then
 					if MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Missions[v2.missionID].EndTime ~= nil then
-						local startTime = MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Missions[v2.missionID].StartTime
-						local endTime = MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Missions[v2.missionID].EndTime
---Type atlas
+--Type atlas--
 						if MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Missions[v2.missionID].MissionAtlas ~= nil then
 							v2.missiontypeicon:SetAtlas(MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Missions[v2.missionID].MissionAtlas)
 						end
-						--endTime = startTime + endTime
-						local timeleft = difftime( time(),MyGarrisons.db.global.MGRealms[v2.realmID].Characters[v2.characterID].Missions[v2.missionID].EndTime)
-						if endTime < time() then
+
+						local timeleft = difftime( time(),v2.EndTime)
+						if v2.EndTime < time() then
 							v2.missiontime:SetText("Done")
 							v2.missiontimerbg:SetAtlas("GarrLanding-Mission-Complete", true);
 							v2.missiondonetext:Show()
 						else
 							v2.missiontimerbg:SetAtlas("GarrLanding-Mission-InProgress", true);
 							v2.missiondonetext:Hide()
-							v2.missiontime:SetText(MyGarrisons:ConvertSecondsToTime(timeleft, endTime))
+							v2.missiontime:SetText(MyGarrisons:ConvertSecondsToTime(timeleft, v2.EndTime))
 						end
 					end
 					v2.missionname:SetText(C_Garrison.GetMissionName(v2.missionID))
@@ -553,9 +551,8 @@ MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.
 						v2.Used = false
 						v2:Hide()
 						v.TimerBag.MissionHeader.ActiveMissions = v.TimerBag.MissionHeader.ActiveMissions - 1
-						MyGarrisons:SortMissionsByTimeLeft(k)
+						--MyGarrisons:SortMissionsByTimeLeft(k)
 					end
-					--TODO Bug timerbag does not resize probably.
 				end
 			end
 			MyGarrisons:SortMissionsByTimeLeft(k)
@@ -583,7 +580,7 @@ MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.
 						end
 					else
 						v2.bg:SetAtlas("")
-
+						-- Mining building Update
 						if v2.buildingID == 61 or v2.buildingID == 62 or v2.buildingID == 63 then
 							MyGarrisons:UpdateBuildingTimerForMine(k, k2)
 						end
@@ -614,7 +611,7 @@ MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.
 						if v2.buildingID == 90 or v2.buildingID == 121 or v2.buildingID == 122 then
 							MyGarrisons:UpdateBuildingTimerForLeather(k, k2)
 						end
-
+						-- Engineering Building Update.
 							--91, 123, 124
 						if v2.buildingID == 91 or v2.buildingID == 123 or v2.buildingID == 124 then
 							--  engineering
@@ -643,15 +640,15 @@ MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.
 							MyGarrisons:UpdateBuildingTimerForInn(k, k2)
 						end
 							--TODO Inn{34, 35, 36}
-							 --TODO  tech {162, 163, 164}
+							 --  tech {162, 163, 164}
 						if v2.buildingID == 162 or v2.buildingID == 163 or v2.buildingID == 164 then
 							MyGarrisons:UpdateBuildingTimerForTech(k, k2)
 						end
-						--TODO scribe  {95, 129, 130}
+						-- scribe  {95, 129, 130}
 						if v2.buildingID == 95 or v2.buildingID == 129 or v2.buildingID == 130 then
 							MyGarrisons:UpdateBuildingTimerForScribe(k, k2)
 						end
-							--TODO Arena  159, 160, 161
+							-- Arena  159, 160, 161
 						if v2.buildingID == 159 or v2.buildingID == 160 or v2.buildingID == 161 then
 							MyGarrisons:UpdateBuildingTimerForTradePost(k, k2)
 						end
@@ -696,11 +693,20 @@ MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.
 	end
 	MyGarrisons:CharacterHeaderSorter()
 	MyGarrisons:ArrangeCharacterHeaders()
-	MyGarrisonTimers:SetScript("OnUpdate", function () MyGarrisons:UpdateTimersForCharacters() end);
+--	MyGarrisonTimers:SetScript("OnUpdate", function () MyGarrisons:UpdateTimersForCharacters() end);
 	--Reduces drop in frame rate, but prevents addon from using too much memory
+	
 	MGGarbageCounter = MGGarbageCounter + 1
-	if MGGarbageCounter >= 300 then
+	if MGGarbageCounter >= 60 then
+
 		collectgarbage("collect") --Script ran too long error.
+		MGGarbageCounter = 0
+	end
+	if MyGarrisonTimers:IsShown() then
+		MyGarrisons:ScheduleTimer("UpdateTimersForCharacters", 1)
+
+	else
+		collectgarbage("collect")
 		MGGarbageCounter = 0
 	end
 end
@@ -816,6 +822,7 @@ function MyGarrisons:AddMissionTimer(characterID, realmID, missionID)
 end
 
 function MyGarrisons:AddNewMissionTimer(characterID, realmID, missionID, headerIndex)
+
 	CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions = CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions + 1
 	CharacterHeaders[headerIndex].TimerBag.MissionHeader.MissionTimers[CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions] = 
 	 CreateFrame("Button", "MissionTimer"..(headerIndex).."-"..CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions 
@@ -832,6 +839,7 @@ function MyGarrisons:AddNewMissionTimer(characterID, realmID, missionID, headerI
 	CharacterHeaders[headerIndex].TimerBag.MissionHeader.MissionTimers[CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions].missionID = missionID
 	CharacterHeaders[headerIndex].TimerBag.MissionHeader.MissionTimers[CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions].headerIndex = headerIndex
 	CharacterHeaders[headerIndex].TimerBag.MissionHeader.MissionTimers[CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions].missionindex = CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions
+	CharacterHeaders[headerIndex].TimerBag.MissionHeader.MissionTimers[CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions].EndTime = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Missions[missionID].EndTime
 	if CharacterHeaders[headerIndex].TimerBag.MissionHeader.Expanded == false then
 		CharacterHeaders[headerIndex].TimerBag.MissionHeader.MissionTimers[CharacterHeaders[headerIndex].TimerBag.MissionHeader.ActiveMissions]:Hide()
 	end	
@@ -1082,6 +1090,7 @@ function MyGarrisons:AddBuildingTimer(characterID, realmID, buildingID)
 end
 
 function MyGarrisons:AddNewBuildingTimer(characterID, realmID, buildingID, headerIndex)
+
 	CharacterHeaders[headerIndex].TimerBag.BuildingHeader.UsedBuildings = CharacterHeaders[headerIndex].TimerBag.BuildingHeader.UsedBuildings + 1
 	CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[CharacterHeaders[headerIndex].TimerBag.BuildingHeader.UsedBuildings] = 
 	 CreateFrame("Button", "BuildingTimer"..(headerIndex).."-"..CharacterHeaders[headerIndex].TimerBag.BuildingHeader.UsedBuildings 
@@ -1180,8 +1189,11 @@ function MyGarrisons:SortBuildingsByID(headerIndex)
 	sort(CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers, function(a,b)
 
 		if a.Used == b.Used then
-		--	print(nameA)
-			return a.buildingID < b.buildingID
+			if  a.buildingID < b.buildingID then
+				return true
+			else
+				return false
+			end
 		else
 			if a.Used == true then
 				return true
@@ -1480,16 +1492,16 @@ function MyGarrisons:UpdateBuildingTimerForWar(headerIndex, timerIndex)
 		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData == nil then
 		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData =MyGarrisons:GetBuildingSpecialData(10)
 		end
-		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests == nil then
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quest == nil then
 		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData =MyGarrisons:GetBuildingSpecialData(10)
 		end
 --MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[nam].Garrison.Buildings[10].SpecialData.Quests.Completed = true
-		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests.ResetsAt < time() then
-			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests.Completed = false
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quest.ResetsAt < time() then
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quest.Completed = false
 			--MyGarrisons.db.global.MGRealms[realmID].Characters[nam].Garrison.Buildings[10].SpecialData.Quests.Completed = true
 		end
-		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests.ResetsAt = time()+GetQuestResetTime()
-	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quests.Completed == false then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quest.ResetsAt = time()+GetQuestResetTime()
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[10].SpecialData.Quest.Completed == false then
 		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe5.bgicon5:SetTexture("Interface/RAIDFRAME/ReadyCheck-NotReady.png")
 	else
 		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe5.bgicon5:SetTexture("Interface/RAIDFRAME/ReadyCheck-Ready.png")
@@ -2376,7 +2388,7 @@ function MyGarrisons:UpdateBuildingTimerForStable(headerIndex, timerIndex)
 				quest4Done = quest4Done + 1
 			end
 		end
-			CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe4:SetScript("OnEnter", function () 
+		CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].bgframe4:SetScript("OnEnter", function () 
 		
 		GameTooltip:SetOwner(MyGarrisonTimers, "ANCHOR_CURSOR_RIGHT");
 					GameTooltip:SetText(name4)
@@ -2424,17 +2436,26 @@ function MyGarrisons:UpdateBuildingTimerForStable(headerIndex, timerIndex)
 		end
 	end
 end
+function MyGarrisons:StartTimers()
+	MyGarrisons:ScheduleTimer("UpdateTimersForCharacters", 1)
+	headerUpdateTimer =  MyGarrisons:ScheduleTimer("HeaderUpdateAction", 1)
+end
+function MyGarrisons:CancelInfoTimers()
+	MyGarrisons:CancelTimer(headerUpdateTimer)
+	--MyGarrisons:ScheduleTimer("UpdateTimersForCharacters", 1)
+end
 function MyGarrisons:HeaderUpdateAction()
 	for k, v in pairs (CharacterHeaders) do
 		local characterID= CharacterHeaders[k].CharacterID
 		local realmID = CharacterHeaders[k].RealmID
-		
+		MyGarrisons:UpdateShipmentCounter(characterID, realmID, k)
 	MyGarrisons:UpdateMissionCounter(characterID, realmID, k)
 	end
-
-	headerUpdateTimer =  MyGarrisons:ScheduleTimer("HeaderUpdateAction", 1)
+	if MyGarrisonTimers:IsShown() then
+		headerUpdateTimer =  MyGarrisons:ScheduleTimer("HeaderUpdateAction", 1)
+	end
 end
-local headerUpdateTimer =  MyGarrisons:ScheduleTimer("HeaderUpdateAction", 1)	
+local headerUpdateTimer -- =  MyGarrisons:ScheduleTimer("HeaderUpdateAction", 1)	
 function MyGarrisons:CountDoneMissions(characterID, realmID)
 	local counter = 0
 	local soonest = 0
@@ -2446,14 +2467,15 @@ function MyGarrisons:CountDoneMissions(characterID, realmID)
 			counter = counter + 1
 			local foundexpearned = false;
 			for kX,vX in pairs (v.Followers) do
-				 if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Level ~= 100 and (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Quality ~= 6 and MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].Quality ~= 5 ) then
-				foundexpearned = true
+				if   MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX] ~= nil then
+					if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Followers[vX].XP > 0  then
+						foundexpearned = true
+					end
 				end
-			
 			end
 			if foundexpearned then
-expmiss = expmiss + 1
-				end
+				expmiss = expmiss + 1
+			end
 			--Followers
 		--[[	 MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Garrison.Followers[v.followerID] = {
 				Class = v.className,
@@ -2472,15 +2494,200 @@ expmiss = expmiss + 1
 		else
 			if soonest > v.EndTime  or soonest == 0 then
 				soonest = v.EndTime
-			
 			end
 		end
 	end
 	return counter, soonest, expmiss
 end
 
+function MyGarrisons:TESTSHIPMENTSTUFF(characterID, realmID)
+local ShortestNext = 0;
+	local NextID = 0
+	local TotalFinished = 0
+	local ShortestDone = 0
+	local DoneID = 0
+	local TotalDone = 0
+
+	for k,v in pairs (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings) do
+		MyGarrisons:UpdateShipment(characterID, realmID, k)
+		TotalFinished = TotalFinished + #v.FinishedWorkOrders
+
+
+		 if v.ShipmentDuration ~= nil then
+
+			local Timeleft = difftime( (v.WorkOrderStartTime + v.ShipmentDuration  ),time())
+			if Timeleft > 0 then
+				 print("Building "..k.." next shipment is: "..Timeleft.."  |  "..MyGarrisons:ConvertToTime(Timeleft))
+			end
+			if Timeleft > 0 then
+				if NextID == 0 then
+					if   #v.WorkOrderQueue ~= 0 then
+						NextID = k
+						ShortestNext = Timeleft
+					end
+				else
+					if Timeleft <ShortestNext then
+						if   #v.WorkOrderQueue ~= 0 then
+							NextID = k
+							ShortestNext = Timeleft
+						end
+					end
+				end
+			end
+		local TotalTime = 0
+		if DoneID == 0 then
+			if   #v.WorkOrderQueue ~= 0 then
+				DoneID = k
+				ShortestDone = TotalTime
+			end
+		else
+			if TotalTime > ShortestDone then
+				if   #v.WorkOrderQueue ~= 0 then
+					DoneID = k
+					ShortestDone = TotalTime
+				end
+			end
+		end
+		if #v.FinishedWorkOrders > 0 and #v.WorkOrderQueue == 0 then
+			TotalDone = TotalDone + 1
+		end
+		--TODO Compute shipment times
+
+		--[[MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration ~= nil then
+		local FinishedShipments =  #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].FinishedWorkOrders
+		local PendingShipments =  #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderQueue
+		local MaxShipments = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].MaxWorkOrders
+		 local Timeleft = difftime(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderStartTime + MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration, time())
+		local Timeleft = MyGarrisons:ConvertSecondsToTimeStart( MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderStartTime + MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration)
+		]]--
+		end
+	end
+	print("Shortest next is "..NextID)
+	return ShortestNext, NextID, TotalFinished, ShortestDone, DoneID, TotalDone
+
+
+end
+function MyGarrisons:FindSoonestShipments(characterID, realmID)
+	local ShortestNext = 0;
+	local NextID = 0
+	local TotalFinished = 0
+	local ShortestDone = 0
+	local DoneID = 0
+	local TotalDone = 0
+
+	for k,v in pairs (MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings) do
+		MyGarrisons:UpdateShipment(characterID, realmID, k)
+		TotalFinished = TotalFinished + #v.FinishedWorkOrders
+		for k2, v2 in pairs (v) do
+		--	print(k2)
+			--print(v2)
+		end
+
+		 if v.ShipmentDuration ~= nil then
+
+		local Timeleft = difftime( (v.WorkOrderStartTime + v.ShipmentDuration  ),time())
+		
+		if Timeleft > 0 then
+				if NextID == 0 then
+					if   #v.WorkOrderQueue ~= 0 then
+						NextID = k
+						ShortestNext = Timeleft
+					end
+				else
+					if Timeleft <ShortestNext then
+						if   #v.WorkOrderQueue ~= 0 then
+							NextID = k
+							ShortestNext = Timeleft
+						end
+					end
+				end
+			end
+		local TotalTime = Timeleft + (v.ShipmentDuration *(#v.WorkOrderQueue - 1))
+		if TotalTime > 0 then
+			if DoneID == 0 then
+				if   #v.WorkOrderQueue ~= 0 then
+					DoneID = k
+					ShortestDone = TotalTime
+				end
+			else
+				if TotalTime < ShortestDone then
+					if   #v.WorkOrderQueue ~= 0 then
+						DoneID = k
+						ShortestDone = TotalTime
+					end
+				end
+			end
+		end
+		if #v.FinishedWorkOrders > 0 and #v.WorkOrderQueue == 0 then
+			TotalDone = TotalDone + 1
+		end
+		--TODO Compute shipment times
+
+			 --
+		--[[MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration ~= nil then
+		local FinishedShipments =  #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].FinishedWorkOrders
+		local PendingShipments =  #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderQueue
+		local MaxShipments = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].MaxWorkOrders
+		 local Timeleft = difftime(MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderStartTime + MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration, time())
+		local Timeleft = MyGarrisons:ConvertSecondsToTimeStart( MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderStartTime + MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration)
+		]]--
+		end
+	end
+	return ShortestNext, NextID, TotalFinished, ShortestDone, DoneID, TotalDone
+end
+local MGTempTableX = {}
+local MGCurrentNexts = {}
+function MyGarrisons:UpdateShipmentCounter(characterID, realmID, ind)
+
+	local ShortestNext, NextID, TotalFinished, ShortestDone, DoneID, TotalDone = MyGarrisons:FindSoonestShipments(characterID, realmID)
+--ndship.donetime
+	--ndship.nexttime
+	CharacterHeaders[ind].Frame.ndship.donetime:SetText(MyGarrisons:ConvertToTime(ShortestDone))
+	if DoneID ~=0 then
+		
+		MGTempTableX = {C_Garrison.GetBuildingInfo(DoneID)}
+		local buildname1 = MGTempTableX[2]
+		CharacterHeaders[ind].Frame.ndship.doneicon.donetext:SetTexture(MGTempTableX[4])
+			CharacterHeaders[ind].Frame.ndship.doneicon:SetScript("OnEnter", function () 
+		
+		GameTooltip:SetOwner(MyGarrisonTimers, "ANCHOR_CURSOR_RIGHT");
+					GameTooltip:SetText(buildname1)
+		end)
+		CharacterHeaders[ind].Frame.ndship.doneicon:SetScript("OnLeave", function () GameTooltip:Hide() end)
+		
+		
+		MGTempTableX = nil
+	end
+
+	CharacterHeaders[ind].Frame.ndship.nexttime:SetText(MyGarrisons:ConvertToTime(ShortestNext))
+	if NextID ~= 0 then
+		if MGCurrentNexts[characterID.."-"..realmID] == nil then
+			MGCurrentNexts[characterID.."-"..realmID] = 0
+		end
+		if MGCurrentNexts[characterID.."-"..realmID] ~= NextID then
+
+
+
+			MGTempTableX = {C_Garrison.GetBuildingInfo(NextID)}
+			CharacterHeaders[ind].Frame.ndship.nexticon.nexttext:SetTexture(MGTempTableX[4])
+			
+			MGCurrentNexts[characterID.."-"..realmID] = NextID
+local buildname2 = MGTempTableX[2]
+	CharacterHeaders[ind].Frame.ndship.nexticon:SetScript("OnEnter", function () 
+		
+		GameTooltip:SetOwner(MyGarrisonTimers, "ANCHOR_CURSOR_RIGHT");
+					GameTooltip:SetText(buildname2)
+		end)
+		CharacterHeaders[ind].Frame.ndship.nexticon:SetScript("OnLeave", function () GameTooltip:Hide() end)
+		
+MGTempTableX = nil
+		end
+	end
+
+
+end
 function MyGarrisons:UpdateMissionCounter(characterID, realmID, ind)
-local thischar = UnitName("player")
+	local thischar = UnitName("player")
 	local thisrealm = GetRealmName();
 --ShowCache = true,
 --						ShowMissionCounter = true,
@@ -2502,9 +2709,9 @@ local thischar = UnitName("player")
 		MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionCounter = true
 	end
 
-if MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionFollowerExp == nil then
-MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionFollowerExp = true
-end
+	if MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionFollowerExp == nil then
+		MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionFollowerExp = true
+	end
 	if MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowMissionCounter == true then
 		CharacterHeaders[ind].Frame.missionscounter:Show()
 		CharacterHeaders[ind].Frame.missionscounter.missiontitle:Show()
@@ -2529,11 +2736,11 @@ end
 		MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowShipmentCounter = false
 	end
 	if MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowShipmentCounter == true then
-		CharacterHeaders[ind].Frame.shipmentscounter:Show()
-		CharacterHeaders[ind].Frame.ordertext:Show()
+		CharacterHeaders[ind].Frame.ndship:Show()
+		--CharacterHeaders[ind].Frame.ordertext:Show()
 	else
-		CharacterHeaders[ind].Frame.shipmentscounter:Hide()
-		CharacterHeaders[ind].Frame.ordertext:Hide()
+		CharacterHeaders[ind].Frame.ndship:Hide()
+		--CharacterHeaders[ind].Frame.ordertext:Hide()
 	end
 	if MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowInvasion == nil then
 		MyGarrisons.db.global.MGRealms[thisrealm].Characters[thischar].Settings.ShowInvasion = true
@@ -2583,6 +2790,27 @@ function MyGarrisons:ConvertSecondsToTime(timesec, endTime)
 	--format ("%.2d:%.2d:%.2d",rHour,rMin,rSec)
 	return format ("%.2d:%.2d:%.2d",rHour,rMin,rSec)
 end
+
+
+function MyGarrisons:ConvertToTime(thetime)
+	
+
+
+	local rHour = floor(thetime / (60 * 60));
+ 
+   
+    local divisor_for_minutes = thetime % (60 * 60);
+
+    local rMin = floor(divisor_for_minutes / 60);
+ 
+    
+    local divisor_for_seconds = divisor_for_minutes % 60;
+    local rSec = ceil(divisor_for_seconds);
+--string.format("%.2d:%.2d:%.2d", s/(60*60), s/60%60, s%60)
+	--format ("%.2d:%.2d:%.2d",rHour,rMin,rSec)
+	return format ("%.2d:%.2d:%.2d",rHour,rMin,rSec)
+end
+
 function MyGarrisons:ConvertSecondsToTimeStart(startTime, duration)
 	
 	local thetime =  difftime(startTime, time())
