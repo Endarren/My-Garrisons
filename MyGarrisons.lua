@@ -447,6 +447,10 @@ function MyGarrisons:FillGBForCharacter()
 			MyGarrisons:AddGBTimerElement(GBSelectedNameRealm, "Building", k2)
 			
 		end
+		for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[GBSelectedNameRealm].Constructions) do
+			MyGarrisons:AddGBTimerElement(GBSelectedNameRealm, "Shipment", k2)
+			
+		end
 		MyGarrisons:UpdateGBTimers()
 end
 
@@ -1235,6 +1239,13 @@ function MyGarrisons:FillCharacters()
 			MyGarrisons:AddCharacterTimer(k, "Building", k2)
 			
 		end
+		if MyGarrisons.db.global.Garrisons[k].Shipments ~= nil then
+		for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[k].Shipments) do
+			MyGarrisons:AddCharacterTimer(k, "Shipment", k2)
+			
+		end
+		end
+		--TODO Fill Work Orders
 	end
 end
 
@@ -1303,6 +1314,7 @@ function MyGarrisons:SwapCharacterHeaders(index1, index2)
 			MyGarrisons:AddCharacterTimer(tempName2 , "Building", k2)
 			
 		end
+		--TODO Workorders
 		for k2,v2 in pairs (MyGarrisons.db.global.Garrisons[CharacterHeaders[index2].Name ].Missions) do
 			MyGarrisons:AddCharacterTimer(CharacterHeaders[index2].Name , "Mission", k2)
 			
@@ -1312,6 +1324,7 @@ function MyGarrisons:SwapCharacterHeaders(index1, index2)
 			
 			
 		end
+		--TODO Workorders
 		if GBSelectedNameRealm ==tempName2 then
 		MyGarrisons:ClearGBTimers()
 			MyGarrisons:FillGBForCharacter()
@@ -1375,6 +1388,8 @@ function MyGarrisons:ExpandCollapseTB(index)
 	MyGarrisons:UpdateColors ()
 end
 function MyGarrisons:AddCharacterTimer(charname, typeID, missID)
+
+
 	--TODO  Look for unused timers.
 	local charactersH = 0;
 	for k,v in pairs (CharacterHeaders) do
@@ -1387,7 +1402,9 @@ function MyGarrisons:AddCharacterTimer(charname, typeID, missID)
 	local found = false
 	for k= 1,(#CharacterHeaders[charactersH].Timers) do
 		--print("Timer used status = "
-
+		if CharacterHeaders[charactersH].Timers[k].Used == true and CharacterHeaders[charactersH].Timers[k].TimerType == typeID and CharacterHeaders[charactersH].Timers[k].ID == missID then
+			return nil
+		end
 		if CharacterHeaders[charactersH].Timers[k].Used == false or CharacterHeaders[charactersH].Timers[k].ID == 0 then
 			if index ~= 0 then
 				if index > k then
@@ -1590,7 +1607,7 @@ local NeooptionTable = {
 									desc = "Shows the timer frame",
 									type = "execute",
 									func = function ()
-									MyGarrisons:ScanShipments()
+									MyGarrisons:ShipmentScan ()
 										 end
 						}
 
@@ -2048,11 +2065,13 @@ function MyGarrisons:UpdateColors ()
 				CharacterHeaders[k].Timers[k2].Frame.nameframe.namestring:SetTextColor(MyGarrisons.db.global.Settings.BuildingHeaderTextColor.R, MyGarrisons.db.global.Settings.BuildingHeaderTextColor.G,MyGarrisons.db.global.Settings.BuildingHeaderTextColor.B, 1 )
 				CharacterHeaders[k].Timers[k2].Frame.timertext:SetTextColor(MyGarrisons.db.global.Settings.BuildingTimerTextColor.R, MyGarrisons.db.global.Settings.BuildingTimerTextColor.G,MyGarrisons.db.global.Settings.BuildingTimerTextColor.B, 1 )
 			end
-			if CharacterHeaders[k].Timers[k2].TimerType == "Work" then
+			if CharacterHeaders[k].Timers[k2].TimerType == "Shipment" then
 				local r = MyGarrisons.db.global.Settings.WorkOrderHeaderTextColor.R
 				local b = MyGarrisons.db.global.Settings.WorkOrderHeaderTextColor.B
 				local g = MyGarrisons.db.global.Settings.WorkOrderHeaderTextColor.G
 				CharacterHeaders[k].Timers[k2].Frame.timebar.tx:SetTexture(r,b,g, 0.8);
+				--"GarrLanding-TradeskillTimer-ParchmentBG"
+				CharacterHeaders[k].Timers[k2].Texture:SetAtlas("GarrLanding_Watermark-Tradeskill")
 			end
 			CharacterHeaders[k].Timers[k2].Frame.timebar:SetStatusBarTexture(CharacterHeaders[k].Timers[k2].Frame.timebar.tx);
 		end
@@ -2139,6 +2158,7 @@ function MyGarrisons:ConvertSecondsToTime(secs)
 	return nHours..":"..nMins..":"..nSecs
 end
 function MyGarrisons:TimerCheckFunc()
+
 	MyGarrisons:UpdateGBTimers()
 	local d2 = caldate:parse( date("%m_%d_%y/%H:%M:%S"))
 	for k,v in pairs (CharacterHeaders) do
@@ -2189,6 +2209,14 @@ function MyGarrisons:TimerCheckFunc()
 				end
 				if CharacterHeaders[k].Timers[k2].TimerType == "Shipment" then
 					local charname = CharacterHeaders[k].Name
+					local endTim = MyGarrisons.db.global.Garrisons[charname].Shipments[CharacterHeaders[k].Timers[k2].ID].EndTimer
+					local ScannedTime = caldate:parse(MyGarrisons.db.global.Garrisons[charname].Shipments[CharacterHeaders[k].Timers[k2].ID].StartTime)
+					
+				
+					local remaining = Meta.__sub(caldate:parse(endTim),d2)
+					
+					--MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments[CharacterHeaders[k].Timers[k2].ID].StartTime = Meta.__tostring(caldate:parse(date("%m_%d_%y/%H:%M:%S")))
+					
 					--CharacterHeaders[k].Timers[k2].ID
 				--	MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments [shipie[9]] = {	TotalMax = shipie[3],
 					--																				TotalOrdered = shipie[5],
@@ -2196,25 +2224,35 @@ function MyGarrisons:TimerCheckFunc()
 					--																				StartTime = 0,
 					--																				EndTime = 0}
 					local endTim = MyGarrisons.db.global.Garrisons[charname].Shipments[CharacterHeaders[k].Timers[k2].ID].EndTime
-					CharacterHeaders[k].Timers[k2].Frame.timertext:SetTexture("Interface\\BlackMarket\\_WoodFrame-TileHorizontal")
-					local remaining = Meta.__sub(caldate:parse(endTim),d2)
+					--CharacterHeaders[k].Timers[k2].Frame.timertext:SetTexture("Interface\\BlackMarket\\_WoodFrame-TileHorizontal")
 					
-					if remaining > 0 then
-					MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalDone = MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalDone + 1
-						local SDone = MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalDone
-						if MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalOrdered == SDone then
-							CharacterHeaders[k].Timers[k2].Frame.timertext:SetText("Done")
-						else
-							--TODO Reset end time
-							CharacterHeaders[k].Timers[k2].Frame.timertext:SetText(MyGarrisons:ConvertSecondsToTime(remaining))
-						end
-					else
-						CharacterHeaders[k].Timers[k2].Frame.timertext:SetText("Done")
-					end
-					local NeoMessage = "Work Order "..CharacterHeaders[k].Timers[k2].ID.." "..MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalDone.."/"..MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalOrdered.."("..MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalMax..")"
+					local NeoMessage = "Work Order "..CharacterHeaders[k].Timers[k2].ID.." "
+					--..CharacterHeaders[k].Timers[k2].ID.." "..MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments.."/"..(MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments + MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments).."("..MyGarrisons.db.global.Garrisons[k].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalShipments..")"
 					CharacterHeaders[k].Timers[k2].Frame.nameframe.namestring:SetText(NeoMessage)
+					local NoneLeft = false
 					
+					local shipsLeft =  floor(remaining/MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ShipmentDuration)
+		
+					if shipsLeft +1 < MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments then
+					MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments = (MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments) +
+					MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments - (shipsLeft +1)
+					MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments = shipsLeft +1
+					end
 					
+					if remaining < 0 then
+						CharacterHeaders[k].Timers[k2].Frame.timertext:SetText("Done  "..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments.."/"..(MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments + MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments).."("..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalShipments..")" )
+					else
+						CharacterHeaders[k].Timers[k2].Frame.timertext:SetText(MyGarrisons:ConvertSecondsToTime(remaining).."  "..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments.."/"..(MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].PendingShipments + MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].ReadyShipments).."("..MyGarrisons.db.global.Garrisons[charname].Shipments [CharacterHeaders[k].Timers[k2].ID].TotalShipments..")" )
+					end
+		
+		--			MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments[buildingName] = {
+		--	ReadyShipments = shipmentsReady,
+		--	TotalShipments = shipmentTotal,
+		--	StartTime = Meta.__tostring(caldate:parse(date("%m_%d_%y/%H:%M:%S"))),
+		--	ShipmentTimeLeft = MyGarrisons:buildingTimeToSeconds(TimeLeftOnShipment),
+		--	ShipmentDuration = duration,
+	--		EndTimer  = Meta.__tostring(d2),
+		--	PendingShipments = shipmentsPending
 				end
 			end
 		end
@@ -2251,6 +2289,7 @@ function MyGarrisons:OnInitialize()
 	self:RegisterEvent("GARRISON_BUILDING_REMOVED")
 	self:RegisterEvent("GARRISON_BUILDING_ACTIVATED")
 	self:RegisterEvent("SHIPMENT_CRAFTER_CLOSED")
+	self:RegisterEvent("GARRISON_LANDINGPAGE_SHIPMENTS")
 	--SHIPMENT_CRAFTER_INFO
 	self:RegisterEvent("SHIPMENT_UPDATE")
 	self:RegisterEvent("SHIPMENT_CRAFTER_INFO")
@@ -2457,7 +2496,9 @@ function MyGarrisons:OnDisable()
 		
 end
 function MyGarrisons:buildingTimeToSeconds(buildsr)
-
+	if buildsr == nil then
+		return 00
+		end
 	local secs = 0
 	local splitted = {strsplit(" ",buildsr)}
 
@@ -2525,7 +2566,76 @@ function MyGarrisons:CANCELCONS(plotID)
 				
 	
 end
+function MyGarrisons:GARRISON_LANDINGPAGE_SHIPMENTS ()
+	MyGarrisons:ShipmentScan()
 
+end
+function MyGarrisons:AddShipment(buildingName, shipmentTotal, shipmentsPending, shipmentsReady, startTime, duration, TimeLeftOnShipment)
+
+local nam, realmi = UnitName("player")
+	if MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments == nil then
+		MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments = {}
+	end
+--	print("Adding/Updating shipment for "..buildingName.. " "..shipmentsPending.."/"..shipmentsReady.."  "..shipmentTotal.." | "..startTime.." _ " ..duration.." :: "..MyGarrisons:buildingTimeToSeconds(TimeLeftOnShipment))
+
+
+	local d2 = caldate:parse( date("%m_%d_%y/%H:%M:%S"))
+	
+	--local buildingInfo = {C_Garrison.GetBuildingInfo(buildingID)};
+	--local timeStr = buildingInfo[10];
+	
+		--local missionTimeString = C_Garrison.GetMissionTimes(missionID)
+		--print(strfind(C_Garrison.GetMissionTimes(missionID),missionTimeStringPattern))
+		--print(strfind(C_Garrison.GetMissionTimes(missionID),"%d*%s?%l*%s?%d*%s?%l* (%d+) %l* %d*%s?%l*%s?%d*%s?%l* (%d+) %l*"))
+		--local start, endS, num1, num2 = strfind(missionTimeString, missionTimeStringPattern)
+	--	local a = {C_Garrison.GetMissionTimes(missionID)}
+	--	local totalSeconds = tonumber(a[2]) + tonumber(a[5])
+	--	d2.second = d2.second + totalSeconds
+	
+	--TODO compute end time.
+	
+	local SecondsForOtherPendings = (shipmentsPending-1)*duration
+	local TotalSeconds = SecondsForOtherPendings + MyGarrisons:buildingTimeToSeconds(TimeLeftOnShipment)
+d2.second = d2.second +(TotalSeconds)
+		MyGarrisons.db.global.Garrisons[nam.."-"..GetRealmName()].Shipments[buildingName] = {
+			ReadyShipments = shipmentsReady,
+			TotalShipments = shipmentTotal,
+			StartTime =  Meta.__tostring((startTime)),
+			ShipmentTimeLeft = MyGarrisons:buildingTimeToSeconds(TimeLeftOnShipment),
+			ShipmentDuration = duration,
+		EndTimer  = Meta.__tostring(d2),
+			PendingShipments = shipmentsPending
+		
+		}
+		--TODO
+		MyGarrisons:AddCharacterTimer(nam.."-"..GetRealmName(), "Shipment", buildingName)
+end
+function MyGarrisons:ShipmentScan()
+local ShipmentsFound = {}
+local shipmentIndex = 1;
+    local buildings = C_Garrison.GetBuildings();
+    for i = 1, #buildings do
+        local buildingID = buildings[i].buildingID;
+        if ( buildingID ) then
+            local name, texture, MaxShipments, ReadyShipments, pendings, StartTime, Duration, TimeLeftString, itemIcon, itemQuality, itemID = C_Garrison.GetLandingPageShipmentInfo(buildingID);
+           
+            if ( name ) then
+				if StartTime ~= nil and Duration ~= nil then
+		
+				StartTime = caldate:parse( date("%m_%d_%y/%H:%M:%S"))
+				--StartTime  = caldate:parse( date("%m_%d_%y/%H:%M:%S")).second +(Duration - MyGarrisons:buildingTimeToSeconds(TimeLeftString))
+				--	print(StartTime )
+					--:new( year, month, day, hour, minute, second )
+				
+				--print("SCANNER "..name.." "..shipmentsReady.." "..shipmentsTotal.."  "..pendings.."  "..  duration.."  "..timeleftString)
+				MyGarrisons:AddShipment(name, MaxShipments, pendings, ReadyShipments,  caldate:parse( date("%m_%d_%y/%H:%M:%S")), Duration, TimeLeftString)
+				else
+				
+				end
+			end
+		end
+		end
+end
 function MyGarrisons:PLACEBUILD(plotInstanceID, buildingID)
 
 	--upgradesDetected[plotInstanceID] = true
@@ -2583,6 +2693,7 @@ MyGarrisons:ScanGarrison()
 	upgradesDetected[plotID] = false
 end	
 function MyGarrisons:SHIPMENT_CRAFTER_INFO(eventName, par1, par2, par3, par4)
+
 if par1 ~= nil then
 	--print(par1)
 	--print(par2)
@@ -2592,32 +2703,20 @@ if par1 ~= nil then
 
 end
 function MyGarrisons:SHIPMENT_CRAFTER_CLOSED()
-
-	
+self:ScheduleTimer("ShipmentScan", 5)
+	--MyGarrisons:ShipmentScan()
 	--print("Update")
 	--print(par1)
 	--print(par2)
 	--print(par3)
 	
-		local buildings = C_Garrison.GetBuildings();
-		for i = 1, #buildings do
-			local buildingID = buildings[i].buildingID;
-			if ( buildingID ) then
---				local name, texture, shipmentsReady, shipmentsTotal, creationTime, duration, timeleftString, itemName, itemIcon, itemQuality, itemID = C_Garrison.GetLandingPageShipmentInfo(buildingID);
-				--if shipmentsTotal ~= nil and name ~= nil then
-					for k,v in pairs ({C_Garrison.GetLandingPageShipmentInfo(buildingID)}) do
-						--print(k.." "..tostring(v))
-					end
-					--print(name.."  "..shipmentsReady.." "..shipmentsTotal.." "..creationTime.." "..duration.." "..timeleftString)
-					--     Index        Max                READY					TOTAL ORDERS
-				--end
-			end
-		end
+		--MyGarrisons:ShipmentScan()
 	
 
 end
-function MyGarrisons:SHIPMENT_UPDATE(eventName, par1, par2, par3)
 
+function MyGarrisons:SHIPMENT_UPDATE(eventName, par1, par2, par3)
+	MyGarrisons:ShipmentScan()
 	if par1 ~= nil then
 	--print("Update")
 	--print(par1)

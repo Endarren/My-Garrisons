@@ -36,7 +36,7 @@
 					</Anchors>
 				</FontString>
 				<FontString inherits="GameFontNormal" parentKey="timerstr" setAllPoints="true" text="">
-					<Size x="85" y="13" />
+					<Size x="171" y="13" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
 							<Offset x="31" y="-17" />
@@ -59,10 +59,10 @@
 				<HighlightTexture file="Interface\BUTTONS\UI-PlusButton-Hilight" />
 			</Button>
 			<StatusBar inherits="AchievementProgressBarTemplate" parentKey="timerprog" toplevel="true">
-				<Size x="131" y="13" />
+				<Size x="81" y="13" />
 				<Anchors>
 					<Anchor point="BOTTOM">
-						<Offset x="60" y="6" />
+						<Offset x="85" y="6" />
 					</Anchor>
 				</Anchors>
 			</StatusBar>
@@ -164,7 +164,7 @@
 		<Layers>
 			<Layer level="OVERLAY">
 				<FontString name="TimeBarString" inherits="GameFontNormal" parentKey="timertext" text="" justifyH="LEFT">
-					<Size x="107" y="12" />
+					<Size x="165" y="12" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
 							<Offset x="5" y="-16" />
@@ -175,10 +175,10 @@
 		</Layers>
 		<Frames>
 			<StatusBar name="MissionTimeBar" inherits="AchievementProgressBarTemplate" parentKey="timebar" toplevel="true">
-				<Size x="135" y="12" />
+				<Size x="77" y="12" />
 				<Anchors>
 					<Anchor point="BOTTOM">
-						<Offset x="58" y="2" />
+						<Offset x="87" y="2" />
 					</Anchor>
 				</Anchors>
 				<BarColor r="1" g="0" b="0" />
