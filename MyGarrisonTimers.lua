@@ -490,6 +490,8 @@ function MGCharacterHeader_OnClick(ind)
 		CharacterHeaders[ind].TimerBag:Show();
 		CharacterHeaders[ind].TimerBag:SetHeight(80)
 		CharacterHeaders[ind].TimerBag.MissionHeader:Show()
+		MyGarrisons:SortMissionsByTimeLeft(ind)
+		MyGarrisons:ArrangeCharacterMissions(ind)
 	end
 end
 function MyGarrisons:UpdateTimersForCharacters()
@@ -737,7 +739,7 @@ function MyGarrisons:MissionHeaderClick(HeaderIndex)
 	end
 end
 
-function MyGarrisons:UpdateMissionTimerBagX(TheHeader)
+function MyGarrisons:UpdateMissionTimerBagX(TheHeader)--TODO Modify to hide stuff
 	if  CharacterHeaders[TheHeader] ~= nil then
 		if CharacterHeaders[TheHeader].TimerBag.MissionHeader.Expanded == false then
 			for k,v in pairs (CharacterHeaders[TheHeader].TimerBag.MissionHeader.MissionTimers) do
@@ -749,7 +751,7 @@ function MyGarrisons:UpdateMissionTimerBagX(TheHeader)
 		else
 			MyGarrisons:SortMissionsByTimeLeft(TheHeader)
 			if CharacterHeaders[TheHeader].TimerBag.MissionHeader.ActiveMissions ~= nil then
-				CharacterHeaders[TheHeader].TimerBag.MissionHeader:SetHeight(40 + CharacterHeaders[TheHeader].TimerBag.MissionHeader.ActiveMissions * 42)
+				CharacterHeaders[TheHeader].TimerBag.MissionHeader:SetHeight(40 + CharacterHeaders[TheHeader].TimerBag.MissionHeader.ActiveMissions * 44)
 			end
 			for k,v in pairs (CharacterHeaders[TheHeader].TimerBag.MissionHeader.MissionTimers) do
 				if v.Used then
@@ -1597,7 +1599,19 @@ function MyGarrisons:UpdateBuildingTimerForPortalHub(headerIndex, timerIndex)
 	--[[BuildingSpecialDatas[37] = {Location1 = ""}
 BuildingSpecialDatas[38] = {Location1 = "", Location2 = ""}
 BuildingSpecialDatas[39] = {Location1 = "", Location2 = "", Location3 = ""}]]--
-	CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].shipmentstring:SetText("")
+	MyGarrisons:UpdateShipment(characterID, realmID, buildingID)
+	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration ~= nil then
+		local FinishedShipments =  #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].FinishedWorkOrders
+		local PendingShipments =  #MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderQueue
+		local MaxShipments = MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].MaxWorkOrders
+		local Timeleft = MyGarrisons:ConvertSecondsToTimeStart( MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderStartTime + MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration)
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].WorkOrderStartTime ~= 0 then
+			CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].shipmentstring:SetText(FinishedShipments.."/"..PendingShipments.." of "..MaxShipments.." "..Timeleft)
+		else
+			CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].shipmentstring:SetText(FinishedShipments.." ready for pick up.  "..(MaxShipments).." open")
+		end
+	end
+	-----------------CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].shipmentstring:SetText("")
 	if buildingID == 37 then
 		if MGPortalIcons[MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].SpecialData.Location1] ~= nil then
 			CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].portal.portal1:Show()
@@ -1681,7 +1695,7 @@ BuildingSpecialDatas[39] = {Location1 = "", Location2 = "", Location3 = ""}]]--
 	if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Garrison.Buildings[buildingID].ShipmentDuration ~= nil then
 	
 	end
-	CharacterHeaders[headerIndex].TimerBag.BuildingHeader.BuildingTimers[timerIndex].shipmentstring:Hide()
+	
 
 end
 function MyGarrisons:UpdateBuildingTimerForSalvage(headerIndex, timerIndex)

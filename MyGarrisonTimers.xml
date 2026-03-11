@@ -16,6 +16,34 @@
 			</EdgeSize>
 		</Backdrop>
 		<Layers>
+			<Layer level="BORDER" textureSubLevel="4">
+				<Texture atlas="_Garr_InfoBoxBorderMission-Top" useAtlasSize="true" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+						<Anchor point="TOPRIGHT" />
+					</Anchors>
+				</Texture>
+				<Texture atlas="_Garr_InfoBoxBorderMission-Top" useAtlasSize="true" horizTile="true">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" />
+						<Anchor point="BOTTOMRIGHT" />
+					</Anchors>
+					<TexCoords left="0" right="1" top="1" bottom="0" />
+				</Texture>
+				<Texture atlas="!Garr_InfoBoxBorderMission-Left" useAtlasSize="true" vertTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+						<Anchor point="BOTTOMLEFT" />
+					</Anchors>
+				</Texture>
+				<Texture atlas="!Garr_InfoBoxBorderMission-Left" useAtlasSize="true" vertTile="true">
+					<Anchors>
+						<Anchor point="TOPRIGHT" />
+						<Anchor point="BOTTOMRIGHT" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="0" bottom="1" />
+				</Texture>
+			</Layer>
 			<Layer>
 				<Texture name="ClassTexture" parentKey="classtexture">
 					<Size x="44" y="35" />
@@ -845,6 +873,46 @@
 					</Anchors>
 				</Texture>
 			</Layer>
+			<Layer level="BORDER">
+				<Texture atlas="_GarrMission_TopBorder" useAtlasSize="true" parentKey="border1" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="20" y="4" />
+						<Anchor point="TOPRIGHT" x="-20" y="4" />
+					</Anchors>
+				</Texture>
+				<Texture atlas="_GarrMission_TopBorder" useAtlasSize="true" parentKey="border2" horizTile="true">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="20" y="-4" />
+						<Anchor point="BOTTOMRIGHT" x="-20" y="-4" />
+					</Anchors>
+					<TexCoords left="0" right="1" top="1" bottom="0" />
+				</Texture>
+			</Layer>
+			<Layer level="BORDER" textureSubLevel="1">
+				<Texture atlas="GarrMission_TopBorderCorner" useAtlasSize="true" parentKey="border3">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-5" y="4" />
+					</Anchors>
+				</Texture>
+				<Texture atlas="GarrMission_TopBorderCorner" useAtlasSize="true" parentKey="border4">
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="4" y="4" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="0" bottom="1" />
+				</Texture>
+				<Texture atlas="GarrMission_TopBorderCorner" useAtlasSize="true" parentKey="border5">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="-5" y="-4" />
+					</Anchors>
+					<TexCoords left="0" right="1" top="1" bottom="0" />
+				</Texture>
+				<Texture atlas="GarrMission_TopBorderCorner" useAtlasSize="true" parentKey="border6">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="4" y="-4" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="1" bottom="0" />
+				</Texture>
+			</Layer>
 			<Layer>
 				<Texture name="GarrisonCacheTexture" parentKey="garrcacheicon" hidden="true">
 					<Size x="16" y="16" />
@@ -857,9 +925,11 @@
 			</Layer>
 			<Layer level="OVERLAY">
 				<FontString name="MGCharacterName" inherits="GameFontNormal" parentKey="charname" text="" justifyH="LEFT">
-					<Size x="210" y="20" />
+					<Size x="207" y="20" />
 					<Anchors>
-						<Anchor point="TOPLEFT" />
+						<Anchor point="TOPLEFT">
+							<Offset x="9" />
+						</Anchor>
 					</Anchors>
 					<FontHeight val="12" />
 				</FontString>
@@ -1403,7 +1473,7 @@
 		</Anchors>
 	</Button>
 	<Button name="MGMissionTimer" virtual="true" text="">
-		<Size x="258" y="40" />
+		<Size x="258" y="44" />
 		<Anchors>
 			<Anchor point="TOPLEFT">
 				<Offset x="44" y="-395" />
@@ -1411,11 +1481,51 @@
 		</Anchors>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<Texture atlas="GarrLanding-Mission-InProgress" parentKey="missiontimerbg" setAllPoints="true">
+				<Texture atlas="GarrLanding-Mission-InProgress" parentKey="missiontimerbg">
 					<Size x="257" y="39" />
 					<Anchors>
 						<Anchor point="TOPLEFT" />
 					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture atlas="_GarrMission_TopBorder" useAtlasSize="true" parentKey="border1" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="20" y="4" />
+						<Anchor point="TOPRIGHT" x="-20" y="4" />
+					</Anchors>
+				</Texture>
+				<Texture atlas="_GarrMission_TopBorder" useAtlasSize="true" parentKey="border2" horizTile="true">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="20" y="-4" />
+						<Anchor point="BOTTOMRIGHT" x="-20" y="-4" />
+					</Anchors>
+					<TexCoords left="0" right="1" top="1" bottom="0" />
+				</Texture>
+			</Layer>
+			<Layer level="BORDER" textureSubLevel="1">
+				<Texture atlas="GarrMission_TopBorderCorner" useAtlasSize="true" parentKey="border3">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-5" y="4" />
+					</Anchors>
+				</Texture>
+				<Texture atlas="GarrMission_TopBorderCorner" useAtlasSize="true" parentKey="border4">
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="4" y="4" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="0" bottom="1" />
+				</Texture>
+				<Texture atlas="GarrMission_TopBorderCorner" useAtlasSize="true" parentKey="border5">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="-5" y="-4" />
+					</Anchors>
+					<TexCoords left="0" right="1" top="1" bottom="0" />
+				</Texture>
+				<Texture atlas="GarrMission_TopBorderCorner" useAtlasSize="true" parentKey="border6">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="4" y="-4" />
+					</Anchors>
+					<TexCoords left="1" right="0" top="1" bottom="0" />
 				</Texture>
 			</Layer>
 			<Layer>

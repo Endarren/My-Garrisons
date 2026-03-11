@@ -44,7 +44,30 @@ function MyGarrisons:RevertFrameOptions()
 	local characterID, rea = UnitName("player")
 	local realmID =  GetRealmName()
 end
+local IsColorPicking = {}
+IsColorPicking["char-name"] = false
 
+function MyGarrisons:StartColorPickCharName()
+	IsColorPicking["char-name"] = true
+
+end
+function MyGarrisons:ChangeCharacterNameColor()
+	if IsColorPicking["char-name"] == true then
+		local characterID, rea = UnitName("player")
+		local realmID =  GetRealmName()
+		if MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character == null then
+		MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character = {Name = {r = 0, g = 0, b = 0}, 
+			Cache = {r = 0, g = 0, b = 0}, Mission = {r = 0, g = 0, b = 0}, Shipment = {r = 0, g = 0, b = 0}}
+		end
+		local r,g,b = ColorPickerFrame:GetColorRGB();
+		if ColorPickerFrame:shown() == false then
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.r = r
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.b = b
+			MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Colors.Character.Name.g = g
+		end
+		IsColorPicking["char-name"]  = false
+	end
+end
 function MyGarrisons:UpdateTimerOptions()
 	local characterID, rea = UnitName("player")
 	local realmID =  GetRealmName()

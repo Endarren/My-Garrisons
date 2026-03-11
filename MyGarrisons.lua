@@ -10,19 +10,21 @@ function MyGarrisons:AddCharacter(characterID, realmID)
 local classDisplayName, class, classID = UnitClass("player");
 local	factionGroup, factionName = UnitFactionGroup("player") 
 	MyGarrisons.db.global.MGRealms[realmID].Characters[characterID] = {
-		Settings = {	Colors =  {}, 
-						Filters = {}, 
-						Alpha = 1,
-						ShowCache = true,
-						ShowMissionCounter = true,
-						ShowShipmentCounter = true,
-						ShowInvasion = true,
-						HideInCombat = false,
-						TradeChatDisabled = false,
-						ChatWindowsThatHadTrade = {},
-						GeneralChatDisabled = false,
-						ChatWindowsThatHadGeneral = {},
-						ShowOnLogIn = true,
+		Settings = {	Colors						= {	Character	= {Name = {}, Cache = {}, Mission = {}, Shipment = {}},
+														Mission		= {Name = {}, Timers = {}},
+														Building	= {Name = {}, WorkOrder = {}, Special = {}}}, 
+						Filters						= {}, 
+						Alpha						= 1,
+						ShowCache					= true,
+						ShowMissionCounter			= true,
+						ShowShipmentCounter			= true,
+						ShowInvasion				= true,
+						HideInCombat				= false,
+						TradeChatDisabled			= false,
+						ChatWindowsThatHadTrade		= {},
+						GeneralChatDisabled			= false,
+						ChatWindowsThatHadGeneral	= {},
+						ShowOnLogIn					= true,
 						Sorting =	{	
 										Buildings = {
 														Direction = 1,
@@ -33,8 +35,8 @@ local	factionGroup, factionName = UnitFactionGroup("player")
 														Weights = {}
 										},
 										Characters = {
-Direction = 1,
-Type = "name"
+														Direction = 1,
+														Type = "name"
 										} --MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters.Type
 							--MyGarrisons.db.global.MGRealms[realmID].Characters[characterID].Settings.Sorting.Characters
 									}
@@ -2059,7 +2061,9 @@ function MyGarrisons:OnInitialize()
 end
 local TimersWereUp = false
 function MyGarrisons:PLAYER_REGEN_ENABLED()
-	if TimersWereUp then
+local characterID, realmi = UnitName("player")
+	local realmID = GetRealmName()
+	if TimersWereUp  and MyGarrisons.db.global.MGRealms[GetRealmName()].Characters[characterID].Settings.HideInCombat then
 		MyGarrisonTimers:Show()
 	end
 

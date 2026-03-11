@@ -426,7 +426,7 @@
 					<Size x="275" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="27" y="-183" />
+							<Offset x="26" y="-286" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -434,7 +434,7 @@
 					<Size x="275" y="16" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="27" y="-204" />
+							<Offset x="26" y="-307" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -442,7 +442,7 @@
 					<Size x="275" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="27" y="-226" />
+							<Offset x="26" y="-329" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -450,7 +450,7 @@
 					<Size x="275" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="27" y="-162" />
+							<Offset x="26" y="-265" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -458,7 +458,7 @@
 					<Size x="304" y="18" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset y="-263" />
+							<Offset y="-350" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -466,7 +466,7 @@
 					<Size x="133" y="14" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="35" y="-287" />
+							<Offset x="35" y="-375" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -474,7 +474,7 @@
 					<Size x="133" y="14" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="35" y="-308" />
+							<Offset x="35" y="-396" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -498,7 +498,7 @@
 					<Size x="45" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="256" y="-286" />
+							<Offset x="256" y="-374" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -506,7 +506,7 @@
 					<Size x="43" y="15" />
 					<Anchors>
 						<Anchor point="TOPLEFT">
-							<Offset x="257" y="-307" />
+							<Offset x="257" y="-395" />
 						</Anchor>
 					</Anchors>
 				</FontString>
@@ -627,7 +627,7 @@
 				<Size x="17" y="16" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="6" y="-183" />
+						<Offset x="5" y="-286" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -640,7 +640,7 @@
 				<Size x="17" y="16" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="6" y="-204" />
+						<Offset x="5" y="-307" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -653,7 +653,7 @@
 				<Size x="17" y="16" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="6" y="-226" />
+						<Offset x="5" y="-329" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -666,7 +666,7 @@
 				<Size x="17" y="16" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="7" y="-162" />
+						<Offset x="6" y="-265" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -679,7 +679,7 @@
 				<Size x="16" y="15" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="8" y="-287" />
+						<Offset x="8" y="-375" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -692,7 +692,7 @@
 				<Size x="16" y="15" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="8" y="-308" />
+						<Offset x="8" y="-396" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -731,7 +731,7 @@
 				<Size x="16" y="15" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="235" y="-286" />
+						<Offset x="235" y="-374" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -744,7 +744,7 @@
 				<Size x="16" y="15" />
 				<Anchors>
 					<Anchor point="TOPLEFT">
-						<Offset x="235" y="-308" />
+						<Offset x="235" y="-396" />
 					</Anchor>
 				</Anchors>
 				<Scripts>
@@ -753,6 +753,22 @@
 					</OnClick>
 				</Scripts>
 			</CheckButton>
+			<Button name="MGCharacterNameColor" inherits="UIPanelButtonTemplate" text="Name Color">
+				<Size x="75" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset x="8" y="-165" />
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MyGarrisons:StartColorPickCharName()
+						--TODO cancelFunc
+						ColorPickerFrame.func = function () MyGarrisons:ChangeCharacterNameColor() end
+						ColorPickerFrame:Show()
+					</OnClick>
+				</Scripts>
+			</Button>
 		</Frames>
 	</Frame>
 	<Frame name="MyGarrisonsOptionFrame" hidden="true" parent="UIParent" toplevel="true" movable="true">
